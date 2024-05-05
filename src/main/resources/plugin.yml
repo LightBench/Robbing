@@ -1,0 +1,11 @@
+name: Robbing
+version: '${project.version}'
+main: com.frahhs.robbing.Robbing
+api-version: '1.19'
+author: FrahHS
+description: Plugin that add theft mechanics to Minecraft
+softdepend: [WorldGuard]
+commands:
+  robbing:
+    description: Robbing main command.
+    aliases: [ rb ]

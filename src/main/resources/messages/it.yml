@@ -1,0 +1,45 @@
+general:
+  cooldown: Devi aspettare ancora {time} secondi
+  no_permissions: '&eNon hai i permessi necessari'
+  no_permission_item: '&eNon hai il permesso di usare questo oggetto'
+  no_permission_command: '&eNon hai i permessi per eseguire questo comando'
+  command_wrong_usage: L'utilizzo corretto è {usage}.
+handcuffing:
+  uncuffed: '{player} ti ha tolto le manette'
+  cuffed: Sei stato ammanettato da {player}
+  cuff: Hai ammanettato {target}
+  uncuff: Hai tolto le manette da {target}
+  you_cant_when_cuffed: Non puoi farlo mentre sei ammanettato!
+  not_cuffable: '&eQuesto giocatore non può essere ammanettato'
+  not_handcuffed: Questo player non è ammanettato
+  handcuffs_healthbar_title: Robustezza manette - Shifta per indebolire
+  broken_handcuffs: Hai rotto le manette!
+follow:
+  make_unfollow_cuffed: '{target} ha smesso di seguirti'
+  make_follow_cuffed: '{target} ti sta seguendo'
+  already_following_someone: Questo giocatore sta seguendo qualcun altro
+robbing:
+  alert: '{thief} ti sta derubando!'
+  cant_steal: Non puoi rubare questo oggetto!
+  escaped: '{target} è scappato!'
+  deny_rob_region: Non puoi rubare qui!
+  caught_robber: '{player} ti ha catturato!'
+  to_catcher: Hai catturato {player}!
+  cannot_jump_if_caught: Sei stato catturato, non puoi saltare
+safes:
+  crack_fail: Tentativo di scasso fallito
+  crack_success: Hai scassinato con successo questa cassaforte
+  need_lockpick: Ti serve un grimaldello
+actionbar:
+  time_to_escape: Hai {time} secondi per scappare...
+  handcuffing: Ammanettando {time}...
+  escaped: Fuggito!
+  handcuffing_failed: Ammanettamento fallito!
+  handcuffed: Ammanettato
+lockpick:
+  name: Grimaldello
+  lore: "Click destro sulla cassaforte per provare a sbloccarla. \nHai 3 tentativi\
+    \ \nper cercare il cilindro giusto"
+handcuffs:
+  name: Manette
+  lore: Click destro su un giocatore per ammanettarlo.

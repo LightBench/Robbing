@@ -1,0 +1,52 @@
+general:
+  cooldown: "You have to wait another {time} seconds"
+  no_permissions: "&eYou do not have permission"
+  no_permission_item: "&eYou do not have permission to use this item"
+  no_permission_command: "&eYou do not have permission to perform this command"
+  command_wrong_usage: "correct usage is {usage}."
+
+robbing:
+  alert: "{thief} is robbing you!"
+  cant_steal: "You can't steal it!"
+  escaped: "{target} escaped!"
+  deny_rob_region: "You cannot rob here!"
+  caught_robber: "{player} caught you!"
+  to_catcher: "You caught {player}!"
+  cannot_jump_if_caught: "You have been caught, you cannot jump"
+
+handcuffing:
+  cuffed: "You've been handcuffed by {player}"
+  uncuffed: "You've been released by {player}"
+  cuff: "You handcuffed {target}"
+  uncuff: "You released {target}"
+  you_cant_when_cuffed: "You can't do that when you are handcuffed!"
+  not_cuffable: "&eThis player cannot be handcuffed"
+  not_handcuffed: "The player is not handcuffed"
+  handcuffs_healthbar_title: "Handcuffs Health - Shift to weaken"
+  broken_handcuffs: "You broke the handcuffs!"
+
+follow:
+  make_follow_cuffed: "{target} is following you"
+  make_unfollow_cuffed: "{target} is not following you"
+  already_following_someone: "This player is already following someone"
+
+safes:
+  need_lockpick: "You need a lockpick"
+  crack_fail: "Cracking attempt failed"
+  crack_success: "Safe successfully cracked"
+
+actionbar:
+  time_to_escape: "You have {time} to escape..."
+  handcuffing: "Handcuffing {time}..."
+  escaped: "Escaped!"
+  handcuffing_failed: "Handcuffing failed!"
+  handcuffed: "Handcuffed"
+
+lockpick:
+  name: "Lockpick"
+  lore: "Right click on a safe to try to unlock it. \nYou have the 3 attempts \nto\
+    \ find the right cylinder"
+
+handcuffs:
+  name: "Handcuffs"
+  lore: "Right click on a player to handcuff him."

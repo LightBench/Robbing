@@ -1,0 +1,32 @@
+general:
+  no_permissions: '&eУ вас недостатньо прав'
+  no_permission_item: '&eУ вас немає прав на використання цього елемента'
+  command_wrong_usage: Правильне використання команди {usage}.
+  cooldown: Зачекайте {time} секунд
+  no_permission_command: '&eУ вас немає дозволу на використання цієї команди'
+robbing:
+  alert: '{thief} грабує тебе!'
+  cant_steal: Ви не можете вкрасти це!
+  escaped: '{target} втік!'
+  deny_rob_region: Ви не можете красти тут!
+  caught_robber: '{player} спіймав тебе!'
+  cannot_jump_if_caught: Ви заарештовані і не можете стрибати
+  to_catcher: Ви впіймали {player}!
+handcuffing:
+  cuffed: Ви були заарештовані гравцем {player}
+  cuff: Ви заарештовані {target}
+  uncuff: Ви звільнені {target}
+  you_cant_when_cuffed: Ти не можеш цього зробити, коли на тобі кайданки!
+  not_handcuffed: Гравець не закутий у кайданки
+  handcuffs_healthbar_title: Здоров'я кайданків - натисніть shift щоб зламати
+  broken_handcuffs: Ви зламали кайданки!
+  not_cuffable: '&eНа цього гравця не можна вдягнути наручники'
+  uncuffed: Ви були звільнені гравцем {player}
+follow:
+  make_unfollow_cuffed: '{target} більше не слідує за тобою'
+  already_following_someone: Цей гравець уже йде за кимось
+  make_follow_cuffed: '{target} слідує за тобою'
+safes:
+  need_lockpick: Вам потрібні відмичка
+  crack_success: Ви успішно зламали сейф
+  crack_fail: Спроба злому – неуспішна
