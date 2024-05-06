@@ -63,12 +63,12 @@ handcuffing:
   cooldown: 5
   enable_crafting: false
   # make possible escape from handcuffing
-  try_escape:
-    enabled: false
-    # delay handcuffing after clicking (in seconds).
-    delayed_handcuffing: 2
-    # min distance to escape handcuffing
-    distance: 3
+  #try_escape:
+  #  enabled: false
+  #  # delay handcuffing after clicking (in seconds).
+  #  delayed_handcuffing: 2
+  #  # min distance to escape handcuffing
+  #  distance: 3
   # permitted commands while handcuffed
   permitted_commands:
     - login

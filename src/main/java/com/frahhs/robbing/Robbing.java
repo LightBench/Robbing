@@ -3,7 +3,12 @@ package com.frahhs.robbing;
 import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.commands.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
-import com.frahhs.robbing.features.rob.listeners.CatchRobberListener;
+import com.frahhs.robbing.features.handcuffing.listeners.BreakingHandcuffsListener;
+import com.frahhs.robbing.features.handcuffing.listeners.KidnappingListener;
+import com.frahhs.robbing.features.handcuffing.listeners.HandcuffedListener;
+import com.frahhs.robbing.features.handcuffing.listeners.HandcuffingListener;
+import com.frahhs.robbing.features.handcuffing.models.HandcuffsLifeModel;
+import com.frahhs.robbing.features.rob.listeners.CatchListener;
 import com.frahhs.robbing.features.rob.listeners.RobListener;
 import com.frahhs.robbing.managers.ItemsManager;
 import com.frahhs.robbing.items.rbitems.Handcuffs;
@@ -12,6 +17,8 @@ import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
 import com.frahhs.robbing.utils.RBLogger;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Level;
 
 public final class Robbing extends JavaPlugin {
     private static Robbing instance;
@@ -36,6 +43,7 @@ public final class Robbing extends JavaPlugin {
 
         // Setup utils
         rbLogger = new RBLogger(this);
+        rbLogger.setLevel(Level.ALL);
 
         // Setup managers
         configManager   = new ConfigManager(this);
@@ -59,6 +67,10 @@ public final class Robbing extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        rbDatabase.disable();
+
+        // Remove all handcuffs
+        HandcuffsLifeModel.removeAllHandcuffsLifeModel();
     }
 
     public void reload() {
@@ -78,7 +90,7 @@ public final class Robbing extends JavaPlugin {
 
         // Steal
         getServer().getPluginManager().registerEvents(new RobListener(),this);
-        getServer().getPluginManager().registerEvents(new CatchRobberListener(),this);
+        getServer().getPluginManager().registerEvents(new CatchListener(),this);
 
         // Safes
         //getServer().getPluginManager().registerEvents(new SafeCrack(),this);
@@ -87,10 +99,10 @@ public final class Robbing extends JavaPlugin {
         //getServer().getPluginManager().registerEvents(new SafeMenuListener(), this);
 
         // Handcuffs
-        //getServer().getPluginManager().registerEvents(new HandcuffingListener(),this);
-        //getServer().getPluginManager().registerEvents(new FollowListener(),this);
-        //getServer().getPluginManager().registerEvents(new BreakingHandcuffsListener(),this);
-        //getServer().getPluginManager().registerEvents(new HandcuffCancelEventsListener(),this);
+        getServer().getPluginManager().registerEvents(new HandcuffingListener(),this);
+        getServer().getPluginManager().registerEvents(new HandcuffedListener(),this);
+        getServer().getPluginManager().registerEvents(new KidnappingListener(),this);
+        getServer().getPluginManager().registerEvents(new BreakingHandcuffsListener(),this);
     }
 
     private void registerCommands() {

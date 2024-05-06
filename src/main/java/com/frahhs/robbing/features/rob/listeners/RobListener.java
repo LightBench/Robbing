@@ -1,6 +1,8 @@
 package com.frahhs.robbing.features.rob.listeners;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.handcuffing.controller.HandcuffingController;
+import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.rob.controllers.RobController;
 import com.frahhs.robbing.features.rob.events.ItemRobbedEvent;
 import com.frahhs.robbing.features.rob.events.StartRobbingEvent;
@@ -62,13 +64,13 @@ public class RobListener implements Listener {
         Player robbed = (Player) e.getRightClicked();
 
         // Check if robber is sneaking
-        if(!configManager.getBoolean("rob.sneak_to_rob"))
+        if(configManager.getBoolean("rob.sneak_to_rob"))
             if(!robber.isSneaking())
                 return;
 
-        // TODO: Check if player is handcuffed
-        //if(Handcuffs.isHandcuffed(thief))
-        //    return;
+        // Check if player is handcuffed
+        if(HandcuffingModel.isHandcuffed(robber))
+            return;
 
         // TODO: Check if robbing worldguard flag is deny
         /*if(Robbing.getInstance().getServer().getPluginManager().getPlugin("WorldGuard") != null) {
@@ -235,8 +237,8 @@ public class RobListener implements Listener {
         if(!configManager.getBoolean("rob.blindness_after_robbing"))
             return;
 
-        int blindness_duration = configManager.getInt("rob.blindness_duration");
         // Check if player was robbing and add blindness effect to the target
+        int blindness_duration = configManager.getInt("rob.blindness_duration");
         if (e.getInventory().getType() == InventoryType.PLAYER && !e.getPlayer().getInventory().equals(e.getInventory())) {
             for(Player p : Bukkit.getOnlinePlayers()){
                 if(e.getInventory().equals(p.getInventory()))

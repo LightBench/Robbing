@@ -72,7 +72,7 @@ public class RobController {
     public void setIsRobbingNow(Player player, boolean isRobbingNow) {
         if (isRobbingNow && !isRobbingNowList.contains(player))
             isRobbingNowList.add(player);
-        else if (!isRobbingNow)
+        if(!isRobbingNow)
             isRobbingNowList.remove(player);
     }
 

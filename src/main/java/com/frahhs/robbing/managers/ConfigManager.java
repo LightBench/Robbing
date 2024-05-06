@@ -32,12 +32,12 @@ public class ConfigManager {
         File configFile = new File(this.plugin.getDataFolder(), "config.yml");
 
         // Update config if outdated: https://github.com/tchristofferson/Config-Updater
-        try {
+        /*try {
             ConfigUpdater.update(this.plugin, "config.yml", configFile, Collections.emptyList());
         } catch (IOException e) {
             Robbing.getInstance().getRBLogger().error("Unexpected error, send the following stacktrace to our staff: https://discord.gg/Hh9zMQnWvW.");
             Robbing.getInstance().getRBLogger().error(e.toString());
-        }
+        }*/
 
         // Reload config
         this.plugin.reloadConfig();

@@ -16,11 +16,11 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Listener class for catching robbers during robbery actions.
  */
-public class CatchRobberListener implements Listener {
-    private final CatchController catchController = new CatchController();
-
+public class CatchListener implements Listener {
     private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
     private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+
+    private final CatchController catchController = new CatchController();
 
     @EventHandler
     public void catchThief(EntityDamageByEntityEvent e) {
