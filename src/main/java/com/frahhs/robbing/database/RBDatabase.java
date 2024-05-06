@@ -73,6 +73,11 @@ public class RBDatabase {
         handcuffingTable();
     }
 
+    /**
+     * Retrieves the current database connection.
+     *
+     * @return The current database connection.
+     */
     public Connection getConnection() {
         return dbConnection;
     }
@@ -100,6 +105,9 @@ public class RBDatabase {
         }
     }
 
+    /**
+     * Disables the current database connection.
+     */
     public void disable() {
         if(dbConnection == null)
             return;
@@ -114,6 +122,9 @@ public class RBDatabase {
         }
     }
 
+    /**
+     * Creates the handcuffing table if it does not exist.
+     */
     public void handcuffingTable() {
         Statement stmt = null;
 
@@ -121,10 +132,10 @@ public class RBDatabase {
         try {
             stmt = dbConnection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS handcuffing (" +
-                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"    +
-                         "handcuffed CHAR(100) NOT NULL,"           +
-                         "handcuffer CHAR(100) NOT NULL,"           +
-                         "timestamp TIMESTAMP NOT NULL)"                ;
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"    +
+                    "handcuffed CHAR(100) NOT NULL,"           +
+                    "handcuffer CHAR(100) NOT NULL,"           +
+                    "timestamp TIMESTAMP NOT NULL)"                ;
             stmt.executeUpdate(sql);
             dbConnection.commit();
             stmt.close();

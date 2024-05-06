@@ -52,6 +52,9 @@ public abstract class RBItem {
      */
     public abstract RBMaterial getRBMaterial();
 
+    /**
+     * Abstract method to determine if the custom robbing item is craftable.
+     */
     public abstract boolean isCraftable();
 
     /**
@@ -69,9 +72,9 @@ public abstract class RBItem {
     }
 
     /**
-     * Retrieves the shaped recipe of the custom robbing item.
+     * Retrieves the namespaced key of the custom robbing item.
      *
-     * @return The shaped recipe of the custom robbing item.
+     * @return The namespaced key of the custom robbing item.
      */
     public NamespacedKey getNamespacedKey() {
         return namespacedKey;

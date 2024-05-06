@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 import java.sql.*;
 import java.util.UUID;
 
+/**
+ * Model class representing handcuffing data.
+ */
 public class HandcuffingModel {
     private final Connection dbConnection;
 
@@ -14,6 +17,13 @@ public class HandcuffingModel {
     private final Player handcuffer;
     private Timestamp timestamp;
 
+    /**
+     * Constructs a HandcuffingModel instance.
+     *
+     * @param handcuffed The player who is handcuffed.
+     * @param handcuffer The player who handcuffed.
+     * @param timestamp The timestamp of the handcuffing event.
+     */
     public HandcuffingModel(Player handcuffed, Player handcuffer, Timestamp timestamp) {
         this.handcuffed = handcuffed;
         this.handcuffer = handcuffer;
@@ -21,18 +31,36 @@ public class HandcuffingModel {
         dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
     }
 
+    /**
+     * Retrieves the handcuffed player.
+     *
+     * @return The handcuffed player.
+     */
     public Player getHandcuffed() {
         return handcuffed;
     }
 
+    /**
+     * Retrieves the handcuffer.
+     *
+     * @return The handcuffer.
+     */
     public Player getHandcuffer() {
         return handcuffer;
     }
 
+    /**
+     * Retrieves the timestamp of the handcuffing event.
+     *
+     * @return The timestamp.
+     */
     public Timestamp getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Saves the handcuffing event to the database.
+     */
     public void save() {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
         String handcufferUUID = handcuffer.getUniqueId().toString();
@@ -51,6 +79,9 @@ public class HandcuffingModel {
         }
     }
 
+    /**
+     * Removes the handcuffing event from the database.
+     */
     public void remove() {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
 
@@ -66,6 +97,12 @@ public class HandcuffingModel {
         }
     }
 
+    /**
+     * Checks if a player is handcuffed.
+     *
+     * @param handcuffed The player to check.
+     * @return True if the player is handcuffed, false otherwise.
+     */
     public static boolean isHandcuffed(Player handcuffed) {
         Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
 
@@ -86,6 +123,12 @@ public class HandcuffingModel {
         return false;
     }
 
+    /**
+     * Retrieves a HandcuffingModel instance based on the handcuffed player.
+     *
+     * @param handcuffed The handcuffed player.
+     * @return The HandcuffingModel instance.
+     */
     public static HandcuffingModel getFromHandcuffed(Player handcuffed) {
         Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
         String handcuffedUUID = handcuffed.getUniqueId().toString();

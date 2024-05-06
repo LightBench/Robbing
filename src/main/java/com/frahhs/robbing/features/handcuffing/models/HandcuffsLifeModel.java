@@ -10,6 +10,9 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+/**
+ * Model class representing the health bar for handcuffs.
+ */
 public class HandcuffsLifeModel {
     private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
 
@@ -18,7 +21,9 @@ public class HandcuffsLifeModel {
     private final BossBar bar;
     private double progress;
 
-    // TODO: Make BossBar style customizable
+    /**
+     * Constructs a HandcuffsLifeModel instance.
+     */
     public HandcuffsLifeModel() {
         String title = messagesManager.getMessage("handcuffing.handcuffs_healthbar_title", false);
         BarColor color = BarColor.WHITE;
@@ -28,14 +33,22 @@ public class HandcuffsLifeModel {
         this.bar.setProgress(progress);
     }
 
+    /**
+     * Adds the health bar to a player.
+     *
+     * @param handcuffed The player who has the health bar.
+     */
     public void putHandcuffsLifeModel(Player handcuffed) {
-        // Put HandcuffsLifeModel to a player
         this.bar.addPlayer(handcuffed);
         handcuffsActiveHealthBars.put(handcuffed, this);
     }
 
+    /**
+     * Removes the health bar from a player.
+     *
+     * @param handcuffed The player whose health bar is removed.
+     */
     public void removeHandcuffsLifeModel(Player handcuffed) {
-        // Remove HandcuffsLifeModel to a player
         HandcuffsLifeModel handcuffsLifeModel = getBarFromPlayer(handcuffed);
 
         if(handcuffsLifeModel != null)
@@ -44,8 +57,12 @@ public class HandcuffsLifeModel {
         handcuffsActiveHealthBars.remove(handcuffed);
     }
 
+    /**
+     * Iterates the cracking of the health bar.
+     *
+     * @return True if the health bar is broken, false otherwise.
+     */
     public boolean crack() {
-        // Crack HandcuffsLifeModel iteration, return true when HandcuffsLifeModel is broken
         this.setProgress(getProgress() - 0.005);
 
         if(getProgress() <= 0.005)
@@ -55,11 +72,19 @@ public class HandcuffsLifeModel {
         return false;
     }
 
+    /**
+     * Sets the progress of the health bar.
+     *
+     * @param progress The progress value.
+     */
     public void setProgress(double progress) {
         this.progress = progress;
         bar.setProgress(progress);
     }
 
+    /**
+     * Removes all health bars.
+     */
     public static void removeAllHandcuffsLifeModel() {
         Set<Player> allPlayersWithHandcuffsLifeModel = handcuffsActiveHealthBars.keySet();
 
@@ -69,6 +94,9 @@ public class HandcuffsLifeModel {
         }
     }
 
+    /**
+     * Adds health bars to all handcuffed players.
+     */
     public static void putAllHandcuffsLifeModel() {
         List<Player> allHandcuffed = new ArrayList<>();
 
@@ -82,11 +110,27 @@ public class HandcuffsLifeModel {
         }
     }
 
+    /**
+     * Retrieves the progress of the health bar.
+     *
+     * @return The progress value.
+     */
     public double getProgress() { return this.progress; }
 
+    /**
+     * Retrieves the health bar associated with a player.
+     *
+     * @param p The player.
+     * @return The health bar associated with the player.
+     */
     public static HandcuffsLifeModel getBarFromPlayer(Player p) {
         return handcuffsActiveHealthBars.get(p);
     }
 
+    /**
+     * Retrieves the boss bar.
+     *
+     * @return The boss bar.
+     */
     public BossBar getBar() { return this.bar; }
 }

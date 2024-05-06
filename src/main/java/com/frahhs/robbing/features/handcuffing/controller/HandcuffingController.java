@@ -11,16 +11,26 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
-import java.sql.*;
-import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Controller class for managing handcuffing actions.
+ */
 public class HandcuffingController {
+    /** Map to store handcuffing cooldowns for each player. */
     public static Map<Player, Long> handcuffingCooldown = new HashMap<>();
 
+    /**
+     * Default constructor for HandcuffingController.
+     */
     public HandcuffingController() {}
 
+    /**
+     * Puts handcuffs on a player.
+     *
+     * @param handcuffingModel The handcuffing model containing information about the handcuffing action.
+     */
     public void putHandcuffs(HandcuffingModel handcuffingModel) {
         final ConfigManager configManager = Robbing.getInstance().getConfigManager();
 
@@ -62,6 +72,12 @@ public class HandcuffingController {
         });
     }
 
+    /**
+     * Removes handcuffs from a player.
+     *
+     * @param handcuffed The player from whom to remove the handcuffs.
+     * @param silent Indicates whether to send messages or not.
+     */
     public void removeHandcuffs(Player handcuffed, boolean silent) {
         HandcuffingModel handcuffingModel = HandcuffingModel.getFromHandcuffed(handcuffed);
         final Player handcuffer = handcuffingModel.getHandcuffer();
@@ -101,10 +117,21 @@ public class HandcuffingController {
         });
     }
 
+    /**
+     * Removes handcuffs from a player.
+     *
+     * @param handcuffed The player from whom to remove the handcuffs.
+     */
     public void removeHandcuffs(Player handcuffed) {
         removeHandcuffs(handcuffed, false);
     }
 
+    /**
+     * Checks if a player is currently using handcuffs.
+     *
+     * @param p The player to check.
+     * @return True if the player is using handcuffs, otherwise false.
+     */
     public boolean isUsingHandcuffs(Player p) {
         // Handle if player have more than 1 handcuffs in hand
         int amount = p.getInventory().getItemInMainHand().getAmount();
@@ -115,10 +142,22 @@ public class HandcuffingController {
         return p.getInventory().getItemInMainHand().equals(handcuffsItemStack);
     }
 
+    /**
+     * Checks if a player is handcuffed.
+     *
+     * @param handcuffed The player to check.
+     * @return True if the player is handcuffed, otherwise false.
+     */
     public boolean isHandcuffed(Player handcuffed) {
         return HandcuffingModel.isHandcuffed(handcuffed);
     }
 
+    /**
+     * Gets the player who handcuffed the specified player.
+     *
+     * @param handcuffed The player who is handcuffed.
+     * @return The player who handcuffed the specified player.
+     */
     public Player getHandcuffer(Player handcuffed) {
         if(!isHandcuffed(handcuffed))
             return null;
