@@ -50,3 +50,10 @@ lockpick:
 handcuffs:
   name: "Handcuffs"
   lore: "Right click on a player to handcuff him."
+
+commands:
+  reload: "&2Robbing reloaded!"
+  given: "{amount} of {item} given to {player}!"
+  item_not_found: "{item} not found!"
+  unknown: "&eUnknown or incomplete command!"
+  no_permissions: "&eYou do not have permission to perform this command"

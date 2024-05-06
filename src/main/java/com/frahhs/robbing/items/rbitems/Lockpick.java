@@ -2,6 +2,7 @@ package com.frahhs.robbing.items.rbitems;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.items.RBItem;
+import com.frahhs.robbing.items.RBMaterial;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -33,6 +34,21 @@ public class Lockpick extends RBItem {
         meta.setLore(lore);
         meta.setCustomModelData(5456);
         item.setItemMeta(meta);
+    }
+
+    @Override
+    public String getItemName() {
+        return "lockpick";
+    }
+
+    @Override
+    public RBMaterial getRBMaterial() {
+        return RBMaterial.LOCKPICK;
+    }
+
+    @Override
+    public boolean isCraftable() {
+        return configManager.getBoolean("lockpick.enable_crafting");
     }
 
     @Override

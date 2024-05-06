@@ -1,6 +1,7 @@
 package com.frahhs.robbing.items;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -14,21 +15,18 @@ public abstract class RBItem {
     protected ItemStack item;
     protected ShapedRecipe shapedRecipe;
     protected NamespacedKey namespacedKey;
+    protected final ConfigManager configManager;
     protected final MessagesManager messagesManager;
 
     /**
      * Constructor for RBItem.
      */
-    public RBItem() {
+    protected RBItem() {
+        configManager = Robbing.getInstance().getConfigManager();
         messagesManager = Robbing.getInstance().getMessagesManager();
         setItemStack();
         setShapedRecipe();
     }
-
-    /**
-     * Abstract method to set the ItemStack for the custom robbing item.
-     */
-    protected abstract void setItemStack();
 
     /**
      * Retrieves the ItemStack of the custom robbing item.
@@ -38,6 +36,23 @@ public abstract class RBItem {
     public ItemStack getItemStack() {
         return item;
     }
+
+    /**
+     * Abstract method to set the ItemStack for the custom robbing item.
+     */
+    protected abstract void setItemStack();
+
+    /**
+     * Abstract method to get the name of the custom robbing item.
+     */
+    public abstract String getItemName();
+
+    /**
+     * Abstract method to get the RBMaterial of the custom robbing item.
+     */
+    public abstract RBMaterial getRBMaterial();
+
+    public abstract boolean isCraftable();
 
     /**
      * Abstract method to set the shaped recipe for the custom robbing item.
@@ -51,5 +66,14 @@ public abstract class RBItem {
      */
     public ShapedRecipe getShapedRecipe() {
         return shapedRecipe;
+    }
+
+    /**
+     * Retrieves the shaped recipe of the custom robbing item.
+     *
+     * @return The shaped recipe of the custom robbing item.
+     */
+    public NamespacedKey getNamespacedKey() {
+        return namespacedKey;
     }
 }

@@ -1,10 +1,13 @@
 package com.frahhs.robbing;
 
-import com.frahhs.robbing.commands.TestCommand;
+import co.aikar.commands.PaperCommandManager;
+import com.frahhs.robbing.commands.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
 import com.frahhs.robbing.features.rob.listeners.CatchRobberListener;
 import com.frahhs.robbing.features.rob.listeners.RobListener;
-import com.frahhs.robbing.items.RBItemStack;
+import com.frahhs.robbing.managers.ItemsManager;
+import com.frahhs.robbing.items.rbitems.Handcuffs;
+import com.frahhs.robbing.items.rbitems.Lockpick;
 import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
 import com.frahhs.robbing.utils.RBLogger;
@@ -16,6 +19,7 @@ public final class Robbing extends JavaPlugin {
     // Managers
     private ConfigManager configManager;
     private MessagesManager messagesManager;
+    PaperCommandManager commandManager;
 
     // Database
     private RBDatabase rbDatabase;
@@ -24,7 +28,7 @@ public final class Robbing extends JavaPlugin {
     private RBLogger rbLogger;
 
     // Items
-    private RBItemStack rbItemStack;
+    private ItemsManager itemsManager;
 
     @Override
     public void onEnable() {
@@ -36,17 +40,20 @@ public final class Robbing extends JavaPlugin {
         // Setup managers
         configManager   = new ConfigManager(this);
         messagesManager = new MessagesManager(this);
+        itemsManager    = new ItemsManager(this);
+        commandManager  = new PaperCommandManager(this);
 
         // Setup Database connection
         rbDatabase = new RBDatabase(this);
 
-        // Setup Robbing items
-        rbItemStack = new RBItemStack(this);
-
-        getCommand("robbing").setExecutor(new TestCommand());
-
-        // Setup listeners
+        // Register stuff
+        registerCommands();
         registerEvents();
+        registerItems();
+
+        // Disable plugin if is disabled in the config
+        if(!configManager.getBoolean("general.enabled"))
+            this.getPluginLoader().disablePlugin(this);
     }
 
     @Override
@@ -55,13 +62,13 @@ public final class Robbing extends JavaPlugin {
     }
 
     public void reload() {
-        // Disable
-        rbItemStack.disable();
+        // Items
+        itemsManager.dispose();
+        registerItems();
 
-        // Enable
+        // Config and messages
         configManager   = new ConfigManager(this);
         messagesManager = new MessagesManager(this);
-        rbItemStack     = new RBItemStack(this);
     }
 
     private void registerEvents() {
@@ -86,6 +93,16 @@ public final class Robbing extends JavaPlugin {
         //getServer().getPluginManager().registerEvents(new HandcuffCancelEventsListener(),this);
     }
 
+    private void registerCommands() {
+        commandManager.enableUnstableAPI("help");
+        commandManager.registerCommand(new RobbingCommand());
+    }
+
+    private void registerItems() {
+        itemsManager.registerItem(new Handcuffs());
+        itemsManager.registerItem(new Lockpick());
+    }
+
     public static Robbing getInstance() {
         return instance;
     }
@@ -106,7 +123,7 @@ public final class Robbing extends JavaPlugin {
         return messagesManager;
     }
 
-    public RBItemStack getRBItemStack() {
-        return rbItemStack;
+    public ItemsManager getItemsManager() {
+        return itemsManager;
     }
 }

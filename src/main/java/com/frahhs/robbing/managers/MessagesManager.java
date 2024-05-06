@@ -60,7 +60,7 @@ public class MessagesManager {
             Robbing.getInstance().getRBLogger().error("The message path '%s' does not exist.", key);
 
         String value = config.getString(key);
-        return String.format("%s%s", prefix, value);
+        return String.format("%s%s", prefix, value).replace("&", "§");
     }
 
     /**

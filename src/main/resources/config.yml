@@ -6,6 +6,7 @@
 # Have fun with Robbing :D
 
 general:
+  enabled: true
   # send on join message to operators if new version of the plugin will be available
   update_checker: true
   # You can contribute to the translation of the texts here: https://www.robbingrp.com/.
