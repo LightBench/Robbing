@@ -6,41 +6,41 @@ import com.frahhs.robbing.providers.MessagesProvider;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Abstract class representing a custom robbing item.
  */
 public abstract class BaseItem {
-
-    protected ItemStack item;
-    protected ShapedRecipe shapedRecipe;
-    protected NamespacedKey namespacedKey;
-    protected final ConfigProvider configProvider;
-    protected final MessagesProvider messagesProvider;
+    protected final ConfigProvider configProvider = Robbing.getInstance().getConfigProvider();
+    protected final MessagesProvider messagesProvider = Robbing.getInstance().getMessagesProvider();
 
     /**
      * Constructor for RBItem.
      */
-    protected BaseItem() {
-        configProvider = Robbing.getInstance().getConfigProvider();
-        messagesProvider = Robbing.getInstance().getMessagesProvider();
-        setItemStack();
-        setShapedRecipe();
-    }
+    protected BaseItem() {}
 
     /**
      * Retrieves the ItemStack of the custom robbing item.
      *
      * @return The ItemStack of the custom robbing item.
      */
-    public ItemStack getItemStack() {
-        return item;
-    }
+    @NotNull
+    public abstract ItemStack getItemStack();
 
     /**
-     * Abstract method to set the ItemStack for the custom robbing item.
+     * Retrieves the shaped recipe of the custom robbing item.
+     *
+     * @return The shaped recipe of the custom robbing item.
      */
-    protected abstract void setItemStack();
+    public abstract ShapedRecipe getShapedRecipe();
+
+    /**
+     * Retrieves the namespaced key of the custom robbing item.
+     *
+     * @return The namespaced key of the custom robbing item.
+     */
+    public abstract NamespacedKey getNamespacedKey();
 
     /**
      * Abstract method to get the name of the custom robbing item.
@@ -56,27 +56,4 @@ public abstract class BaseItem {
      * Abstract method to determine if the custom robbing item is craftable.
      */
     public abstract boolean isCraftable();
-
-    /**
-     * Abstract method to set the shaped recipe for the custom robbing item.
-     */
-    protected abstract void setShapedRecipe();
-
-    /**
-     * Retrieves the shaped recipe of the custom robbing item.
-     *
-     * @return The shaped recipe of the custom robbing item.
-     */
-    public ShapedRecipe getShapedRecipe() {
-        return shapedRecipe;
-    }
-
-    /**
-     * Retrieves the namespaced key of the custom robbing item.
-     *
-     * @return The namespaced key of the custom robbing item.
-     */
-    public NamespacedKey getNamespacedKey() {
-        return namespacedKey;
-    }
 }

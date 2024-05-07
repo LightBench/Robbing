@@ -33,6 +33,10 @@ public class ItemsManager {
      * @param rbItem The RBItem to register.
      */
     public void registerItem(BaseItem rbItem) {
+        //TODO: add custom exception here
+        if(rbItems.containsKey(rbItem.getItemName()))
+            throw new RuntimeException(String.format("Item name [%s] already existing.", rbItem.getItemName()));
+
         rbItems.put(rbItem.getItemName(), rbItem);
         if(rbItem.isCraftable())
             plugin.getServer().addRecipe(rbItem.getShapedRecipe());

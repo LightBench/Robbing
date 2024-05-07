@@ -8,18 +8,17 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Lockpick extends BaseItem {
-    public Lockpick() {
-        super();
-    }
 
     @Override
-    protected void setItemStack() {
-        item = new ItemStack(Material.STICK, 1);
+    @NotNull
+    public ItemStack getItemStack() {
+        ItemStack item = new ItemStack(Material.STICK, 1);
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -34,6 +33,25 @@ public class Lockpick extends BaseItem {
         meta.setLore(lore);
         meta.setCustomModelData(5456);
         item.setItemMeta(meta);
+
+        return item;
+    }
+
+    @Override
+    public ShapedRecipe getShapedRecipe() {
+        NamespacedKey namespacedKey =  getNamespacedKey();
+        ShapedRecipe shapedRecipe = new ShapedRecipe(namespacedKey, getItemStack());
+
+        shapedRecipe.shape(" I ", " S ", " I ");
+        shapedRecipe.setIngredient('I', Material.IRON_INGOT);
+        shapedRecipe.setIngredient('S', Material.STICK);
+
+        return shapedRecipe;
+    }
+
+    @Override
+    public NamespacedKey getNamespacedKey() {
+        return new NamespacedKey(Robbing.getInstance(), "Lockpick");
     }
 
     @Override
@@ -49,15 +67,5 @@ public class Lockpick extends BaseItem {
     @Override
     public boolean isCraftable() {
         return configProvider.getBoolean("lockpick.enable_crafting");
-    }
-
-    @Override
-    public void setShapedRecipe() {
-        namespacedKey = new NamespacedKey(Robbing.getInstance(), "Lockpick");
-        shapedRecipe = new ShapedRecipe(namespacedKey, item);
-
-        shapedRecipe.shape(" I ", " S ", " I ");
-        shapedRecipe.setIngredient('I', Material.IRON_INGOT);
-        shapedRecipe.setIngredient('S', Material.STICK);
     }
 }
