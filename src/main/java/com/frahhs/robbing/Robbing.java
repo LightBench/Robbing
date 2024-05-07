@@ -76,13 +76,13 @@ public final class Robbing extends JavaPlugin {
     }
 
     public void reload() {
-        // Items
-        itemsManager.dispose();
-        registerItems();
-
         // Config and messages providers
         configProvider.reload();
         messagesProvider.reload();
+
+        // Items
+        itemsManager.dispose();
+        registerItems();
     }
 
     private void registerEvents() {
