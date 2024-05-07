@@ -23,10 +23,10 @@ public class Handcuffs extends BaseItem {
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName("§e" + messagesManager.getMessage("handcuffs.name", false));
+        meta.setDisplayName("§e" + messagesProvider.getMessage("handcuffs.name", false));
         List<String> lore = new ArrayList<>();
 
-        String[] loreStrings = messagesManager.getMessage("handcuffs.lore", false).split("\n");
+        String[] loreStrings = messagesProvider.getMessage("handcuffs.lore", false).split("\n");
 
         for(String cur : loreStrings)
             lore.add("§7" + cur);
@@ -48,7 +48,7 @@ public class Handcuffs extends BaseItem {
 
     @Override
     public boolean isCraftable() {
-        return configManager.getBoolean("handcuffing.enable_crafting");
+        return configProvider.getBoolean("handcuffing.enable_crafting");
     }
 
     @Override

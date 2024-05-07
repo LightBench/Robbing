@@ -1,4 +1,4 @@
-package com.frahhs.robbing.managers;
+package com.frahhs.robbing.providers;
 
 import com.frahhs.robbing.Robbing;
 import org.bukkit.configuration.MemorySection;
@@ -12,21 +12,20 @@ import java.util.Map;
 /**
  * Manages the configurations of the plugin.
  */
-public class ConfigManager {
+public class ConfigProvider {
     private final JavaPlugin plugin;
-    private final Map<String, Object> config = new HashMap<>();
+
+    private FileConfiguration configFile;
+    private Map<String, Object> config;
 
     /**
      * Constructs a new ConfigManager instance.
      *
      * @param plugin The JavaPlugin instance owning this manager.
      */
-    public ConfigManager(JavaPlugin plugin) {
+    public ConfigProvider(JavaPlugin plugin) {
         this.plugin = plugin;
         this.plugin.saveDefaultConfig();
-
-        // Reload config
-        this.plugin.reloadConfig();
 
         // Read and store config values
         readConfig();
@@ -35,8 +34,12 @@ public class ConfigManager {
     /**
      * Reads the configuration from the config.yml file and populates the config map.
      */
-    private void readConfig() {
-        FileConfiguration configFile = plugin.getConfig();
+    public void readConfig() {
+        config = new HashMap<>();
+        this.plugin.reloadConfig();
+        configFile = this.plugin.getConfig();
+        configFile.options().copyDefaults(true);
+        this.plugin.saveConfig();
 
         // Iterate through all keys in config
         for (String key : configFile.getKeys(true)) {

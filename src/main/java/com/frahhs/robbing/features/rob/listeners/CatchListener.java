@@ -57,7 +57,7 @@ public class CatchListener extends BaseListener {
         if(!config.getBoolean("rob.caught_robber.can_jump")) {
             if (e.getFrom().getY() < e.getTo().getY()) {
                 e.setCancelled(true);
-                e.getPlayer().sendMessage(Robbing.getInstance().getMessagesManager().getMessage("robbing.cannot_jump_if_caught"));
+                e.getPlayer().sendMessage(Robbing.getInstance().getMessagesProvider().getMessage("robbing.cannot_jump_if_caught"));
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.frahhs.robbing.features;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.providers.ConfigProvider;
+import com.frahhs.robbing.providers.MessagesProvider;
 import com.frahhs.robbing.utils.RBLogger;
 
 /**
@@ -10,10 +10,10 @@ import com.frahhs.robbing.utils.RBLogger;
  */
 public abstract class BaseFeature {
     /** Configuration manager instance. */
-    protected final ConfigManager config = Robbing.getInstance().getConfigManager();
+    protected final ConfigProvider config = Robbing.getInstance().getConfigProvider();
 
     /** Messages manager instance. */
-    protected final MessagesManager messages = Robbing.getInstance().getMessagesManager();
+    protected final MessagesProvider messages = Robbing.getInstance().getMessagesProvider();
 
     /** Logger instance. */
     protected final RBLogger logger = Robbing.getInstance().getRBLogger();

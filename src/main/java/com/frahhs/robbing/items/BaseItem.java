@@ -1,8 +1,8 @@
 package com.frahhs.robbing.items;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.providers.ConfigProvider;
+import com.frahhs.robbing.providers.MessagesProvider;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -15,15 +15,15 @@ public abstract class BaseItem {
     protected ItemStack item;
     protected ShapedRecipe shapedRecipe;
     protected NamespacedKey namespacedKey;
-    protected final ConfigManager configManager;
-    protected final MessagesManager messagesManager;
+    protected final ConfigProvider configProvider;
+    protected final MessagesProvider messagesProvider;
 
     /**
      * Constructor for RBItem.
      */
     protected BaseItem() {
-        configManager = Robbing.getInstance().getConfigManager();
-        messagesManager = Robbing.getInstance().getMessagesManager();
+        configProvider = Robbing.getInstance().getConfigProvider();
+        messagesProvider = Robbing.getInstance().getMessagesProvider();
         setItemStack();
         setShapedRecipe();
     }

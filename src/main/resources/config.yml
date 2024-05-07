@@ -57,18 +57,18 @@ rob:
 
 handcuffing:
   enabled: true
-  # enable right click handcuffed player to make he follow you
+  # enable right click handcuffed player to make he follows you
   following: true
   # put a cooldown to use handcuffs (in seconds)
   cooldown: 5
   enable_crafting: false
   # make possible escape from handcuffing
-  #try_escape:
-  #  enabled: false
-  #  # delay handcuffing after clicking (in seconds).
-  #  delayed_handcuffing: 2
-  #  # min distance to escape handcuffing
-  #  distance: 3
+  escape:
+    enabled: false
+    # delay handcuffing after clicking (in seconds).
+    delayed_handcuffing: 2
+    # min distance to escape handcuffing
+    distance: 3
   # permitted commands while handcuffed
   permitted_commands:
     - login

@@ -1,7 +1,7 @@
 package com.frahhs.robbing.database;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.ConfigManager;
+import com.frahhs.robbing.providers.ConfigProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -24,7 +24,7 @@ public class RBDatabase {
     private final String db_name;
     private final String db_type;
     private Connection dbConnection = null;
-    private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
+    private final ConfigProvider configProvider = Robbing.getInstance().getConfigProvider();
 
     /**
      * Enum representing the types of supported databases.
@@ -43,13 +43,13 @@ public class RBDatabase {
         this.plugin = plugin;
 
         // Setup variables
-        db_name = configManager.getString("database.database_name");
+        db_name = configProvider.getString("database.database_name");
         sqlite_path = this.plugin.getDataFolder().getAbsolutePath() + "/data/" + db_name + ".db";
-        mysql_address = configManager.getString("database.mysql.address");
-        mysql_port = configManager.getString("database.mysql.port");
-        mysql_username = configManager.getString("database.mysql.username");
-        mysql_password = configManager.getString("database.mysql.password");
-        db_type = configManager.getString("database.type");
+        mysql_address = configProvider.getString("database.mysql.address");
+        mysql_port = configProvider.getString("database.mysql.port");
+        mysql_username = configProvider.getString("database.mysql.username");
+        mysql_password = configProvider.getString("database.mysql.password");
+        db_type = configProvider.getString("database.type");
 
         // Setup connection
         if (Objects.equals(db_type, "SQLite")) {

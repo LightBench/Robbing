@@ -23,10 +23,10 @@ public class Lockpick extends BaseItem {
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName("§e" + messagesManager.getMessage("lockpick.name", false));
+        meta.setDisplayName("§e" + messagesProvider.getMessage("lockpick.name", false));
         List<String> lore = new ArrayList<>();
 
-        String[] loreStrings = messagesManager.getMessage("lockpick.lore", false).split("\n");
+        String[] loreStrings = messagesProvider.getMessage("lockpick.lore", false).split("\n");
 
         for(String cur : loreStrings)
             lore.add("§7" + cur);
@@ -48,7 +48,7 @@ public class Lockpick extends BaseItem {
 
     @Override
     public boolean isCraftable() {
-        return configManager.getBoolean("lockpick.enable_crafting");
+        return configProvider.getBoolean("lockpick.enable_crafting");
     }
 
     @Override

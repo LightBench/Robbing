@@ -3,10 +3,13 @@ package com.frahhs.robbing.features.handcuffing.controllers;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseController;
 import com.frahhs.robbing.features.handcuffing.events.ToggleHandcuffsEvent;
+import com.frahhs.robbing.features.handcuffing.models.CooldownModel;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import com.frahhs.robbing.items.RBMaterial;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,8 +20,6 @@ import java.sql.Timestamp;
  * Controller class for managing handcuffing actions.
  */
 public class HandcuffingController extends BaseController {
-    /** Map to store handcuffing cooldowns for each player. */
-    //public static Map<Player, Long> handcuffingCooldown = new HashMap<>();
 
     /**
      * Default constructor for HandcuffingController.
@@ -59,7 +60,7 @@ public class HandcuffingController extends BaseController {
             }
 
             // Add handcuffing cooldown to handcuffer
-            handcuffingModel.setCooldown();
+            setCooldown(handcuffer);
         });
     }
 
@@ -180,12 +181,80 @@ public class HandcuffingController extends BaseController {
     }
 
     /**
+     * Sets a cooldown for handcuffing for the specified player.
+     *
+     * @param handcuffer The player for whom to set the cooldown.
+     * @param cooldown The cooldown duration in seconds.
+     */
+    public void setCooldown(Player handcuffer, int cooldown) {
+        HandcuffingModel.setCooldown(handcuffer, cooldown);
+    }
+
+    /**
+     * Sets a default cooldown for handcuffing for the specified player.
+     *
+     * @param handcuffer The player for whom to set the cooldown.
+     */
+    public void setCooldown(Player handcuffer) {
+        HandcuffingModel.setCooldown(handcuffer);
+    }
+
+    /**
      * Gets the cooldown time for handcuffing of a player.
      *
      * @param handcuffer The player to check.
-     * @return The cooldown time for handcuffing.
+     * @return The CooldownModel containing the cooldown time.
      */
-    public long getCooldown(Player handcuffer) {
+    public CooldownModel getCooldown(Player handcuffer) {
         return HandcuffingModel.getCooldown(handcuffer);
+    }
+
+    /**
+     * Allows a handcuffed player to escape from the handcuffs.
+     *
+     * @param handcuffer The player who handcuffed.
+     * @param handcuffed The player who is handcuffed.
+     */
+    public void escape(Player handcuffer, Player handcuffed) {
+        int delay = config.getInt("handcuffing.escape.delayed_handcuffing");
+        int distance = config.getInt("handcuffing.escape.distance");
+        int handcuffs_cd = config.getInt("handcuffing.cooldown");
+
+        String time_to_escape = messages.getMessage("actionbar.time_to_escape");
+        String handcuffing = messages.getMessage("actionbar.handcuffing");
+        String escaped = messages.getMessage("actionbar.escaped");
+        String handcuffing_failed = messages.getMessage("actionbar.handcuffing_failed");
+        String handcuffed_msg = messages.getMessage("actionbar.handcuffed");
+
+        // Wait the delay time to use handcuffs again
+        setCooldown(handcuffer, delay + handcuffs_cd);
+
+        new Thread(() -> {
+            try {
+                for(int i = delay; i >= 1; i--) {
+                    TextComponent time_to_escape_tc = new TextComponent(time_to_escape.replace("{time}", Integer.toString(i)));
+                    TextComponent handcuffing_tc = new TextComponent(handcuffing.replace("{time}", Integer.toString(i)));
+                    TextComponent escaped_tc = new TextComponent(escaped.replace("{time}", Integer.toString(i)));
+                    TextComponent handcuffing_failed_tc = new TextComponent(handcuffing_failed.replace("{time}", Integer.toString(i)));
+
+                    handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, time_to_escape_tc);
+                    handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffing_tc);
+                    Thread.sleep(1000L);
+                    if(handcuffer.getLocation().distance(handcuffed.getLocation()) > distance) {
+                        handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, escaped_tc);
+                        handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffing_failed_tc);
+                        return;
+                    }
+                }
+                // If escaping attempt fails, handcuff the player again
+                TextComponent handcuffed_msg_tc = new TextComponent(handcuffed_msg);
+                handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffed_msg_tc);
+                handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffed_msg_tc);
+
+                putHandcuffs(handcuffer, handcuffed);
+            } catch(InterruptedException v) {
+                System.out.println(v.getMessage());
+            }
+        }).start();
     }
 }

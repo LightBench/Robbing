@@ -1,4 +1,4 @@
-package com.frahhs.robbing.managers;
+package com.frahhs.robbing.providers;
 
 import com.frahhs.robbing.Robbing;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,7 +17,7 @@ import java.util.jar.JarFile;
 /**
  * Manages localization for a Spigot plugin using YAML configuration files.
  */
-public class MessagesManager {
+public class MessagesProvider {
     private final JavaPlugin plugin;
     private String lang;
     private final String prefix;
@@ -28,10 +28,10 @@ public class MessagesManager {
      *
      * @param plugin The JavaPlugin instance owning this manager.
      */
-    public MessagesManager(JavaPlugin plugin) {
+    public MessagesProvider(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.lang = Robbing.getInstance().getConfigManager().getString("general.language");
-        this.prefix = Robbing.getInstance().getConfigManager().getString("general.prefix");
+        this.lang = Robbing.getInstance().getConfigProvider().getString("general.language");
+        this.prefix = Robbing.getInstance().getConfigProvider().getString("general.prefix");
         this.languageConfigs = new HashMap<>();
 
         loadLanguageFiles();

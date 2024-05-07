@@ -1,7 +1,5 @@
-package com.frahhs.robbing.managers;
+package com.frahhs.robbing.items;
 
-import com.frahhs.robbing.items.BaseItem;
-import com.frahhs.robbing.items.RBMaterial;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 

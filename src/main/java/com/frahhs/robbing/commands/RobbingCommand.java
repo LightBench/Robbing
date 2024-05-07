@@ -5,8 +5,8 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.ItemsManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.items.ItemsManager;
+import com.frahhs.robbing.providers.MessagesProvider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,10 +15,10 @@ import org.checkerframework.common.value.qual.IntRange;
 @CommandAlias("robbing|rb")
 @Description("Some ACF Command")
 public class RobbingCommand extends BaseCommand {
-    MessagesManager messagesManager;
+    MessagesProvider messagesProvider;
 
     public RobbingCommand() {
-        messagesManager = Robbing.getInstance().getMessagesManager();
+        messagesProvider = Robbing.getInstance().getMessagesProvider();
     }
 
     @Default
@@ -32,7 +32,7 @@ public class RobbingCommand extends BaseCommand {
     @Description("Reload the configuration of Robbing.")
     public void onReload(Player player) {
         Robbing.getInstance().reload();
-        String message = messagesManager.getMessage("commands.reload");
+        String message = messagesProvider.getMessage("commands.reload");
         player.sendMessage(message);
     }
 
@@ -49,7 +49,7 @@ public class RobbingCommand extends BaseCommand {
 
         item_name = item_name.substring(0, 1).toUpperCase() + item_name.substring(1).toLowerCase();
         if(item == null) {
-            message = messagesManager.getMessage("commands.item_not_found");
+            message = messagesProvider.getMessage("commands.item_not_found");
             message = message.replace("{item}", item_name);
             sender.sendMessage(message);
             return;
@@ -58,7 +58,7 @@ public class RobbingCommand extends BaseCommand {
         item.setAmount(amount);
         player.getPlayer().getInventory().addItem(item);
 
-        message = messagesManager.getMessage("commands.given");
+        message = messagesProvider.getMessage("commands.given");
         message = message.replace("{player}", player.getPlayer().getDisplayName());
         message = message.replace("{item}", item_name);
         message = message.replace("{amount}", Integer.toString(amount));
@@ -67,7 +67,7 @@ public class RobbingCommand extends BaseCommand {
 
     @CatchUnknown
     public void onUnknown(CommandSender sender) {
-        String message = messagesManager.getMessage("commands.unknown");
+        String message = messagesProvider.getMessage("commands.unknown");
         sender.sendMessage(message);
     }
 

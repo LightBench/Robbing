@@ -13,9 +13,9 @@ import com.frahhs.robbing.features.rob.listeners.CatchListener;
 import com.frahhs.robbing.features.rob.listeners.RobListener;
 import com.frahhs.robbing.items.rbitems.Handcuffs;
 import com.frahhs.robbing.items.rbitems.Lockpick;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.ItemsManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.providers.ConfigProvider;
+import com.frahhs.robbing.items.ItemsManager;
+import com.frahhs.robbing.providers.MessagesProvider;
 import com.frahhs.robbing.utils.RBLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,8 +25,8 @@ public final class Robbing extends JavaPlugin {
     private static Robbing instance;
 
     // Managers
-    private ConfigManager configManager;
-    private MessagesManager messagesManager;
+    private ConfigProvider configProvider;
+    private MessagesProvider messagesProvider;
     PaperCommandManager commandManager;
 
     // Database
@@ -47,9 +47,9 @@ public final class Robbing extends JavaPlugin {
         rbLogger.setLevel(Level.ALL);
 
         // Setup managers
-        configManager   = new ConfigManager(this);
-        messagesManager = new MessagesManager(this);
-        itemsManager    = new ItemsManager(this);
+        configProvider = new ConfigProvider(this);
+        messagesProvider = new MessagesProvider(this);
+        itemsManager = new ItemsManager(this);
         commandManager  = new PaperCommandManager(this);
 
         // Setup Database connection
@@ -61,7 +61,7 @@ public final class Robbing extends JavaPlugin {
         registerItems();
 
         // Disable plugin if is disabled in the config
-        if(!configManager.getBoolean("general.enabled"))
+        if(!configProvider.getBoolean("general.enabled"))
             this.getPluginLoader().disablePlugin(this);
     }
 
@@ -81,8 +81,8 @@ public final class Robbing extends JavaPlugin {
         registerItems();
 
         // Config and messages
-        configManager   = new ConfigManager(this);
-        messagesManager = new MessagesManager(this);
+        configProvider.readConfig();
+        messagesProvider = new MessagesProvider(this);
     }
 
     private void registerEvents() {
@@ -122,12 +122,12 @@ public final class Robbing extends JavaPlugin {
         return rbDatabase;
     }
 
-    public ConfigManager getConfigManager() {
-        return configManager;
+    public ConfigProvider getConfigProvider() {
+        return configProvider;
     }
 
-    public MessagesManager getMessagesManager() {
-        return messagesManager;
+    public MessagesProvider getMessagesProvider() {
+        return messagesProvider;
     }
 
     public ItemsManager getItemsManager() {

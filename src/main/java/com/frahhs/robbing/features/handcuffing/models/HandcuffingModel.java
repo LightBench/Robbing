@@ -2,6 +2,7 @@ package com.frahhs.robbing.features.handcuffing.models;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseModel;
+import com.frahhs.robbing.providers.ConfigProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -20,7 +21,7 @@ public class HandcuffingModel extends BaseModel {
      * The key is the player who performed the handcuffing action,
      * and the value is the timestamp indicating when the action occurred.
      */
-    public static Map<Player, Long> handcuffingCooldown = new ConcurrentHashMap<>();
+    public static Map<Player, CooldownModel> handcuffingCooldown = new ConcurrentHashMap<>();
 
     private final Connection dbConnection;
 
@@ -109,21 +110,6 @@ public class HandcuffingModel extends BaseModel {
     }
 
     /**
-     * Sets the cooldown for the handcuffing action.
-     */
-    public void setCooldown() {
-        new Thread(() -> {
-            try {
-                handcuffingCooldown.put(handcuffer, System.currentTimeMillis());
-                Thread.sleep(config.getInt("handcuffing.cooldown") * 1000L);
-                handcuffingCooldown.remove(handcuffer.getPlayer());
-            } catch(InterruptedException v) {
-                System.out.println(v);
-            }
-        }).start();
-    }
-
-    /**
      * Checks if a player is currently under a handcuffing cooldown.
      *
      * @param handcuffer The player to check.
@@ -134,12 +120,38 @@ public class HandcuffingModel extends BaseModel {
     }
 
     /**
+     * Sets the cooldown for the handcuffing action.
+     */
+    public static void setCooldown(Player handcuffer, int cooldown) {
+        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+
+        new Thread(() -> {
+            try {
+                CooldownModel cooldownModel = new CooldownModel(System.currentTimeMillis(), cooldown);
+                handcuffingCooldown.put(handcuffer, cooldownModel);
+                Thread.sleep(cooldown * 1000L);
+                handcuffingCooldown.remove(handcuffer.getPlayer());
+            } catch(InterruptedException v) {
+                System.out.println(v);
+            }
+        }).start();
+    }
+
+    /**
+     * Sets the cooldown for the handcuffing action.
+     */
+    public static void setCooldown(Player handcuffer) {
+        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+        setCooldown(handcuffer, config.getInt("handcuffing.cooldown"));
+    }
+
+    /**
      * Retrieves the cooldown timestamp for a player.
      *
      * @param handcuffer The player to check.
      * @return The timestamp when the handcuffing action occurred.
      */
-    public static long getCooldown(Player handcuffer) {
+    public static CooldownModel getCooldown(Player handcuffer) {
         return handcuffingCooldown.get(handcuffer);
     }
 

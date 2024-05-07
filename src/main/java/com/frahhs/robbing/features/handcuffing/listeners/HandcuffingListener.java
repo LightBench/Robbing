@@ -2,6 +2,7 @@ package com.frahhs.robbing.features.handcuffing.listeners;
 
 import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
+import com.frahhs.robbing.features.handcuffing.models.CooldownModel;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
@@ -59,56 +60,24 @@ public class HandcuffingListener extends BaseListener {
         // Check if player have handcuffing cooldown
         if(handcuffingController.haveCooldown(handcuffer)) {
             int handcuffing_cooldown = config.getInt("handcuffing.cooldown");
-            long waitingTime = handcuffing_cooldown - ((System.currentTimeMillis() - handcuffingController.getCooldown(handcuffer)) / 1000 );
+
+            CooldownModel cooldown = handcuffingController.getCooldown(handcuffer);
+            long waitingTime = cooldown.getCooldown() - ((System.currentTimeMillis() - cooldown.getTimestamp()) / 1000 );
             message = messages.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
             handcuffer.sendMessage(message);
             return;
         }
 
         // check if is enabled handcuffing escaping
-        if(!config.getBoolean("handcuffing.try_escape.enabled")) {
+        if(!config.getBoolean("handcuffing.escape.enabled")) {
             // Handcuff the player
             handcuffingController.putHandcuffs(handcuffer, handcuffed);
             return;
         }
 
-        /* TODO: Handcuffing escaping mechanic */
+        // Handcuffing escaping mechanic
+        handcuffingController.escape(handcuffer, handcuffed);
 
-        // Check if player is already using handcuffs
-        /*if(handcuffingController.isUsingHandcuffs(handcuffer))
-            return;
-
-        new Thread(() -> {
-            try {
-                Handcuffs.isUsingHandcuffs.add(handcuffer);
-                Thread.sleep(ConfigManager.handcuffing_try_escape_delayed_handcuffing * 1000L);
-                Handcuffs.isUsingHandcuffs.remove(handcuffer);
-            } catch(InterruptedException v) {
-                System.out.println(v.getMessage());
-            }
-        }).start();
-
-        // Check position after the configured time to check if far enough to escape
-        new Thread(() -> {
-            try {
-                for(int i = ConfigManager.handcuffing_try_escape_delayed_handcuffing; i >= 1; i--) {
-                    handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§2" + Robbing.getMessageManager().getMessage("actionbar", "time_to_escape").replace("{time}", Integer.toString(i))));//("§2 You have " + i + " to escapefsdfdsf..."));
-                    handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§2" + Robbing.getMessageManager().getMessage("actionbar", "handcuffing").replace("{time}", Integer.toString(i))));
-                    Thread.sleep(1000L);
-                    if(handcuffer.getLocation().distance(handcuffed.getLocation()) > ConfigManager.handcuffing_try_escape_distance) {
-                        handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§2" + Robbing.getMessageManager().getMessage("actionbar", "escaped").replace("{time}", Integer.toString(i))));
-                        handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§4" + Robbing.getMessageManager().getMessage("actionbar", "handcuffing_failed").replace("{time}", Integer.toString(i))));
-                        return;
-                    }
-                }
-                // If escaping attempt fail handcuff
-                handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§2" + Robbing.getMessageManager().getMessage("actionbar", "handcuffed")));
-                handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§2" + Robbing.getMessageManager().getMessage("actionbar", "handcuffed")));
-                Handcuffs.putHandcuffs(handcuffer, handcuffed);
-            } catch(InterruptedException v) {
-                System.out.println(v.getMessage());
-            }
-        }).start();*/
     }
 
     @EventHandler

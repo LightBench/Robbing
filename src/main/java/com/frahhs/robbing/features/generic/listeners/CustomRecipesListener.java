@@ -3,7 +3,7 @@ package com.frahhs.robbing.features.generic.listeners;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.items.BaseItem;
-import com.frahhs.robbing.managers.ItemsManager;
+import com.frahhs.robbing.items.ItemsManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.CraftItemEvent;
