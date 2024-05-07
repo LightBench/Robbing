@@ -10,7 +10,7 @@ import org.bukkit.inventory.ShapedRecipe;
 /**
  * Abstract class representing a custom robbing item.
  */
-public abstract class RBItem {
+public abstract class BaseItem {
 
     protected ItemStack item;
     protected ShapedRecipe shapedRecipe;
@@ -21,7 +21,7 @@ public abstract class RBItem {
     /**
      * Constructor for RBItem.
      */
-    protected RBItem() {
+    protected BaseItem() {
         configManager = Robbing.getInstance().getConfigManager();
         messagesManager = Robbing.getInstance().getMessagesManager();
         setItemStack();

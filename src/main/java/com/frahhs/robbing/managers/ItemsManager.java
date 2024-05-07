@@ -1,6 +1,6 @@
 package com.frahhs.robbing.managers;
 
-import com.frahhs.robbing.items.RBItem;
+import com.frahhs.robbing.items.BaseItem;
 import com.frahhs.robbing.items.RBMaterial;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class ItemsManager {
 
     private final JavaPlugin plugin;
-    private Map<String, RBItem> rbItems;
+    private Map<String, BaseItem> rbItems;
 
     /**
      * Constructor for ItemsManager.
@@ -34,7 +34,7 @@ public class ItemsManager {
      *
      * @param rbItem The RBItem to register.
      */
-    public void registerItem(RBItem rbItem) {
+    public void registerItem(BaseItem rbItem) {
         rbItems.put(rbItem.getItemName(), rbItem);
         if(rbItem.isCraftable())
             plugin.getServer().addRecipe(rbItem.getShapedRecipe());
@@ -83,7 +83,7 @@ public class ItemsManager {
      *
      * @return A collection of all registered RBItems.
      */
-    public Collection<RBItem> getRegisteredItems() {
+    public Collection<BaseItem> getRegisteredItems() {
         return rbItems.values();
     }
 }

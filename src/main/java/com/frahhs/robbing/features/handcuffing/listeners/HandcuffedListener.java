@@ -1,7 +1,7 @@
 package com.frahhs.robbing.features.handcuffing.listeners;
 
 import com.frahhs.robbing.features.BaseListener;
-import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
+import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -19,16 +19,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HandcuffedListener extends BaseListener {
+    HandcuffingController handcuffingController = new HandcuffingController();
 
     @EventHandler
     public void cannotIfHandcuffed(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
         // check if arriving position is null
         if(e.getTo() == null)
             return;
         // Check if player is handcuffed
-        if(!HandcuffingModel.isHandcuffed(p))
+        if(!handcuffingController.isHandcuffed(player))
             return;
         // Check if player moved himself
         if(e.getFrom().distance(e.getTo()) != 0)
@@ -37,33 +38,33 @@ public class HandcuffedListener extends BaseListener {
 
     @EventHandler
     public void cannotIfHandcuffed(PlayerInteractEntityEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
-        if(HandcuffingModel.isHandcuffed(p)){
+        if(handcuffingController.isHandcuffed(player)){
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
     @EventHandler
     public void cannotIfHandcuffed(InventoryClickEvent e) {
-        Player p = (Player) e.getWhoClicked();
+        Player player = (Player) e.getWhoClicked();
 
-        if(HandcuffingModel.isHandcuffed(p)){
+        if(handcuffingController.isHandcuffed(player)){
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
     @EventHandler
     public void cannotIfHandcuffed(PlayerCommandPreprocessEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
         // If command is in permitted commands return
         List<String> curCommand = Arrays.asList(e.getMessage().substring(1).split(" "));
-        for(String permittedCommand : configManager.getStringList("handcuffing.permitted_commands")) {
+        for(String permittedCommand : config.getStringList("handcuffing.permitted_commands")) {
             boolean equals = true;
             List<String> curPermittedCommand = Arrays.asList(permittedCommand.split(" "));
 
@@ -80,32 +81,32 @@ public class HandcuffedListener extends BaseListener {
                 return;
         }
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
     @EventHandler
     public void cannotIfHandcuffed(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
     @EventHandler
     public void cannotIfHandcuffed(BlockBreakEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
@@ -114,23 +115,23 @@ public class HandcuffedListener extends BaseListener {
         if(!(e.getDamager() instanceof Player))
             return;
 
-        Player p = (Player) e.getDamager();
+        Player player = (Player) e.getDamager();
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
     @EventHandler
     public void cannotIfHandcuffed(PlayerDropItemEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
@@ -139,12 +140,12 @@ public class HandcuffedListener extends BaseListener {
         if(!(e.getEntity() instanceof Player))
             return;
 
-        Player p = (Player) e.getEntity();
+        Player player = (Player) e.getEntity();
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 
@@ -153,14 +154,14 @@ public class HandcuffedListener extends BaseListener {
         if(!(e.getEntity() instanceof Player))
             return;
 
-        Player p = (Player) e.getEntity();
+        Player player = (Player) e.getEntity();
 
-        if(HandcuffingModel.isHandcuffed(p)) {
+        if(handcuffingController.isHandcuffed(player)) {
             // Block player gliding
-            p.setGliding(false);
+            player.setGliding(false);
             e.setCancelled(true);
-            String message = messagesManager.getMessage("handcuffing.you_cant_when_cuffed");
-            p.sendMessage(message);
+            String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
+            player.sendMessage(message);
         }
     }
 }

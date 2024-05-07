@@ -34,7 +34,7 @@ public class RobListener extends BaseListener {
     @EventHandler
     public void doSteal(PlayerInteractEntityEvent e) {
         // Check if robbing is enabled
-        if(!configManager.getBoolean("rob.enabled"))
+        if(!config.getBoolean("rob.enabled"))
             return;
 
         // Check if player have permissions
@@ -54,7 +54,7 @@ public class RobListener extends BaseListener {
             return;
 
         // Check if target is an NPC
-        if(!configManager.getBoolean("rob.NPC_robbing"))
+        if(!config.getBoolean("rob.NPC_robbing"))
             if(e.getRightClicked().hasMetadata("NPC"))
                 return;
 
@@ -62,7 +62,7 @@ public class RobListener extends BaseListener {
         Player robbed = (Player) e.getRightClicked();
 
         // Check if robber is sneaking
-        if(configManager.getBoolean("rob.sneak_to_rob"))
+        if(config.getBoolean("rob.sneak_to_rob"))
             if(!robber.isSneaking())
                 return;
 
@@ -81,7 +81,7 @@ public class RobListener extends BaseListener {
         // Check if player is in robbing cooldown
         if(robController.haveCooldown(robber)){
             long waitingTime = robController.getCooldown(robber);
-            String message = messagesManager.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
+            String message = messages.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
             robber.sendMessage(message);
             return;
         }
@@ -98,14 +98,14 @@ public class RobListener extends BaseListener {
         robController.startRobbing(robber, robbed);
 
         // Send robbing alert to the target
-        if(configManager.getBoolean("rob.alert"))
-            robbed.sendMessage(messagesManager.getMessage("robbing.alert").replace("{thief}", robber.getDisplayName()));
+        if(config.getBoolean("rob.alert"))
+            robbed.sendMessage(messages.getMessage("robbing.alert").replace("{thief}", robber.getDisplayName()));
     }
 
     @EventHandler
     public void stolenItem(InventoryClickEvent e) {
         // Check if robbing is enabled
-        if(!configManager.getBoolean("rob.enabled"))
+        if(!config.getBoolean("rob.enabled"))
             return;
 
         // Check if Inventory is player type and at least 2 people are watching it
@@ -128,8 +128,8 @@ public class RobListener extends BaseListener {
         boolean whitelisted = false;
 
         // If whitelist enabled and Item is not in whitelist remove
-        if(configManager.getBoolean("rob.whitelist_enabled")) {
-            for (String el : configManager.getStringList("rob.whitelist_items")) {
+        if(config.getBoolean("rob.whitelist_enabled")) {
+            for (String el : config.getStringList("rob.whitelist_items")) {
                 if(e.getCurrentItem().getType().equals(Material.getMaterial(el))) {
                     whitelisted = true;
                 }
@@ -152,20 +152,20 @@ public class RobListener extends BaseListener {
         }
 
         // If current Item is the same of denied, cancel action
-        for (String el : configManager.getStringList("rob.denied_items")) {
+        for (String el : config.getStringList("rob.denied_items")) {
             if(e.getCurrentItem().getType().equals(Material.getMaterial(el))) {
                 cancelRobbing = true;
             }
         }
 
         // Check whitelisted
-        if(configManager.getBoolean("rob.whitelist_enabled") && !whitelisted)
+        if(config.getBoolean("rob.whitelist_enabled") && !whitelisted)
             cancelRobbing = true;
 
         // Cancel steal if needed
         if(cancelRobbing) {
             e.setCancelled(true);
-            String message = messagesManager.getMessage("robbing.cant_steal");
+            String message = messages.getMessage("robbing.cant_steal");
             e.getWhoClicked().sendMessage(message);
         }
 
@@ -185,7 +185,7 @@ public class RobListener extends BaseListener {
 
     @EventHandler
     public void runaway(PlayerMoveEvent e) {
-        if(!configManager.getBoolean("rob.enabled"))
+        if(!config.getBoolean("rob.enabled"))
             return;
 
         Player robbed = e.getPlayer();
@@ -210,9 +210,9 @@ public class RobListener extends BaseListener {
             // The viewer must be different by the robbed
             if (!robber.equals(robbed)) {
                 // Check how far is the robber
-                if (robbed.getLocation().distance(robber.getLocation()) >= configManager.getInt("rob.max_distance")) {
+                if (robbed.getLocation().distance(robber.getLocation()) >= config.getInt("rob.max_distance")) {
                     robController.stopRobbing(robber);
-                    String message = messagesManager.getMessage("robbing.escaped").replace("{target}", robbed.getDisplayName());
+                    String message = messages.getMessage("robbing.escaped").replace("{target}", robbed.getDisplayName());
                     robber.sendMessage(message);
                     return;
                 }
@@ -223,7 +223,7 @@ public class RobListener extends BaseListener {
     @EventHandler
     public void endRobbing(InventoryCloseEvent e) {
         // Check if robbing is enabled
-        if(!configManager.getBoolean("rob.enabled"))
+        if(!config.getBoolean("rob.enabled"))
             return;
 
         Player robber = (Player)e.getPlayer();
@@ -232,11 +232,11 @@ public class RobListener extends BaseListener {
             robController.stopRobbing(robber);
 
         // check if blindness effect after robbing is enabled
-        if(!configManager.getBoolean("rob.blindness_after_robbing"))
+        if(!config.getBoolean("rob.blindness_after_robbing"))
             return;
 
         // Check if player was robbing and add blindness effect to the target
-        int blindness_duration = configManager.getInt("rob.blindness_duration");
+        int blindness_duration = config.getInt("rob.blindness_duration");
         if (e.getInventory().getType() == InventoryType.PLAYER && !e.getPlayer().getInventory().equals(e.getInventory())) {
             for(Player p : Bukkit.getOnlinePlayers()){
                 if(e.getInventory().equals(p.getInventory()))

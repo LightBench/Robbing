@@ -2,19 +2,26 @@ package com.frahhs.robbing.features.handcuffing.listeners;
 
 import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
+import com.frahhs.robbing.features.handcuffing.controllers.HandcuffsBarController;
 import com.frahhs.robbing.features.handcuffing.events.ToggleHandcuffsEvent;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
-import com.frahhs.robbing.features.handcuffing.models.HandcuffsLifeModel;
 import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-public class BreakingHandcuffsListener extends BaseListener {
+public class HitHandcuffsListener extends BaseListener {
+    HandcuffingController handcuffingController;
+    KidnappingController kidnappingController;
+    HandcuffsBarController handcuffsBarController;
 
-    public BreakingHandcuffsListener() {
-        HandcuffsLifeModel.putAllHandcuffsLifeModel();
+    public HitHandcuffsListener() {
+        handcuffingController = new HandcuffingController();
+        kidnappingController = new KidnappingController();
+        handcuffsBarController = new HandcuffsBarController();
+
+        handcuffsBarController.onEnable();
     }
 
     @EventHandler
@@ -23,8 +30,11 @@ public class BreakingHandcuffsListener extends BaseListener {
             return;
 
         // If it is putting on handcuffs add HealthBar, else remove it
-        setHandcuffsLifeModel(e.getHandcuffed(), e.isPuttingOn());
-
+        if(e.isPuttingOn()) {
+            handcuffsBarController.put(e.getHandcuffed());
+        } else {
+            handcuffsBarController.remove(e.getHandcuffed());
+        }
     }
 
     @EventHandler
@@ -40,42 +50,19 @@ public class BreakingHandcuffsListener extends BaseListener {
         Player handcuffed = e.getPlayer();
 
         // Iterate crack to handcuffed bar
-        HandcuffingController handcuffingController = new HandcuffingController();
-        KidnappingController kidnappingController = new KidnappingController();
-        HandcuffsLifeModel bar = HandcuffsLifeModel.getBarFromPlayer(handcuffed);
-        if(bar.crack()) {
-            // Remove handcuffs
-            handcuffingController.removeHandcuffs(handcuffed, true);
-
-            // Free handcuffed if was kidnapped
-            kidnappingController.free(handcuffed);
-
-            // Remove bar
-            bar.removeHandcuffsLifeModel(handcuffed);
-
+        if(handcuffsBarController.hit(handcuffed)) {
             // Send message
-            String message = messagesManager.getMessage("handcuffing.broken_handcuffs");
+            String message = messages.getMessage("handcuffing.broken_handcuffs");
             handcuffed.sendMessage(message);
         }
     }
 
     @EventHandler
     public void addHealthBarOnJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
         // Add HandcuffsLifeModel is the player is handcuffed
-        if(HandcuffingModel.isHandcuffed(p))
-            setHandcuffsLifeModel(p, true);
-    }
-
-    private void setHandcuffsLifeModel(Player handcuffed, boolean put) {
-        HandcuffsLifeModel healthBar = new HandcuffsLifeModel();
-
-        // Put or remove HandcuffsLifeModel
-        if(put) {
-            healthBar.putHandcuffsLifeModel(handcuffed);
-        } else {
-            healthBar.removeHandcuffsLifeModel(handcuffed);
-        }
+        if(handcuffingController.isHandcuffed(player))
+            handcuffsBarController.put(player);
     }
 }

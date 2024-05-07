@@ -13,9 +13,16 @@ import java.util.List;
  * Controller class for managing caught players.
  */
 public class CatchController extends BaseController {
-
+    /** List to store caught players. */
     public static List<Player> caughtList = new ArrayList<>();
 
+    /**
+     * Handles catching a robber.
+     * TODO: add cooldown on the action bar
+     *
+     * @param robber The robber who was caught.
+     * @param robbed The player who caught the robber.
+     */
     public void catchRobber(Player robber, Player robbed) {
         RobController robController = new RobController();
         robController.stopRobbing(robber);

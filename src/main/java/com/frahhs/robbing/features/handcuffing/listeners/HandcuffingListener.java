@@ -2,14 +2,11 @@ package com.frahhs.robbing.features.handcuffing.listeners;
 
 import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
-import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import java.sql.Timestamp;
 
 public class HandcuffingListener extends BaseListener {
     private final HandcuffingController handcuffingController = new HandcuffingController();
@@ -22,7 +19,7 @@ public class HandcuffingListener extends BaseListener {
         String message;
 
         // Check if handcuffs are enabled
-        if(!configManager.getBoolean("handcuffing.enabled"))
+        if(!config.getBoolean("handcuffing.enabled"))
             return;
 
         // Check if handcuffs target is a player
@@ -32,7 +29,7 @@ public class HandcuffingListener extends BaseListener {
         handcuffed = (Player) e.getRightClicked();
 
         // Check if the player is using cuffs
-        if(!handcuffingController.isUsingHandcuffs(e.getPlayer()))
+        if(!handcuffingController.isUsingHandcuffs(handcuffer))
             return;
 
         // Check if player is using main hand
@@ -41,14 +38,14 @@ public class HandcuffingListener extends BaseListener {
 
         // Check if player have permissions
         if(! handcuffer.hasPermission("robbing.cuff") ) {
-            message = messagesManager.getMessage("general.no_permission_item");
-            e.getPlayer().sendMessage(message);
+            message = messages.getMessage("general.no_permission_item");
+            handcuffer.sendMessage(message);
             return;
         }
 
         // Check if target have permissions to not get handcuffed
         if(handcuffed.hasPermission("robbing.notcuffable")) {
-            message = messagesManager.getMessage("handcuffing.not_cuffable");
+            message = messages.getMessage("handcuffing.not_cuffable");
             handcuffer.sendMessage(message);
             return;
         }
@@ -60,18 +57,17 @@ public class HandcuffingListener extends BaseListener {
         }
 
         // Check if player have handcuffing cooldown
-        if(HandcuffingController.handcuffingCooldown.containsKey(e.getPlayer())) {
-            int handcuffing_cooldown = configManager.getInt("handcuffing.cooldown");
-            long waitingTime = handcuffing_cooldown - ((System.currentTimeMillis() - HandcuffingController.handcuffingCooldown.get(e.getPlayer())) / 1000 );
-            message = messagesManager.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
+        if(handcuffingController.haveCooldown(handcuffer)) {
+            int handcuffing_cooldown = config.getInt("handcuffing.cooldown");
+            long waitingTime = handcuffing_cooldown - ((System.currentTimeMillis() - handcuffingController.getCooldown(handcuffer)) / 1000 );
+            message = messages.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
             handcuffer.sendMessage(message);
             return;
         }
 
         // check if is enabled handcuffing escaping
-        if(!configManager.getBoolean("handcuffing.try_escape.enabled")) {
+        if(!config.getBoolean("handcuffing.try_escape.enabled")) {
             // Handcuff the player
-            HandcuffingModel handcuffingModel = new HandcuffingModel(handcuffer, handcuffed, new Timestamp(System.currentTimeMillis()));
             handcuffingController.putHandcuffs(handcuffer, handcuffed);
             return;
         }

@@ -1,5 +1,6 @@
 package com.frahhs.robbing.features.kidnapping;
 
+import com.frahhs.robbing.features.BaseFeature;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -12,7 +13,7 @@ import java.util.Map;
 /**
  * Model class representing the path for kidnapping.
  */
-public class PathManager {
+public class PathManager extends BaseFeature {
     public static Map<Player, List<Location>> paths = new HashMap<>();
 
     /**

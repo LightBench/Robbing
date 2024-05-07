@@ -26,7 +26,7 @@ public class KidnappingListener extends BaseListener {
     @EventHandler
     public void toggleFollow(PlayerInteractEntityEvent e) {
         // Check if following is enabled
-        if(!configManager.getBoolean("handcuffing.following"))
+        if(!config.getBoolean("handcuffing.following"))
             return;
 
         // Check if kidnapper is using main hand
@@ -54,7 +54,7 @@ public class KidnappingListener extends BaseListener {
 
         // Check if kidnapped is already following someone
         if(KidnappingModel.isKidnapped(kidnapped) && kidnappingController.getKidnapper(kidnapped) != kidnapper) {
-            String message = messagesManager.getMessage("follow.already_following_someone");
+            String message = messages.getMessage("follow.already_following_someone");
             kidnapper.sendMessage(message);
             return;
         }
@@ -62,13 +62,13 @@ public class KidnappingListener extends BaseListener {
         // Add (or remove) kidnapped and kidnapper to follow List
         if(!KidnappingModel.isKidnapper(kidnapper)){
             kidnappingController.kidnap(kidnapper, kidnapped);
-            String message = messagesManager.getMessage("follow.make_follow_cuffed");
+            String message = messages.getMessage("follow.make_follow_cuffed");
             message = message.replace("{target}", kidnapped.getDisplayName());
             kidnapper.sendMessage(message);
         }
         else{
             kidnappingController.free(kidnapped);
-            String message = messagesManager.getMessage("follow.make_unfollow_cuffed");
+            String message = messages.getMessage("follow.make_unfollow_cuffed");
             message = message.replace("{target}", kidnapped.getDisplayName());
             kidnapper.sendMessage(message);
         }
@@ -105,7 +105,7 @@ public class KidnappingListener extends BaseListener {
                 // Check remove kidnap condition
                 if(removeFollower) {
                     kidnappingController.free(kidnapped);
-                    String message = messagesManager.getMessage("follow.make_unfollow_cuffed");
+                    String message = messages.getMessage("follow.make_unfollow_cuffed");
                     message = message.replace("{target}", kidnapped.getDisplayName());
                     kidnapper.sendMessage(message);
                     return;

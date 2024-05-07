@@ -1,7 +1,7 @@
 package com.frahhs.robbing.items.rbitems;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.items.RBItem;
+import com.frahhs.robbing.items.BaseItem;
 import com.frahhs.robbing.items.RBMaterial;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Handcuffs extends RBItem {
+public class Handcuffs extends BaseItem {
     public Handcuffs() {
         super();
     }

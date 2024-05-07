@@ -7,11 +7,21 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 /**
- * Model class representing handcuffing data.
+ * Model class representing data and operations related to handcuffing.
  */
 public class HandcuffingModel extends BaseModel {
+
+    /**
+     * Map to store handcuffing cooldowns for each player.
+     * The key is the player who performed the handcuffing action,
+     * and the value is the timestamp indicating when the action occurred.
+     */
+    public static Map<Player, Long> handcuffingCooldown = new ConcurrentHashMap<>();
+
     private final Connection dbConnection;
 
     private final Player handcuffed;
@@ -21,9 +31,9 @@ public class HandcuffingModel extends BaseModel {
     /**
      * Constructs a HandcuffingModel instance.
      *
-     * @param handcuffed The player who is handcuffed.
      * @param handcuffer The player who handcuffed.
-     * @param timestamp The timestamp of the handcuffing event.
+     * @param handcuffed The player who is handcuffed.
+     * @param timestamp  The timestamp of the handcuffing event.
      */
     public HandcuffingModel(Player handcuffer, Player handcuffed, Timestamp timestamp) {
         this.handcuffed = handcuffed;
@@ -99,7 +109,42 @@ public class HandcuffingModel extends BaseModel {
     }
 
     /**
-     * Checks if a player is handcuffed.
+     * Sets the cooldown for the handcuffing action.
+     */
+    public void setCooldown() {
+        new Thread(() -> {
+            try {
+                handcuffingCooldown.put(handcuffer, System.currentTimeMillis());
+                Thread.sleep(config.getInt("handcuffing.cooldown") * 1000L);
+                handcuffingCooldown.remove(handcuffer.getPlayer());
+            } catch(InterruptedException v) {
+                System.out.println(v);
+            }
+        }).start();
+    }
+
+    /**
+     * Checks if a player is currently under a handcuffing cooldown.
+     *
+     * @param handcuffer The player to check.
+     * @return True if the player is under cooldown, otherwise false.
+     */
+    public static boolean haveCooldown(Player handcuffer) {
+        return handcuffingCooldown.containsKey(handcuffer);
+    }
+
+    /**
+     * Retrieves the cooldown timestamp for a player.
+     *
+     * @param handcuffer The player to check.
+     * @return The timestamp when the handcuffing action occurred.
+     */
+    public static long getCooldown(Player handcuffer) {
+        return handcuffingCooldown.get(handcuffer);
+    }
+
+    /**
+     * Checks if a player is currently handcuffed.
      *
      * @param handcuffed The player to check.
      * @return True if the player is handcuffed, false otherwise.
@@ -128,7 +173,7 @@ public class HandcuffingModel extends BaseModel {
      * Retrieves a HandcuffingModel instance based on the handcuffed player.
      *
      * @param handcuffed The handcuffed player.
-     * @return The HandcuffingModel instance.
+     * @return The HandcuffingModel instance, or null if not found.
      */
     public static HandcuffingModel getFromHandcuffed(Player handcuffed) {
         Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();

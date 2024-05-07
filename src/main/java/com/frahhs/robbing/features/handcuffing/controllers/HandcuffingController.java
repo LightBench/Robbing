@@ -12,15 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Controller class for managing handcuffing actions.
  */
 public class HandcuffingController extends BaseController {
     /** Map to store handcuffing cooldowns for each player. */
-    public static Map<Player, Long> handcuffingCooldown = new HashMap<>();
+    //public static Map<Player, Long> handcuffingCooldown = new HashMap<>();
 
     /**
      * Default constructor for HandcuffingController.
@@ -61,22 +59,15 @@ public class HandcuffingController extends BaseController {
             }
 
             // Add handcuffing cooldown to handcuffer
-            new Thread(() -> {
-                try {
-                    handcuffingCooldown.put(handcuffer, System.currentTimeMillis());
-                    Thread.sleep( config.getInt("handcuffing.cooldown") * 1000L);
-                    handcuffingCooldown.remove(handcuffer.getPlayer());
-                } catch(InterruptedException v) {
-                    System.out.println(v);
-                }
-            }).start();
+            handcuffingModel.setCooldown();
         });
     }
 
     /**
-     * Removes handcuffs from a player.
+     * Puts handcuffs on a player.
      *
-     * @param handcuffed The player from whom to remove the handcuffs.
+     * @param handcuffer The player who put the handcuffs.
+     * @param handcuffed The player to whom put the handcuffs.
      */
     public void putHandcuffs(Player handcuffer, Player handcuffed) {
         putHandcuffs(handcuffer, handcuffed, false);
@@ -176,5 +167,25 @@ public class HandcuffingController extends BaseController {
         assert handcuffingModel != null;
 
         return handcuffingModel.getHandcuffer();
+    }
+
+    /**
+     * Checks if a player has a cooldown for handcuffing.
+     *
+     * @param handcuffer The player to check.
+     * @return True if the player has a cooldown, otherwise false.
+     */
+    public boolean haveCooldown(Player handcuffer) {
+        return HandcuffingModel.haveCooldown(handcuffer);
+    }
+
+    /**
+     * Gets the cooldown time for handcuffing of a player.
+     *
+     * @param handcuffer The player to check.
+     * @return The cooldown time for handcuffing.
+     */
+    public long getCooldown(Player handcuffer) {
+        return HandcuffingModel.getCooldown(handcuffer);
     }
 }
