@@ -15,7 +15,6 @@ import java.util.Map;
 public class ConfigProvider {
     private final JavaPlugin plugin;
 
-    private FileConfiguration configFile;
     private Map<String, Object> config;
 
     /**
@@ -34,10 +33,10 @@ public class ConfigProvider {
     /**
      * Reads the configuration from the config.yml file and populates the config map.
      */
-    public void readConfig() {
+    private void readConfig() {
         config = new HashMap<>();
         this.plugin.reloadConfig();
-        configFile = this.plugin.getConfig();
+        FileConfiguration configFile = this.plugin.getConfig();
         configFile.options().copyDefaults(true);
         this.plugin.saveConfig();
 
@@ -49,6 +48,13 @@ public class ConfigProvider {
             if (!(value instanceof MemorySection))
                 config.put(key, value);
         }
+    }
+
+    /**
+     * Reloads the configuration from the config.yml file.
+     */
+    public void reload() {
+        readConfig();
     }
 
     /**

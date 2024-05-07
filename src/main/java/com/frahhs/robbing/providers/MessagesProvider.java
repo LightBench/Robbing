@@ -20,8 +20,8 @@ import java.util.jar.JarFile;
 public class MessagesProvider {
     private final JavaPlugin plugin;
     private String lang;
-    private final String prefix;
-    private final Map<String, FileConfiguration> languageConfigs;
+    private String prefix;
+    private Map<String, FileConfiguration> languageConfigs;
 
     /**
      * Constructs a new MessagesManager.
@@ -30,6 +30,21 @@ public class MessagesProvider {
      */
     public MessagesProvider(JavaPlugin plugin) {
         this.plugin = plugin;
+        this.lang = Robbing.getInstance().getConfigProvider().getString("general.language");
+        this.prefix = Robbing.getInstance().getConfigProvider().getString("general.prefix");
+        this.languageConfigs = new HashMap<>();
+
+        loadLanguageFiles();
+        if (!languageConfigs.containsKey(lang)) {
+            Robbing.getInstance().getRBLogger().warning(String.format("Language %s not found! English automatically selected.", lang));
+            lang = "en";
+        }
+    }
+
+    /**
+     * Reloads the MessagesProvider, updating language settings and reloading language files.
+     */
+    public void reload() {
         this.lang = Robbing.getInstance().getConfigProvider().getString("general.language");
         this.prefix = Robbing.getInstance().getConfigProvider().getString("general.prefix");
         this.languageConfigs = new HashMap<>();

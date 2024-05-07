@@ -80,9 +80,9 @@ public final class Robbing extends JavaPlugin {
         itemsManager.dispose();
         registerItems();
 
-        // Config and messages
-        configProvider.readConfig();
-        messagesProvider = new MessagesProvider(this);
+        // Config and messages providers
+        configProvider.reload();
+        messagesProvider.reload();
     }
 
     private void registerEvents() {
