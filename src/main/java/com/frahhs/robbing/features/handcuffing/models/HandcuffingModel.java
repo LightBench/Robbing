@@ -1,6 +1,7 @@
 package com.frahhs.robbing.features.handcuffing.models;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.BaseModel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 /**
  * Model class representing handcuffing data.
  */
-public class HandcuffingModel {
+public class HandcuffingModel extends BaseModel {
     private final Connection dbConnection;
 
     private final Player handcuffed;

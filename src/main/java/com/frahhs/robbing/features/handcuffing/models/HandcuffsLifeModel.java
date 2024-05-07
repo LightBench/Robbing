@@ -1,7 +1,7 @@
 package com.frahhs.robbing.features.handcuffing.models;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.features.BaseModel;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -13,9 +13,7 @@ import java.util.*;
 /**
  * Model class representing the health bar for handcuffs.
  */
-public class HandcuffsLifeModel {
-    private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
-
+public class HandcuffsLifeModel extends BaseModel {
     public static Map<Player, HandcuffsLifeModel> handcuffsActiveHealthBars = new HashMap<>();
 
     private final BossBar bar;
@@ -25,7 +23,7 @@ public class HandcuffsLifeModel {
      * Constructs a HandcuffsLifeModel instance.
      */
     public HandcuffsLifeModel() {
-        String title = messagesManager.getMessage("handcuffing.handcuffs_healthbar_title", false);
+        String title = messages.getMessage("handcuffing.handcuffs_healthbar_title", false);
         BarColor color = BarColor.WHITE;
         BarStyle style = BarStyle.SOLID;
         this.bar = Robbing.getInstance().getServer().createBossBar(title, color, style);

@@ -1,8 +1,7 @@
 package com.frahhs.robbing.features.rob.controllers;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.features.BaseController;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -13,24 +12,21 @@ import java.util.List;
 /**
  * Controller class for managing caught players.
  */
-public class CatchController {
+public class CatchController extends BaseController {
 
     public static List<Player> caughtList = new ArrayList<>();
 
     public void catchRobber(Player robber, Player robbed) {
-        final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-        final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
-
         RobController robController = new RobController();
         robController.stopRobbing(robber);
 
-        int caught_robber_time = configManager.getInt("rob.caught_robber.time");
-        int caught_robber_slow_power = configManager.getInt("rob.caught_robber.slow_power");
+        int caught_robber_time = config.getInt("rob.caught_robber.time");
+        int caught_robber_slow_power = config.getInt("rob.caught_robber.slow_power");
         robber.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * caught_robber_time, caught_robber_slow_power));
 
         // Send message
-        robber.sendMessage(messagesManager.getMessage("robbing.caught_robber").replace("{player}", robbed.getDisplayName()));
-        robbed.sendMessage(messagesManager.getMessage("robbing.to_catcher").replace("{player}", robber.getDisplayName()));
+        robber.sendMessage(messages.getMessage("robbing.caught_robber").replace("{player}", robbed.getDisplayName()));
+        robbed.sendMessage(messages.getMessage("robbing.to_catcher").replace("{player}", robber.getDisplayName()));
 
         // Add to the caught list for the configured time
         new Thread(() -> {

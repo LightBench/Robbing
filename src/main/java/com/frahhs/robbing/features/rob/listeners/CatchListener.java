@@ -1,29 +1,20 @@
 package com.frahhs.robbing.features.rob.listeners;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.rob.controllers.CatchController;
-import com.frahhs.robbing.features.rob.controllers.RobController;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * Listener class for catching robbers during robbery actions.
  */
-public class CatchListener implements Listener {
-    private final ConfigManager configManager;
-
+public class CatchListener extends BaseListener {
     private final CatchController catchController;
 
     public CatchListener() {
-        configManager = Robbing.getInstance().getConfigManager();
-
         catchController = new CatchController();
     }
 

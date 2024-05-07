@@ -1,24 +1,19 @@
 package com.frahhs.robbing.features.handcuffing.listeners;
 
-import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
-import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.handcuffing.events.ToggleHandcuffsEvent;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffsLifeModel;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-public class BreakingHandcuffsListener implements Listener {
-    private final MessagesManager messagesManager;
+public class BreakingHandcuffsListener extends BaseListener {
 
     public BreakingHandcuffsListener() {
-        messagesManager = Robbing.getInstance().getMessagesManager();
         HandcuffsLifeModel.putAllHandcuffsLifeModel();
     }
 

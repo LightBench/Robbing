@@ -1,32 +1,24 @@
 package com.frahhs.robbing.features.kidnapping.listeners;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
+import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.kidnapping.PathManager;
+import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import com.frahhs.robbing.items.RBMaterial;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
 import com.frahhs.robbing.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class KidnappingListener implements Listener {
-    private final ConfigManager configManager;
-    private final MessagesManager messagesManager;
-
+public class KidnappingListener extends BaseListener {
     private final PathManager pathManager;
     private final KidnappingController kidnappingController;
 
     public KidnappingListener() {
-        configManager = Robbing.getInstance().getConfigManager();
-        messagesManager = Robbing.getInstance().getMessagesManager();
-
         pathManager = new PathManager();
         kidnappingController = new KidnappingController();
     }

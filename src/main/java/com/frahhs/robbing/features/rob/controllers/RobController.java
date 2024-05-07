@@ -1,8 +1,7 @@
 package com.frahhs.robbing.features.rob.controllers;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
+import com.frahhs.robbing.features.BaseModel;
 import org.bukkit.entity.Player;
 
 import java.time.Instant;
@@ -14,19 +13,15 @@ import java.util.Map;
 /**
  * Controller class for managing robbery actions.
  */
-public class RobController {
+public class RobController extends BaseModel {
 
     public static List<Player> isRobbingNowList = new ArrayList<>();
     public static Map<Player, Long> robbing_cooldown_list = new HashMap<>();
 
-    private final ConfigManager configManager;
-
     /**
      * Constructor for RobController.
      */
-    public RobController() {
-        configManager = Robbing.getInstance().getConfigManager();
-    }
+    public RobController() {}
 
     /**
      * Starts the robbery action between a robber and a robbed player.
@@ -92,7 +87,7 @@ public class RobController {
      */
     public long getCooldown(Player player) {
         if (haveCooldown(player)) {
-            int steal_cooldown = configManager.getInt("rob.steal_cooldown");
+            int steal_cooldown = config.getInt("rob.steal_cooldown");
             return steal_cooldown - ((Instant.now().toEpochMilli() - robbing_cooldown_list.get(player)) / 1000);
         }
         return 0L;
@@ -107,7 +102,7 @@ public class RobController {
         new Thread(() -> {
             try {
                 robbing_cooldown_list.put(player, Instant.now().toEpochMilli());
-                int steal_cooldown = configManager.getInt("rob.steal_cooldown");
+                int steal_cooldown = config.getInt("rob.steal_cooldown");
                 Thread.sleep(steal_cooldown * 1000L);
                 robbing_cooldown_list.remove(player);
             } catch (InterruptedException v) {

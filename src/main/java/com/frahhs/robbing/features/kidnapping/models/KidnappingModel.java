@@ -1,5 +1,6 @@
 package com.frahhs.robbing.features.kidnapping.models;
 
+import com.frahhs.robbing.features.BaseModel;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 /**
  * Model class representing a kidnapping event.
  */
-public class KidnappingModel {
+public class KidnappingModel extends BaseModel {
     private final Player kidnapped;
     private final Player kidnapper;
 

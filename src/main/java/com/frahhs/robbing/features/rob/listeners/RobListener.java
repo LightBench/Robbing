@@ -1,18 +1,16 @@
 package com.frahhs.robbing.features.rob.listeners;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.rob.controllers.RobController;
 import com.frahhs.robbing.features.rob.events.ItemRobbedEvent;
 import com.frahhs.robbing.features.rob.events.StartRobbingEvent;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -26,11 +24,12 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Listener class for robbery-related events.
  */
-public class RobListener implements Listener {
-    public final RobController robController = new RobController();
+public class RobListener extends BaseListener {
+    public final RobController robController;
 
-    private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-    private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+    public RobListener() {
+        robController = new RobController();
+    }
 
     @EventHandler
     public void doSteal(PlayerInteractEntityEvent e) {

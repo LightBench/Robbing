@@ -1,12 +1,13 @@
 package com.frahhs.robbing.features.kidnapping.controllers;
 
+import com.frahhs.robbing.features.BaseController;
 import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import org.bukkit.entity.Player;
 
 /**
  * Controller class for managing kidnapping operations.
  */
-public class KidnappingController {
+public class KidnappingController extends BaseController {
     /**
      * Initiates a kidnapping.
      *

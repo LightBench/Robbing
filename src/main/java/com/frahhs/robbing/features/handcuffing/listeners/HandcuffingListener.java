@@ -1,28 +1,17 @@
 package com.frahhs.robbing.features.handcuffing.listeners;
 
-import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.sql.Timestamp;
 
-public class HandcuffingListener implements Listener {
-    private final ConfigManager configManager;
-    private final MessagesManager messagesManager;
-
-    public HandcuffingListener() {
-        configManager = Robbing.getInstance().getConfigManager();
-        messagesManager = Robbing.getInstance().getMessagesManager();
-    }
-
+public class HandcuffingListener extends BaseListener {
     private final HandcuffingController handcuffingController = new HandcuffingController();
 
     @EventHandler

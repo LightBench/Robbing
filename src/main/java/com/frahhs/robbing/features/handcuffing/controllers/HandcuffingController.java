@@ -1,13 +1,12 @@
 package com.frahhs.robbing.features.handcuffing.controllers;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.features.BaseController;
 import com.frahhs.robbing.features.handcuffing.events.ToggleHandcuffsEvent;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import com.frahhs.robbing.items.RBMaterial;
-import com.frahhs.robbing.managers.ConfigManager;
-import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +18,7 @@ import java.util.Map;
 /**
  * Controller class for managing handcuffing actions.
  */
-public class HandcuffingController {
+public class HandcuffingController extends BaseController {
     /** Map to store handcuffing cooldowns for each player. */
     public static Map<Player, Long> handcuffingCooldown = new HashMap<>();
 
@@ -36,8 +35,6 @@ public class HandcuffingController {
      * @param silent Indicates whether to send messages or not.
      */
     public void putHandcuffs(Player handcuffer, Player handcuffed, boolean silent) {
-        final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-
         HandcuffingModel handcuffingModel = new HandcuffingModel(handcuffer, handcuffed, new Timestamp(System.currentTimeMillis()));
 
         // Call toggle handcuffed event in server main thread
@@ -56,11 +53,10 @@ public class HandcuffingController {
 
             // Send handcuffing messages...
             if(!silent) {
-                MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
                 String message;
-                message = messagesManager.getMessage("handcuffing.cuffed").replace("{player}", handcuffer.getDisplayName());
+                message = messages.getMessage("handcuffing.cuffed").replace("{player}", handcuffer.getDisplayName());
                 handcuffed.sendMessage(message);
-                message = messagesManager.getMessage("handcuffing.cuff").replace("{target}", handcuffed.getDisplayName());
+                message = messages.getMessage("handcuffing.cuff").replace("{target}", handcuffed.getDisplayName());
                 handcuffer.sendMessage(message);
             }
 
@@ -68,7 +64,7 @@ public class HandcuffingController {
             new Thread(() -> {
                 try {
                     handcuffingCooldown.put(handcuffer, System.currentTimeMillis());
-                    Thread.sleep( configManager.getInt("handcuffing.cooldown") * 1000L);
+                    Thread.sleep( config.getInt("handcuffing.cooldown") * 1000L);
                     handcuffingCooldown.remove(handcuffer.getPlayer());
                 } catch(InterruptedException v) {
                     System.out.println(v);
@@ -109,12 +105,11 @@ public class HandcuffingController {
             handcuffed.setAllowFlight(false);
 
             String message;
-            MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
             // Send handcuffing messages...
             if(!silent) {
-                message = messagesManager.getMessage("handcuffing.uncuffed").replace("{player}", handcuffer.getDisplayName());
+                message = messages.getMessage("handcuffing.uncuffed").replace("{player}", handcuffer.getDisplayName());
                 handcuffed.sendMessage(message);
-                message = messagesManager.getMessage("handcuffing.uncuff").replace("{target}", handcuffed.getDisplayName());
+                message = messages.getMessage("handcuffing.uncuff").replace("{target}", handcuffed.getDisplayName());
                 handcuffer.sendMessage(message);
             }
 
@@ -123,7 +118,7 @@ public class HandcuffingController {
             if(KidnappingModel.isKidnapped(handcuffed)) {
                 kidnappingController.free(handcuffed);
                 if(!silent) {
-                    message = messagesManager.getMessage("follow.make_unfollow_cuffed");
+                    message = messages.getMessage("follow.make_unfollow_cuffed");
                     message = message.replace("{target}", handcuffed.getDisplayName());
                     handcuffer.sendMessage(message);
                 }
