@@ -3,6 +3,7 @@ package com.frahhs.robbing;
 import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.commands.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
+import com.frahhs.robbing.features.generic.listeners.CustomRecipesListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffsBarController;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffedListener;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffingListener;
@@ -86,8 +87,7 @@ public final class Robbing extends JavaPlugin {
 
     private void registerEvents() {
         // Generic
-        //getServer().getPluginManager().registerEvents(new UpdateListener(),this);
-        //getServer().getPluginManager().registerEvents(new CustomRecipesListener(),this);
+        getServer().getPluginManager().registerEvents(new CustomRecipesListener(),this);
 
         // Steal
         getServer().getPluginManager().registerEvents(new RobListener(),this);
