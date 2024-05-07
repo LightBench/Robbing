@@ -20,14 +20,12 @@ public class RobController {
     public static Map<Player, Long> robbing_cooldown_list = new HashMap<>();
 
     private final ConfigManager configManager;
-    private final MessagesManager messagesManager;
 
     /**
      * Constructor for RobController.
      */
     public RobController() {
         configManager = Robbing.getInstance().getConfigManager();
-        messagesManager = Robbing.getInstance().getMessagesManager();
     }
 
     /**

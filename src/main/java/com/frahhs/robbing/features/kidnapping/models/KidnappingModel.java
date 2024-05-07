@@ -1,4 +1,4 @@
-package com.frahhs.robbing.features.handcuffing.models;
+package com.frahhs.robbing.features.kidnapping.models;
 
 import org.bukkit.entity.Player;
 

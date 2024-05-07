@@ -1,9 +1,10 @@
-package com.frahhs.robbing.features.handcuffing.controller;
+package com.frahhs.robbing.features.handcuffing.controllers;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.handcuffing.events.ToggleHandcuffsEvent;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
-import com.frahhs.robbing.features.handcuffing.models.KidnappingModel;
+import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
+import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import com.frahhs.robbing.items.RBMaterial;
 import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
@@ -11,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,13 +31,14 @@ public class HandcuffingController {
     /**
      * Puts handcuffs on a player.
      *
-     * @param handcuffingModel The handcuffing model containing information about the handcuffing action.
+     * @param handcuffer The player who put the handcuffs.
+     * @param handcuffed The player to whom put the handcuffs.
+     * @param silent Indicates whether to send messages or not.
      */
-    public void putHandcuffs(HandcuffingModel handcuffingModel) {
+    public void putHandcuffs(Player handcuffer, Player handcuffed, boolean silent) {
         final ConfigManager configManager = Robbing.getInstance().getConfigManager();
 
-        final Player handcuffer = handcuffingModel.getHandcuffer();
-        final Player handcuffed = handcuffingModel.getHandcuffed();
+        HandcuffingModel handcuffingModel = new HandcuffingModel(handcuffer, handcuffed, new Timestamp(System.currentTimeMillis()));
 
         // Call toggle handcuffed event in server main thread
         Bukkit.getScheduler().runTask(Robbing.getPlugin(Robbing.class), () -> {
@@ -52,12 +55,14 @@ public class HandcuffingController {
             handcuffed.setGliding(false);
 
             // Send handcuffing messages...
-            MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
-            String message;
-            message = messagesManager.getMessage("handcuffing.cuffed").replace("{player}", handcuffer.getDisplayName());
-            handcuffed.sendMessage(message);
-            message = messagesManager.getMessage("handcuffing.cuff").replace("{target}", handcuffed.getDisplayName());
-            handcuffer.sendMessage(message);
+            if(!silent) {
+                MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+                String message;
+                message = messagesManager.getMessage("handcuffing.cuffed").replace("{player}", handcuffer.getDisplayName());
+                handcuffed.sendMessage(message);
+                message = messagesManager.getMessage("handcuffing.cuff").replace("{target}", handcuffed.getDisplayName());
+                handcuffer.sendMessage(message);
+            }
 
             // Add handcuffing cooldown to handcuffer
             new Thread(() -> {
@@ -70,6 +75,15 @@ public class HandcuffingController {
                 }
             }).start();
         });
+    }
+
+    /**
+     * Removes handcuffs from a player.
+     *
+     * @param handcuffed The player from whom to remove the handcuffs.
+     */
+    public void putHandcuffs(Player handcuffer, Player handcuffed) {
+        putHandcuffs(handcuffer, handcuffed, false);
     }
 
     /**

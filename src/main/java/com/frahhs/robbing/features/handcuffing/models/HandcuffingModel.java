@@ -24,7 +24,7 @@ public class HandcuffingModel {
      * @param handcuffer The player who handcuffed.
      * @param timestamp The timestamp of the handcuffing event.
      */
-    public HandcuffingModel(Player handcuffed, Player handcuffer, Timestamp timestamp) {
+    public HandcuffingModel(Player handcuffer, Player handcuffed, Timestamp timestamp) {
         this.handcuffed = handcuffed;
         this.handcuffer = handcuffer;
         this.timestamp = timestamp;
@@ -148,7 +148,7 @@ public class HandcuffingModel {
 
             Player handcuffer = Bukkit.getPlayer(UUID.fromString(handcufferPlayerUUID));
 
-            return new HandcuffingModel(handcuffed, handcuffer, timestamp);
+            return new HandcuffingModel(handcuffer, handcuffed, timestamp);
         } catch ( Exception e ) {
             Robbing.getInstance().getRBLogger().error("%s: %s",e.getClass().getName(), e.getMessage());
         }

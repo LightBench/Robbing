@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.managers.ItemsManager;
-import com.frahhs.robbing.items.RBItem;
 import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

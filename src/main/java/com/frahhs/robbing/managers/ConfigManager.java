@@ -1,14 +1,10 @@
 package com.frahhs.robbing.managers;
 
 import com.frahhs.robbing.Robbing;
-import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,16 +24,6 @@ public class ConfigManager {
     public ConfigManager(JavaPlugin plugin) {
         this.plugin = plugin;
         this.plugin.saveDefaultConfig();
-
-        File configFile = new File(this.plugin.getDataFolder(), "config.yml");
-
-        // Update config if outdated: https://github.com/tchristofferson/Config-Updater
-        /*try {
-            ConfigUpdater.update(this.plugin, "config.yml", configFile, Collections.emptyList());
-        } catch (IOException e) {
-            Robbing.getInstance().getRBLogger().error("Unexpected error, send the following stacktrace to our staff: https://discord.gg/Hh9zMQnWvW.");
-            Robbing.getInstance().getRBLogger().error(e.toString());
-        }*/
 
         // Reload config
         this.plugin.reloadConfig();

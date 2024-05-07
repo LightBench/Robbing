@@ -17,13 +17,18 @@ import org.bukkit.potion.PotionEffectType;
  * Listener class for catching robbers during robbery actions.
  */
 public class CatchListener implements Listener {
-    private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-    private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+    private final ConfigManager configManager;
 
-    private final CatchController catchController = new CatchController();
+    private final CatchController catchController;
+
+    public CatchListener() {
+        configManager = Robbing.getInstance().getConfigManager();
+
+        catchController = new CatchController();
+    }
 
     @EventHandler
-    public void catchThief(EntityDamageByEntityEvent e) {
+    public void catchRobber(EntityDamageByEntityEvent e) {
         // Check if functionality is enabled
         if(!configManager.getBoolean("rob.caught_robber.enabled"))
             return;
@@ -43,27 +48,8 @@ public class CatchListener implements Listener {
             return;
 
         // Do catching things
-        RobController robController = new RobController();
-        robController.stopRobbing(damaged);
         e.setCancelled(true);
-        int caught_robber_time = configManager.getInt("rob.caught_robber.time");
-        int caught_robber_slow_power = configManager.getInt("rob.caught_robber.slow_power");
-        damaged.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * caught_robber_time, caught_robber_slow_power));
-
-        damaged.sendMessage(messagesManager.getMessage("robbing.caught_robber").replace("{player}", damager.getDisplayName()));
-        damager.sendMessage(messagesManager.getMessage("robbing.to_catcher").replace("{player}", damaged.getDisplayName()));
-
-        // Add to the caught list for the configured time
-        new Thread(() -> {
-            try {
-                catchController.addCaught(damaged);
-                Thread.sleep(caught_robber_time * 1000L);
-                catchController.removeCaught(damaged);
-            } catch(InterruptedException v) {
-                Robbing.getInstance().getRBLogger().error("Unexpected error, send the following stacktrace to our staff: https://discord.gg/Hh9zMQnWvW.");
-                Robbing.getInstance().getRBLogger().error(v.toString());
-            }
-        }).start();
+        catchController.catchRobber(damaged, damager);
     }
 
     @EventHandler

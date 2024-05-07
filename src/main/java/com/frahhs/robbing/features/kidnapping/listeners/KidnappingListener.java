@@ -1,11 +1,10 @@
-package com.frahhs.robbing.features.handcuffing.listeners;
+package com.frahhs.robbing.features.kidnapping.listeners;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.features.handcuffing.controller.KidnapPathController;
-import com.frahhs.robbing.features.handcuffing.controller.KidnappingController;
+import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
-import com.frahhs.robbing.features.handcuffing.models.KidnapPathModel;
-import com.frahhs.robbing.features.handcuffing.models.KidnappingModel;
+import com.frahhs.robbing.features.kidnapping.PathManager;
+import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import com.frahhs.robbing.items.RBMaterial;
 import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
@@ -18,11 +17,19 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class KidnappingListener implements Listener {
-    private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-    private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+    private final ConfigManager configManager;
+    private final MessagesManager messagesManager;
 
-    private final KidnappingController kidnappingController = new KidnappingController();
-    private final KidnapPathController kidnapPathController = new KidnapPathController();
+    private final PathManager pathManager;
+    private final KidnappingController kidnappingController;
+
+    public KidnappingListener() {
+        configManager = Robbing.getInstance().getConfigManager();
+        messagesManager = Robbing.getInstance().getMessagesManager();
+
+        pathManager = new PathManager();
+        kidnappingController = new KidnappingController();
+    }
 
     @EventHandler
     public void toggleFollow(PlayerInteractEntityEvent e) {
@@ -90,7 +97,7 @@ public class KidnappingListener implements Listener {
                 assert kidnapped != null;
 
                 // Update pathing List
-                KidnapPathModel.addLocationToPath(kidnapper, kidnapped);
+                pathManager.addLocationToPath(kidnapper, kidnapped);
 
                 // Remove kidnapped condition
                 boolean removeFollower = false;
@@ -113,7 +120,7 @@ public class KidnappingListener implements Listener {
                 }
 
                 // Make kidnapped follow
-                kidnapPathController.tick(kidnapper, kidnapped);
+                pathManager.update(kidnapper, kidnapped);
             }
         }
     }

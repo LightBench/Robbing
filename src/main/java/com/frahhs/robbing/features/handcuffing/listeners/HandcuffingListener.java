@@ -1,11 +1,10 @@
 package com.frahhs.robbing.features.handcuffing.listeners;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.features.handcuffing.controller.HandcuffingController;
+import com.frahhs.robbing.features.handcuffing.controllers.HandcuffingController;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
-import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,8 +15,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import java.sql.Timestamp;
 
 public class HandcuffingListener implements Listener {
-    private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-    private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+    private final ConfigManager configManager;
+    private final MessagesManager messagesManager;
+
+    public HandcuffingListener() {
+        configManager = Robbing.getInstance().getConfigManager();
+        messagesManager = Robbing.getInstance().getMessagesManager();
+    }
 
     private final HandcuffingController handcuffingController = new HandcuffingController();
 
@@ -78,8 +82,8 @@ public class HandcuffingListener implements Listener {
         // check if is enabled handcuffing escaping
         if(!configManager.getBoolean("handcuffing.try_escape.enabled")) {
             // Handcuff the player
-            HandcuffingModel handcuffingModel = new HandcuffingModel(handcuffed, handcuffer, new Timestamp(System.currentTimeMillis()));
-            handcuffingController.putHandcuffs(handcuffingModel);
+            HandcuffingModel handcuffingModel = new HandcuffingModel(handcuffer, handcuffed, new Timestamp(System.currentTimeMillis()));
+            handcuffingController.putHandcuffs(handcuffer, handcuffed);
             return;
         }
 

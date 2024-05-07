@@ -2,6 +2,7 @@ package com.frahhs.robbing.features.handcuffing.listeners;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
+import com.frahhs.robbing.features.handcuffing.models.HandcuffsLifeModel;
 import com.frahhs.robbing.managers.ConfigManager;
 import com.frahhs.robbing.managers.MessagesManager;
 import org.bukkit.entity.Player;
@@ -22,8 +23,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HandcuffedListener implements Listener {
-    private final ConfigManager configManager = Robbing.getInstance().getConfigManager();
-    private final MessagesManager messagesManager = Robbing.getInstance().getMessagesManager();
+    private final ConfigManager configManager;
+    private final MessagesManager messagesManager;
+
+    public HandcuffedListener() {
+        configManager = Robbing.getInstance().getConfigManager();
+        messagesManager = Robbing.getInstance().getMessagesManager();
+    }
 
     @EventHandler
     public void cannotIfHandcuffed(PlayerMoveEvent e) {

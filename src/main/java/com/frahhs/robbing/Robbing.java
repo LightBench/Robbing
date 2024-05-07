@@ -4,7 +4,7 @@ import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.commands.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
 import com.frahhs.robbing.features.handcuffing.listeners.BreakingHandcuffsListener;
-import com.frahhs.robbing.features.handcuffing.listeners.KidnappingListener;
+import com.frahhs.robbing.features.kidnapping.listeners.KidnappingListener;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffedListener;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffingListener;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffsLifeModel;

@@ -1,6 +1,6 @@
-package com.frahhs.robbing.features.handcuffing.controller;
+package com.frahhs.robbing.features.kidnapping.controllers;
 
-import com.frahhs.robbing.features.handcuffing.models.KidnappingModel;
+import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
 import org.bukkit.entity.Player;
 
 /**

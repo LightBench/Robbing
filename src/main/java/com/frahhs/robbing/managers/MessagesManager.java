@@ -1,8 +1,6 @@
 package com.frahhs.robbing.managers;
 
 import com.frahhs.robbing.Robbing;
-import com.tchristofferson.configupdater.ConfigUpdater;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;

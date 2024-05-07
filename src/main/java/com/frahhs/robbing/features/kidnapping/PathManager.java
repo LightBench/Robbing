@@ -1,4 +1,4 @@
-package com.frahhs.robbing.features.handcuffing.models;
+package com.frahhs.robbing.features.kidnapping;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Model class representing the path for kidnapping.
  */
-public class KidnapPathModel {
+public class PathManager {
     public static Map<Player, List<Location>> paths = new HashMap<>();
 
     /**
@@ -22,7 +22,7 @@ public class KidnapPathModel {
      * @param index     The index of the location in the path.
      * @return The location from the path.
      */
-    public static Location getLocation(Player kidnapper, int index) {
+    private Location getLocation(Player kidnapper, int index) {
         return paths.get(kidnapper).get(index);
     }
 
@@ -32,7 +32,7 @@ public class KidnapPathModel {
      * @param kidnapper The kidnapper player.
      * @return The size of the path.
      */
-    public static int getPathSize(Player kidnapper) {
+    private int getPathSize(Player kidnapper) {
         return paths.get(kidnapper).size();
     }
 
@@ -42,7 +42,7 @@ public class KidnapPathModel {
      * @param player   The player.
      * @param follower The follower player.
      */
-    public static void addLocationToPath(Player player, Player follower) {
+    public void addLocationToPath(Player player, Player follower) {
         if(follower == null || player == null)
             return;
 
@@ -64,6 +64,13 @@ public class KidnapPathModel {
 
         if(paths.get(player).size() > 20) {
             paths.get(player).remove(0);
+        }
+    }
+
+    public void update(Player kidnapper, Player kidnapped) {
+        if(getPathSize(kidnapper) > 10) {
+            if(kidnapper.getLocation().distance(kidnapped.getLocation()) > 2)
+                kidnapped.teleport(getLocation(kidnapper, 10));
         }
     }
 }

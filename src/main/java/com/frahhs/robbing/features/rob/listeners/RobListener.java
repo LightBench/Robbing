@@ -1,7 +1,6 @@
 package com.frahhs.robbing.features.rob.listeners;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.features.handcuffing.controller.HandcuffingController;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.rob.controllers.RobController;
 import com.frahhs.robbing.features.rob.events.ItemRobbedEvent;

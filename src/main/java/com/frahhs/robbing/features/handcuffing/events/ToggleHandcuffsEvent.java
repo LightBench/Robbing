@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Event triggered when toggling handcuffs on a player.
@@ -14,19 +15,19 @@ public class ToggleHandcuffsEvent extends Event implements Cancellable {
     private boolean isCancelled;
 
     private final Player handcuffed;
-    private final Player whoHandcuffed;
+    private final Player handcuffer;
     private final boolean isPuttingOn;
 
     /**
      * Constructs a new ToggleHandcuffsEvent.
      *
      * @param handcuffed The player who is handcuffed.
-     * @param whoHandcuffed The player who handcuffed.
+     * @param handcuffer The player who handcuffed.
      * @param isPuttingOn Whether the handcuffs are being put on or taken off.
      */
-    public ToggleHandcuffsEvent(Player handcuffed, Player whoHandcuffed, boolean isPuttingOn) {
+    public ToggleHandcuffsEvent(Player handcuffed, Player handcuffer, boolean isPuttingOn) {
         this.handcuffed = handcuffed;
-        this.whoHandcuffed = whoHandcuffed;
+        this.handcuffer = handcuffer;
         this.isPuttingOn = isPuttingOn;
     }
 
@@ -44,8 +45,8 @@ public class ToggleHandcuffsEvent extends Event implements Cancellable {
      *
      * @return The player who handcuffed.
      */
-    public Player getWhoHandcuffed() {
-        return this.whoHandcuffed;
+    public Player getHandcuffer() {
+        return this.handcuffer;
     }
 
     /**
@@ -68,6 +69,7 @@ public class ToggleHandcuffsEvent extends Event implements Cancellable {
     }
 
     @Override
+    @NotNull
     public HandlerList getHandlers() {
         return HANDLERS;
     }
