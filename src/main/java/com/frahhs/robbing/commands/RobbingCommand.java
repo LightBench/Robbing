@@ -39,7 +39,7 @@ public class RobbingCommand extends BaseCommand {
     @Subcommand("give")
     @CommandPermission("robbing.give")
     @CommandCompletion("* Handcuffs|Lockpick 1|64")
-    public void onGive(CommandSender sender, OnlinePlayer player, @Single String item_name, @IntRange(from=1, to=64) int amount) {
+    public void onGive(CommandSender sender, OnlinePlayer player, @Single String item_name, @IntRange(from=1, to=64) @Default("1") int amount) {
         ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
 
         String message;
