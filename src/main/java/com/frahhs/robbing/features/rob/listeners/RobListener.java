@@ -32,7 +32,7 @@ public class RobListener extends BaseListener {
     }
 
     @EventHandler
-    public void doSteal(PlayerInteractEntityEvent e) {
+    public void onInteract(PlayerInteractEntityEvent e) {
         // Check if robbing is enabled
         if(!config.getBoolean("rob.enabled"))
             return;
@@ -103,7 +103,7 @@ public class RobListener extends BaseListener {
     }
 
     @EventHandler
-    public void stolenItem(InventoryClickEvent e) {
+    public void onInventoryClick(InventoryClickEvent e) {
         // Check if robbing is enabled
         if(!config.getBoolean("rob.enabled"))
             return;
@@ -184,7 +184,7 @@ public class RobListener extends BaseListener {
     }
 
     @EventHandler
-    public void runaway(PlayerMoveEvent e) {
+    public void onMove(PlayerMoveEvent e) {
         if(!config.getBoolean("rob.enabled"))
             return;
 
@@ -221,7 +221,7 @@ public class RobListener extends BaseListener {
     }
 
     @EventHandler
-    public void endRobbing(InventoryCloseEvent e) {
+    public void onInventoryClose(InventoryCloseEvent e) {
         // Check if robbing is enabled
         if(!config.getBoolean("rob.enabled"))
             return;

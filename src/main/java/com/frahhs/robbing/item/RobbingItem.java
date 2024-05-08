@@ -1,4 +1,4 @@
-package com.frahhs.robbing.items;
+package com.frahhs.robbing.item;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.providers.ConfigProvider;
@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Abstract class representing a custom robbing item.
  */
-public abstract class BaseItem {
+public abstract class RobbingItem {
     protected final ConfigProvider configProvider = Robbing.getInstance().getConfigProvider();
     protected final MessagesProvider messagesProvider = Robbing.getInstance().getMessagesProvider();
 
     /**
      * Constructor for RBItem.
      */
-    protected BaseItem() {}
+    protected RobbingItem() {}
 
     /**
      * Retrieves the ItemStack of the custom robbing item.
@@ -44,13 +44,14 @@ public abstract class BaseItem {
 
     /**
      * Abstract method to get the name of the custom robbing item.
+     * The name must be unique.
      */
     public abstract String getItemName();
 
     /**
      * Abstract method to get the RBMaterial of the custom robbing item.
      */
-    public abstract RBMaterial getRBMaterial();
+    public abstract RobbingMaterial getRBMaterial();
 
     /**
      * Abstract method to determine if the custom robbing item is craftable.

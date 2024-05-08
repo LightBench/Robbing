@@ -3,7 +3,8 @@ package com.frahhs.robbing;
 import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.commands.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
-import com.frahhs.robbing.features.generic.listeners.CustomRecipesListener;
+import com.frahhs.robbing.features.block.listeners.RobbingBlockListener;
+import com.frahhs.robbing.features.generics.listeners.CustomRecipesListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffsBarController;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffedListener;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffingListener;
@@ -11,14 +12,18 @@ import com.frahhs.robbing.features.handcuffing.listeners.HitHandcuffsListener;
 import com.frahhs.robbing.features.kidnapping.listeners.KidnappingListener;
 import com.frahhs.robbing.features.rob.listeners.CatchListener;
 import com.frahhs.robbing.features.rob.listeners.RobListener;
-import com.frahhs.robbing.items.ItemsManager;
-import com.frahhs.robbing.items.rbitems.Handcuffs;
-import com.frahhs.robbing.items.rbitems.Lockpick;
+import com.frahhs.robbing.item.ItemsManager;
+import com.frahhs.robbing.item.items.Handcuffs;
+import com.frahhs.robbing.item.items.Lockpick;
+import com.frahhs.robbing.item.items.Safe;
 import com.frahhs.robbing.providers.ConfigProvider;
 import com.frahhs.robbing.providers.MessagesProvider;
 import com.frahhs.robbing.utils.RBLogger;
+import com.google.common.collect.ImmutableList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public final class Robbing extends JavaPlugin {
@@ -88,6 +93,7 @@ public final class Robbing extends JavaPlugin {
     private void registerEvents() {
         // Generic
         getServer().getPluginManager().registerEvents(new CustomRecipesListener(),this);
+        getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
 
         // Steal
         getServer().getPluginManager().registerEvents(new RobListener(),this);
@@ -103,11 +109,20 @@ public final class Robbing extends JavaPlugin {
     private void registerCommands() {
         commandManager.enableUnstableAPI("help");
         commandManager.registerCommand(new RobbingCommand());
+
+        commandManager.getCommandCompletions().registerCompletion("RBItems", c -> {
+            List<String> rbItems = new ArrayList<>();
+            itemsManager.getRegisteredItems().forEach(item -> {
+                rbItems.add(item.getItemName());
+            });
+            return ImmutableList.copyOf(rbItems);
+        });
     }
 
     private void registerItems() {
         itemsManager.registerItem(new Handcuffs());
         itemsManager.registerItem(new Lockpick());
+        itemsManager.registerItem(new Safe());
     }
 
     public static Robbing getInstance() {

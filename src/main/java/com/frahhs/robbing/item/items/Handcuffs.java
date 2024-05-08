@@ -1,8 +1,8 @@
-package com.frahhs.robbing.items.rbitems;
+package com.frahhs.robbing.item.items;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.items.BaseItem;
-import com.frahhs.robbing.items.RBMaterial;
+import com.frahhs.robbing.item.RobbingItem;
+import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -13,11 +13,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Handcuffs extends BaseItem {
+public class Handcuffs extends RobbingItem {
 
     @Override
-    @NotNull
-    public ItemStack getItemStack() {
+    public @NotNull ItemStack getItemStack() {
         ItemStack item = new ItemStack(Material.LEAD, 1);
 
         ItemMeta meta = item.getItemMeta();
@@ -60,8 +59,8 @@ public class Handcuffs extends BaseItem {
     }
 
     @Override
-    public RBMaterial getRBMaterial() {
-        return RBMaterial.HANDCUFFS;
+    public RobbingMaterial getRBMaterial() {
+        return RobbingMaterial.HANDCUFFS;
     }
 
     @Override

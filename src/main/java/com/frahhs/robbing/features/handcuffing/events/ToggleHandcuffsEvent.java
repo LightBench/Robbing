@@ -10,13 +10,11 @@ import org.jetbrains.annotations.NotNull;
  * Event triggered when toggling handcuffs on a player.
  */
 public class ToggleHandcuffsEvent extends Event implements Cancellable {
-
-    private static final HandlerList HANDLERS = new HandlerList();
-    private boolean isCancelled;
-
-    private final Player handcuffed;
-    private final Player handcuffer;
-    private final boolean isPuttingOn;
+    private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    protected final Player handcuffed;
+    protected final Player handcuffer;
+    protected final boolean isPuttingOn;
 
     /**
      * Constructs a new ToggleHandcuffsEvent.
@@ -25,10 +23,21 @@ public class ToggleHandcuffsEvent extends Event implements Cancellable {
      * @param handcuffer The player who handcuffed.
      * @param isPuttingOn Whether the handcuffs are being put on or taken off.
      */
-    public ToggleHandcuffsEvent(Player handcuffed, Player handcuffer, boolean isPuttingOn) {
+    public ToggleHandcuffsEvent(@NotNull final Player handcuffed, @NotNull final Player handcuffer, final boolean isPuttingOn) {
         this.handcuffed = handcuffed;
         this.handcuffer = handcuffer;
         this.isPuttingOn = isPuttingOn;
+        cancel = false;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancel;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancel = cancel;
     }
 
     /**
@@ -58,28 +67,13 @@ public class ToggleHandcuffsEvent extends Event implements Cancellable {
         return this.isPuttingOn;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return this.isCancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean isCancelled) {
-        this.isCancelled = isCancelled;
-    }
-
-    @Override
     @NotNull
+    @Override
     public HandlerList getHandlers() {
-        return HANDLERS;
+        return handlers;
     }
 
-    /**
-     * Retrieves the HandlerList for this event.
-     *
-     * @return The HandlerList.
-     */
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 }

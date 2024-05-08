@@ -19,7 +19,7 @@ public class CatchListener extends BaseListener {
     }
 
     @EventHandler
-    public void catchRobber(EntityDamageByEntityEvent e) {
+    public void onDamage(EntityDamageByEntityEvent e) {
         // Check if functionality is enabled
         if(!config.getBoolean("rob.caught_robber.enabled"))
             return;
@@ -44,7 +44,7 @@ public class CatchListener extends BaseListener {
     }
 
     @EventHandler
-    public void denyJumpToCaught(PlayerMoveEvent e) {
+    public void onMove(PlayerMoveEvent e) {
         // Check if player is caught
         if(!catchController.isCaught(e.getPlayer()))
             return;

@@ -6,7 +6,7 @@ import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.kidnapping.PathManager;
 import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
-import com.frahhs.robbing.items.RBMaterial;
+import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ public class KidnappingListener extends BaseListener {
     }
 
     @EventHandler
-    public void toggleFollow(PlayerInteractEntityEvent e) {
+    public void onInteract(PlayerInteractEntityEvent e) {
         // Check if following is enabled
         if(!config.getBoolean("handcuffing.following"))
             return;
@@ -42,7 +42,7 @@ public class KidnappingListener extends BaseListener {
             return;
 
         // Check if kidnapper is using cuffs
-        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RBMaterial.HANDCUFFS)))
+        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS)))
             return;
 
         // Check if kidnapper have follow permissions
@@ -75,7 +75,7 @@ public class KidnappingListener extends BaseListener {
     }
 
     @EventHandler
-    public void follow(PlayerMoveEvent e) {
+    public void onMove(PlayerMoveEvent e) {
         Player kidnapper = e.getPlayer();
 
         // Check if kidnapper is moving

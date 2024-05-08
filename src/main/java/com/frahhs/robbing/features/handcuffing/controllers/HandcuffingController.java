@@ -7,7 +7,7 @@ import com.frahhs.robbing.features.handcuffing.models.CooldownModel;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
 import com.frahhs.robbing.features.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.features.kidnapping.models.KidnappingModel;
-import com.frahhs.robbing.items.RBMaterial;
+import com.frahhs.robbing.item.RobbingMaterial;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -137,7 +137,7 @@ public class HandcuffingController extends BaseController {
         // Handle if player have more than 1 handcuffs in hand
         int amount = p.getInventory().getItemInMainHand().getAmount();
 
-        ItemStack handcuffsItemStack = Robbing.getInstance().getItemsManager().get(RBMaterial.HANDCUFFS);
+        ItemStack handcuffsItemStack = Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS).getItemStack();
         handcuffsItemStack.setAmount(amount);
 
         return p.getInventory().getItemInMainHand().equals(handcuffsItemStack);

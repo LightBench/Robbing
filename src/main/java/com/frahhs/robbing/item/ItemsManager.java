@@ -1,4 +1,4 @@
-package com.frahhs.robbing.items;
+package com.frahhs.robbing.item;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class ItemsManager {
 
     private final JavaPlugin plugin;
-    private Map<String, BaseItem> rbItems;
+    private Map<String, RobbingItem> rbItems;
 
     /**
      * Constructor for ItemsManager.
@@ -32,8 +32,8 @@ public class ItemsManager {
      *
      * @param rbItem The RBItem to register.
      */
-    public void registerItem(BaseItem rbItem) {
-        //TODO: add custom exception here
+    public void registerItem(RobbingItem rbItem) {
+        //TODO: add custom exception here and more checks for the items validation
         if(rbItems.containsKey(rbItem.getItemName()))
             throw new RuntimeException(String.format("Item name [%s] already existing.", rbItem.getItemName()));
 
@@ -46,22 +46,23 @@ public class ItemsManager {
      * Dispose all registered items.
      */
     public void dispose() {
-        for (String key : rbItems.keySet()) {
-            plugin.getServer().removeRecipe(rbItems.get(key).getNamespacedKey());
-        }
+        for (String key : rbItems.keySet())
+            if(rbItems.get(key).isCraftable())
+                plugin.getServer().removeRecipe(rbItems.get(key).getNamespacedKey());
+
         rbItems = new HashMap<>();
     }
 
     /**
      * Retrieves an ItemStack based on RBMaterial.
      *
-     * @param rbMaterial The RBMaterial to retrieve.
+     * @param robbingMaterial The RBMaterial to retrieve.
      * @return The corresponding ItemStack, or null if no matching RBItem is found.
      */
-    public ItemStack get(RBMaterial rbMaterial) {
+    public RobbingItem get(RobbingMaterial robbingMaterial) {
         for (String key : rbItems.keySet()) {
-            if(rbItems.get(key).getRBMaterial().equals(rbMaterial))
-                return rbItems.get(key).getItemStack();
+            if(rbItems.get(key).getRBMaterial().equals(robbingMaterial))
+                return rbItems.get(key);
         }
         return null;
     }
@@ -72,11 +73,17 @@ public class ItemsManager {
      * @param itemName The name of the item to retrieve.
      * @return The corresponding ItemStack, or null if no matching RBItem is found.
      */
-    public ItemStack getByName(String itemName) {
-        for (String key : rbItems.keySet()) {
+    public RobbingItem getByName(String itemName) {
+        for (String key : rbItems.keySet())
             if(rbItems.get(key).getItemName().equalsIgnoreCase(itemName))
-                return rbItems.get(key).getItemStack();
-        }
+                return rbItems.get(key);
+        return null;
+    }
+
+    public RobbingItem getByItemStack(ItemStack itemStack) {
+        for(RobbingItem cur : getRegisteredItems())
+            if(cur.getItemStack().isSimilar(itemStack))
+                return cur;
         return null;
     }
 
@@ -85,7 +92,14 @@ public class ItemsManager {
      *
      * @return A collection of all registered RBItems.
      */
-    public Collection<BaseItem> getRegisteredItems() {
+    public Collection<RobbingItem> getRegisteredItems() {
         return rbItems.values();
+    }
+
+    public boolean isRegistered(ItemStack itemStack) {
+        for(RobbingItem cur : getRegisteredItems())
+            if(cur.getItemStack().isSimilar(itemStack))
+                return true;
+        return false;
     }
 }

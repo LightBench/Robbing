@@ -126,6 +126,7 @@ public class MessagesProvider {
         for (File file : languageFiles) {
             String fileName = file.getName().replace(".yml", "");
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+            config.options().copyDefaults(true);
             languageConfigs.put(fileName, config);
         }
     }

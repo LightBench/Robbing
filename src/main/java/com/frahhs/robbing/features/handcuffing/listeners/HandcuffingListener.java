@@ -13,7 +13,7 @@ public class HandcuffingListener extends BaseListener {
     private final HandcuffingController handcuffingController = new HandcuffingController();
 
     @EventHandler
-    public void handcuffsMechanics(PlayerInteractEntityEvent e) {
+    public void onIteract(PlayerInteractEntityEvent e) {
         Player handcuffed;
         Player handcuffer = e.getPlayer();
 
@@ -81,7 +81,7 @@ public class HandcuffingListener extends BaseListener {
     }
 
     @EventHandler
-    public void handCuffsMechanics(PlayerLeashEntityEvent e) {
+    public void onLeash(PlayerLeashEntityEvent e) {
         // Remove vanilla leash events to cuffs
         if(handcuffingController.isUsingHandcuffs(e.getPlayer())) {
             e.setCancelled(true);

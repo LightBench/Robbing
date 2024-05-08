@@ -99,7 +99,7 @@ public class HandcuffingModel extends BaseModel {
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("DELETE FROM handcuffing WHERE handcuffed = ?;");
+            ps = dbConnection.prepareStatement("DELETE FROM Handcuffing WHERE handcuffed = ?;");
             ps.setString(1, handcuffedUUID);
             ps.executeUpdate();
             dbConnection.commit();
@@ -166,7 +166,7 @@ public class HandcuffingModel extends BaseModel {
 
         try {
             Statement stmt = dbConnection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM handcuffing");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Handcuffing");
             while ( rs.next() ) {
                 String handcuffedPlayerUUID = rs.getString("handcuffed");
                 Player handcuffedPlayer = Bukkit.getPlayer(UUID.fromString(handcuffedPlayerUUID));
@@ -193,7 +193,7 @@ public class HandcuffingModel extends BaseModel {
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("SELECT * FROM handcuffing WHERE handcuffed = ?");
+            ps = dbConnection.prepareStatement("SELECT * FROM Handcuffing WHERE handcuffed = ?");
             ps.setString(1, handcuffedUUID);
             ResultSet rs = ps.executeQuery();
 

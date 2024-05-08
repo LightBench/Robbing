@@ -1,9 +1,9 @@
-package com.frahhs.robbing.features.generic.listeners;
+package com.frahhs.robbing.features.generics.listeners;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseListener;
-import com.frahhs.robbing.items.BaseItem;
-import com.frahhs.robbing.items.ItemsManager;
+import com.frahhs.robbing.item.ItemsManager;
+import com.frahhs.robbing.item.RobbingItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -12,13 +12,13 @@ import org.bukkit.inventory.ItemStack;
 public class CustomRecipesListener extends BaseListener {
 
     @EventHandler
-    public void lockPick(CraftItemEvent e) {
+    public void onCraft(CraftItemEvent e) {
         Player player = (Player) e.getWhoClicked();
         ItemStack item = e.getRecipe().getResult();
 
         ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
 
-        for(BaseItem cur : itemsManager.getRegisteredItems()) {
+        for(RobbingItem cur : itemsManager.getRegisteredItems()) {
             // Check if cur custom item is craftable
             if(cur.isCraftable()) {
                 // Check if it is a custom item

@@ -4,16 +4,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an event indicating the start of a robbing action between two players.
  */
 public class StartRobbingEvent extends Event implements Cancellable {
-    private static final HandlerList HANDLERS = new HandlerList();
-    private boolean isCancelled;
-
-    private final Player robber;
-    private final Player robbed;
+    private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    protected final Player robber;
+    protected final Player robbed;
 
     /**
      * Constructs a new StartRobbingEvent.
@@ -21,9 +22,20 @@ public class StartRobbingEvent extends Event implements Cancellable {
      * @param robber The player who initiated the robbing.
      * @param robbed The player who is being robbed.
      */
-    public StartRobbingEvent(Player robber, Player robbed) {
+    public StartRobbingEvent(@NotNull final Player robber, @NotNull final Player robbed) {
         this.robber = robber;
         this.robbed = robbed;
+        cancel = false;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return this.cancel;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancel = cancel;
     }
 
     /**
@@ -44,28 +56,14 @@ public class StartRobbingEvent extends Event implements Cancellable {
         return this.robbed;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return this.isCancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean isCancelled) {
-        this.isCancelled = isCancelled;
-    }
-
+    @NonNull
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS;
+        return handlers;
     }
 
-    /**
-     * Gets the handler list for this event.
-     *
-     * @return The handler list for this event.
-     */
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 
 }

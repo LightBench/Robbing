@@ -5,17 +5,17 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an event indicating that an item has been stolen from a player's inventory.
  */
 public class ItemRobbedEvent extends Event implements Cancellable {
-    private static final HandlerList HANDLERS = new HandlerList();
-    private boolean isCancelled;
-
-    private final ItemStack robbedItem;
-    private final Player robber;
-    private final Player robbed;
+    private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    protected final ItemStack robbedItem;
+    protected final Player robber;
+    protected final Player robbed;
 
     /**
      * Constructs a new ItemRobbedEvent.
@@ -24,10 +24,21 @@ public class ItemRobbedEvent extends Event implements Cancellable {
      * @param robber     The player who stole the item.
      * @param robbed     The player from whom the item was stolen.
      */
-    public ItemRobbedEvent(ItemStack robbedItem, Player robber, Player robbed) {
+    public ItemRobbedEvent(@NotNull final ItemStack robbedItem, @NotNull final Player robber, @NotNull final Player robbed) {
         this.robbedItem = robbedItem;
         this.robber = robber;
         this.robbed = robbed;
+        cancel = false;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return this.cancel;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancel = cancel;
     }
 
     /**
@@ -57,27 +68,13 @@ public class ItemRobbedEvent extends Event implements Cancellable {
         return this.robbed;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return this.isCancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean isCancelled) {
-        this.isCancelled = isCancelled;
-    }
-
+    @NotNull
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS;
+        return handlers;
     }
 
-    /**
-     * Gets the handler list for this event.
-     *
-     * @return The handler list for this event.
-     */
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 }

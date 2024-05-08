@@ -71,6 +71,7 @@ public class RBDatabase {
 
         // Setup tables
         handcuffingTable();
+        blocksPlacedTable();
     }
 
     /**
@@ -131,11 +132,36 @@ public class RBDatabase {
         // if table safes not exist create it
         try {
             stmt = dbConnection.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS handcuffing (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"    +
-                    "handcuffed CHAR(100) NOT NULL,"           +
-                    "handcuffer CHAR(100) NOT NULL,"           +
-                    "timestamp TIMESTAMP NOT NULL)"                ;
+            String sql = "CREATE TABLE IF NOT EXISTS Handcuffing (" +
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"    +
+                         "handcuffed CHAR(100) NOT NULL,"           +
+                         "handcuffer CHAR(100) NOT NULL,"           +
+                         "timestamp TIMESTAMP NOT NULL)"            ;
+            stmt.executeUpdate(sql);
+            dbConnection.commit();
+            stmt.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
+    /**
+     * Creates the handcuffing table if it does not exist.
+     */
+    public void blocksPlacedTable() {
+        Statement stmt = null;
+
+        // if table safes not exist create it
+        try {
+            stmt = dbConnection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS BlocksPlaced (" +
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
+                         "timestamp DEFAULT CURRENT_TIMESTAMP,"      +
+                         "itemName CHAR(100) NOT NULL,"              +
+                         "world CHAR(100) NOT NULL,"                 +
+                         "blockX int NOT NULL,"                      +
+                         "blockY int NOT NULL,"                      +
+                         "blockZ int NOT NULL)"                      ;
             stmt.executeUpdate(sql);
             dbConnection.commit();
             stmt.close();

@@ -25,7 +25,7 @@ public class HitHandcuffsListener extends BaseListener {
     }
 
     @EventHandler
-    public void PlaceHandcuffsLifeModel(ToggleHandcuffsEvent e) {
+    public void onHandcuff(ToggleHandcuffsEvent e) {
         if(e.isCancelled())
             return;
 
@@ -38,7 +38,7 @@ public class HitHandcuffsListener extends BaseListener {
     }
 
     @EventHandler
-    public void crackHealthBar(PlayerToggleSneakEvent e) {
+    public void onSneak(PlayerToggleSneakEvent e) {
         // Check if player is handcuffed
         if(!HandcuffingModel.isHandcuffed(e.getPlayer()))
             return;
@@ -58,7 +58,7 @@ public class HitHandcuffsListener extends BaseListener {
     }
 
     @EventHandler
-    public void addHealthBarOnJoin(PlayerJoinEvent e) {
+    public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
         // Add HandcuffsLifeModel is the player is handcuffed
