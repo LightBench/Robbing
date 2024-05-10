@@ -6,13 +6,9 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.ItemsManager;
-import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.providers.MessagesProvider;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.common.value.qual.IntRange;
@@ -48,18 +44,20 @@ public class RobbingCommand extends BaseCommand {
         ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
 
         String message;
-        ItemStack item = null;
+        RobbingItem robbingItem;
 
-        item = itemsManager.getByName(item_name).getItemStack();
+        robbingItem = itemsManager.getByName(item_name);
 
         item_name = item_name.substring(0, 1).toUpperCase() + item_name.substring(1).toLowerCase();
-        if(item == null) {
+        if(robbingItem == null) {
             message = messagesProvider.getMessage("commands.item_not_found");
             message = message.replace("{item}", item_name);
             sender.sendMessage(message);
             return;
         }
 
+        ItemStack item;
+        item = itemsManager.getByName(item_name).getItemStack();
         item.setAmount(amount);
         player.getPlayer().getInventory().addItem(item);
 
