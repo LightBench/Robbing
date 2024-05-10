@@ -1,6 +1,6 @@
-package com.frahhs.robbing.features.block.events;
+package com.frahhs.robbing.block.events;
 
-import com.frahhs.robbing.item.RobbingBlock;
+import com.frahhs.robbing.block.RobbingBlock;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

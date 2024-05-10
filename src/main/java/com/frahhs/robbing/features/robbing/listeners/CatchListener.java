@@ -1,8 +1,8 @@
-package com.frahhs.robbing.features.rob.listeners;
+package com.frahhs.robbing.features.robbing.listeners;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseListener;
-import com.frahhs.robbing.features.rob.controllers.CatchController;
+import com.frahhs.robbing.features.robbing.controllers.CatchController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

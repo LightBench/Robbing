@@ -1,12 +1,14 @@
-package com.frahhs.robbing.features.block.listeners;
+package com.frahhs.robbing.block.listeners;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
 import com.frahhs.robbing.features.BaseListener;
-import com.frahhs.robbing.features.block.events.RobbingBlockBreakEvent;
-import com.frahhs.robbing.features.block.events.RobbingBlockPlaceEvent;
+import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
+import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;
 import com.frahhs.robbing.item.ItemsManager;
-import com.frahhs.robbing.item.RobbingBlock;
+import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.item.RobbingItem;
+import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
@@ -15,6 +17,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class RobbingBlockListener extends BaseListener {
@@ -70,7 +73,7 @@ public class RobbingBlockListener extends BaseListener {
             return;
 
         // Instance of the Robbing item
-        RobbingItem item = itemsManager.get(block.getItem().getRBMaterial());
+        RobbingItem item = itemsManager.get(block.getRobbingMaterial());
 
         // Call the RobbingBlockBreakEvent event
         RobbingBlockBreakEvent robbingBlockBreakEvent = new RobbingBlockBreakEvent(block, e);
@@ -107,5 +110,22 @@ public class RobbingBlockListener extends BaseListener {
     public void onManipulate(PlayerArmorStandManipulateEvent e) {
         if(RobbingBlock.isRBBlock(e.getRightClicked()))
             e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        if(!RobbingBlock.isRBBlock(e.getClickedBlock())) {
+            return;
+        }
+
+        // Call the RobbingBlockBreakEvent event
+        RobbingBlock block = RobbingBlock.getFromLocation(e.getClickedBlock().getLocation());
+        RobbingBlockInteractEvent robbingBlockBreakEvent = new RobbingBlockInteractEvent(block, e);
+        Bukkit.getPluginManager().callEvent(robbingBlockBreakEvent);
+
+        // If the RobbingBlockPlaceEvent event is cancelled, cancel the action
+        if(robbingBlockBreakEvent.isCancelled()) {
+            e.setCancelled(true);
+        }
     }
 }

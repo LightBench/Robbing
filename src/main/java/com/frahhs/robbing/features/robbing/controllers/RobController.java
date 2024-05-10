@@ -1,4 +1,4 @@
-package com.frahhs.robbing.features.rob.controllers;
+package com.frahhs.robbing.features.robbing.controllers;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseModel;

@@ -3,15 +3,15 @@ package com.frahhs.robbing;
 import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.commands.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
-import com.frahhs.robbing.features.block.listeners.RobbingBlockListener;
+import com.frahhs.robbing.block.listeners.RobbingBlockListener;
 import com.frahhs.robbing.features.generics.listeners.CustomRecipesListener;
 import com.frahhs.robbing.features.handcuffing.controllers.HandcuffsBarController;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffedListener;
 import com.frahhs.robbing.features.handcuffing.listeners.HandcuffingListener;
 import com.frahhs.robbing.features.handcuffing.listeners.HitHandcuffsListener;
 import com.frahhs.robbing.features.kidnapping.listeners.KidnappingListener;
-import com.frahhs.robbing.features.rob.listeners.CatchListener;
-import com.frahhs.robbing.features.rob.listeners.RobListener;
+import com.frahhs.robbing.features.robbing.listeners.CatchListener;
+import com.frahhs.robbing.features.robbing.listeners.RobListener;
 import com.frahhs.robbing.item.ItemsManager;
 import com.frahhs.robbing.item.items.Handcuffs;
 import com.frahhs.robbing.item.items.Lockpick;
@@ -45,6 +45,7 @@ public final class Robbing extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //TODO: alarm system
         instance = this;
 
         // Setup utils

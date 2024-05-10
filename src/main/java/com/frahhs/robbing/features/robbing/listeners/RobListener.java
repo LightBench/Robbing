@@ -1,11 +1,11 @@
-package com.frahhs.robbing.features.rob.listeners;
+package com.frahhs.robbing.features.robbing.listeners;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseListener;
 import com.frahhs.robbing.features.handcuffing.models.HandcuffingModel;
-import com.frahhs.robbing.features.rob.controllers.RobController;
-import com.frahhs.robbing.features.rob.events.ItemRobbedEvent;
-import com.frahhs.robbing.features.rob.events.StartRobbingEvent;
+import com.frahhs.robbing.features.robbing.controllers.RobController;
+import com.frahhs.robbing.features.robbing.events.ItemRobbedEvent;
+import com.frahhs.robbing.features.robbing.events.StartRobbingEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;

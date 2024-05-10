@@ -158,8 +158,8 @@ public class RBDatabase {
             String sql = "CREATE TABLE IF NOT EXISTS BlocksPlaced (" +
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
                          "timestamp DEFAULT CURRENT_TIMESTAMP,"      +
-                         "itemName CHAR(100) NOT NULL,"              +
-                         "armorStandUUID CHAR(100) NOT NULL,"          +
+                         "itemName CHAR(100) NOT NULL,"              + // TODO: Change to Material
+                         "armorStandUUID CHAR(100) NOT NULL,"        +
                          "world CHAR(100) NOT NULL,"                 +
                          "blockX int NOT NULL,"                      +
                          "blockY int NOT NULL,"                      +

@@ -1,11 +1,15 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.block;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.features.BaseModel;
+import com.frahhs.robbing.item.ItemsManager;
+import com.frahhs.robbing.item.RobbingItem;
+import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -30,14 +34,6 @@ public class RobbingBlock extends BaseModel {
         dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
     }
 
-    public void setItem(RobbingItem item) {
-        this.item = item;
-    }
-
-    public RobbingItem getItem() {
-        return item;
-    }
-
     public void setLocation(Location location) {
         this.location = location;
     }
@@ -48,6 +44,10 @@ public class RobbingBlock extends BaseModel {
 
     public void setArmorStand(Entity armorStand) {
         this.armorStand = armorStand;
+    }
+
+    public RobbingMaterial getRobbingMaterial() {
+        return item.getRBMaterial();
     }
 
     public void place() {
@@ -131,6 +131,28 @@ public class RobbingBlock extends BaseModel {
         } catch ( Exception e ) {
             Robbing.getInstance().getRBLogger().error("%s: %s",e.getClass().getName(), e.getMessage());
         }
+    }
+
+    public static boolean isRBBlock(Block block) {
+        Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
+
+        try {
+            PreparedStatement ps;
+            ps = dbConnection.prepareStatement("SELECT * FROM BlocksPlaced WHERE world = ? AND blockX = ? AND blockY = ? AND blockZ = ?;");
+            ps.setString(1, block.getLocation().getWorld().getName());
+            ps.setInt(2, block.getLocation().getBlockX());
+            ps.setInt(3, block.getLocation().getBlockY());
+            ps.setInt(4, block.getLocation().getBlockZ());
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                return true;
+            }
+            ps.close();
+        } catch ( Exception e ) {
+            Robbing.getInstance().getRBLogger().error("%s: %s",e.getClass().getName(), e.getMessage());
+        }
+        return false;
     }
 
     public static boolean isRBBlock(Location location) {
