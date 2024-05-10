@@ -17,7 +17,7 @@ public class Handcuffs extends RobbingItem {
 
     @Override
     public @NotNull ItemStack getItemStack() {
-        ItemStack item = new ItemStack(Material.LEAD, 1);
+        ItemStack item = new ItemStack(Material.STICK, 1);
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;

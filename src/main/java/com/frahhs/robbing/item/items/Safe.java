@@ -15,7 +15,7 @@ import java.util.List;
 public class Safe extends RobbingItem {
     @Override
     public @NotNull ItemStack getItemStack() {
-        ItemStack item = new ItemStack(Material.IRON_BLOCK, 1);
+        ItemStack item = new ItemStack(Material.BARRIER, 1);
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -28,7 +28,7 @@ public class Safe extends RobbingItem {
             lore.add("§7" + cur);
 
         meta.setLore(lore);
-        meta.setCustomModelData(5456);
+        meta.setCustomModelData(5458);
         item.setItemMeta(meta);
 
         return item;

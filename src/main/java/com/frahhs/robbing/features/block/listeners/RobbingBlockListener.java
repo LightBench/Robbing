@@ -9,10 +9,16 @@ import com.frahhs.robbing.item.RobbingBlock;
 import com.frahhs.robbing.item.RobbingItem;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.ItemStack;
+import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class RobbingBlockListener extends BaseListener {
 
@@ -48,7 +54,8 @@ public class RobbingBlockListener extends BaseListener {
         // Can build option
         robbingBlockPlaceEvent.setBuild(e.canBuild());
 
-        block.save();
+        // Place the Robbing block
+        block.place();
     }
 
     @EventHandler
@@ -87,6 +94,21 @@ public class RobbingBlockListener extends BaseListener {
         // Exp option
         e.setExpToDrop(robbingBlockBreakEvent.getExpToDrop());
 
-        block.remove();
+        block.destroy();
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if(!e.getEntityType().equals(EntityType.ARMOR_STAND))
+            return;
+
+        if(RobbingBlock.isRBBlock(e.getEntity()))
+            e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onManipulate(PlayerArmorStandManipulateEvent e) {
+        if(RobbingBlock.isRBBlock(e.getRightClicked()))
+            e.setCancelled(true);
     }
 }

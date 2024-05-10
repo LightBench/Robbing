@@ -6,10 +6,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
+
 /**
  * Provides logging functionalities for the plugin.
  */
-public class RBLogger {
+public class RobbingLogger {
     private final JavaPlugin plugin;
     private Level level;
     private String prefix = "[Robbing] ";
@@ -19,9 +20,9 @@ public class RBLogger {
      *
      * @param plugin The JavaPlugin instance associated with this logger.
      */
-    public RBLogger(JavaPlugin plugin) {
+    public RobbingLogger(JavaPlugin plugin) {
         this.plugin = plugin;
-        level = Level.INFO;
+        level = Level.ALL;
     }
 
     /**

@@ -3,7 +3,7 @@ package com.frahhs.robbing.features;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.providers.ConfigProvider;
 import com.frahhs.robbing.providers.MessagesProvider;
-import com.frahhs.robbing.utils.RBLogger;
+import com.frahhs.robbing.utils.RobbingLogger;
 
 /**
  * Abstract base class for features in the plugin.
@@ -16,5 +16,5 @@ public abstract class BaseFeature {
     protected final MessagesProvider messages = Robbing.getInstance().getMessagesProvider();
 
     /** Logger instance. */
-    protected final RBLogger logger = Robbing.getInstance().getRBLogger();
+    protected final RobbingLogger logger = Robbing.getInstance().getRBLogger();
 }

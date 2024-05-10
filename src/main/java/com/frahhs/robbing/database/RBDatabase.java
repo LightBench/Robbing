@@ -147,6 +147,7 @@ public class RBDatabase {
 
     /**
      * Creates the handcuffing table if it does not exist.
+     * TODO: add placerUUID column
      */
     public void blocksPlacedTable() {
         Statement stmt = null;
@@ -158,6 +159,7 @@ public class RBDatabase {
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
                          "timestamp DEFAULT CURRENT_TIMESTAMP,"      +
                          "itemName CHAR(100) NOT NULL,"              +
+                         "armorStandUUID CHAR(100) NOT NULL,"          +
                          "world CHAR(100) NOT NULL,"                 +
                          "blockX int NOT NULL,"                      +
                          "blockY int NOT NULL,"                      +

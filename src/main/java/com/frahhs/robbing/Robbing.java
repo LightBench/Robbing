@@ -18,13 +18,20 @@ import com.frahhs.robbing.item.items.Lockpick;
 import com.frahhs.robbing.item.items.Safe;
 import com.frahhs.robbing.providers.ConfigProvider;
 import com.frahhs.robbing.providers.MessagesProvider;
-import com.frahhs.robbing.utils.RBLogger;
+import com.frahhs.robbing.utils.ConsoleColors;
+import com.frahhs.robbing.utils.RobbingLogger;
 import com.google.common.collect.ImmutableList;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class Robbing extends JavaPlugin {
     private static Robbing instance;
@@ -38,7 +45,7 @@ public final class Robbing extends JavaPlugin {
     private RBDatabase rbDatabase;
 
     // Utils
-    private RBLogger rbLogger;
+    private RobbingLogger robbingLogger;
 
     // Items
     private ItemsManager itemsManager;
@@ -48,8 +55,8 @@ public final class Robbing extends JavaPlugin {
         instance = this;
 
         // Setup utils
-        rbLogger = new RBLogger(this);
-        rbLogger.setLevel(Level.ALL);
+        robbingLogger = new RobbingLogger(this);
+        robbingLogger.setLevel(Level.ALL);
 
         // Setup managers
         configProvider = new ConfigProvider(this);
@@ -129,8 +136,8 @@ public final class Robbing extends JavaPlugin {
         return instance;
     }
 
-    public RBLogger getRBLogger() {
-        return rbLogger;
+    public RobbingLogger getRBLogger() {
+        return robbingLogger;
     }
 
     public RBDatabase getRBDatabase() {

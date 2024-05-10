@@ -30,7 +30,7 @@ public class Lockpick extends RobbingItem {
             lore.add("§7" + cur);
 
         meta.setLore(lore);
-        meta.setCustomModelData(5456);
+        meta.setCustomModelData(5457);
         item.setItemMeta(meta);
 
         return item;
