@@ -1,6 +1,4 @@
-package com.frahhs.robbing.bag;
-
-import java.util.Map;
+package com.frahhs.robbing.feature;
 
 abstract public class Bag {
     /**
@@ -15,5 +13,5 @@ abstract public class Bag {
 
     protected abstract String getID();
 
-    protected abstract Map getMap();
+    public abstract Object getData();
 }

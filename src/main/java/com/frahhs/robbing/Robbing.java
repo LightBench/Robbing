@@ -1,19 +1,19 @@
 package com.frahhs.robbing;
 
 import co.aikar.commands.PaperCommandManager;
-import com.frahhs.robbing.bag.BagManager;
-import com.frahhs.robbing.block.listeners.RobbingBlockListener;
+import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
+import com.frahhs.robbing.feature.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
-import com.frahhs.robbing.feature.robbing.listeners.CatchListener;
-import com.frahhs.robbing.feature.robbing.listeners.RobListener;
+import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
+import com.frahhs.robbing.feature.rob.RobbingFeature;
+import com.frahhs.robbing.feature.rob.listeners.CatchListener;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.items.Handcuffs;
 import com.frahhs.robbing.item.items.Lockpick;
 import com.frahhs.robbing.item.items.Safe;
-import com.frahhs.robbing.item.listeners.CustomRecipesListener;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.RobbingLogger;
@@ -105,16 +105,14 @@ public final class Robbing extends JavaPlugin {
         // Bag
         bagManager.disableBags();
         bagManager.enableBags();
+
+        // Feature
+        featureManager.disableFeatures();
+        featureManager.enableFeatures();
     }
 
     private void registerEvents() {
-        // Generic
-        getServer().getPluginManager().registerEvents(new CustomRecipesListener(),this);
         getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
-
-        // Steal
-        getServer().getPluginManager().registerEvents(new RobListener(),this);
-        getServer().getPluginManager().registerEvents(new CatchListener(),this);
     }
 
     private void registerCommands() {
@@ -133,7 +131,9 @@ public final class Robbing extends JavaPlugin {
     }
 
     public void registerFeatures() {
+        featureManager.registerFeatures(new RobbingFeature(this));
         featureManager.registerFeatures(new HandcuffingFeature(this));
+        featureManager.registerFeatures(new KidnappingFeature(this));
     }
 
     private void registerItems() {

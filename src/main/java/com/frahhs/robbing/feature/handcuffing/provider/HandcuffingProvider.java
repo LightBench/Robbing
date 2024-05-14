@@ -1,16 +1,25 @@
 package com.frahhs.robbing.feature.handcuffing.provider;
 
-import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class HandcuffingProvider extends BaseProvider {
+    private final HandcuffingCooldownBag handcuffingCooldownBag;
+
+    public HandcuffingProvider() {
+        handcuffingCooldownBag = (HandcuffingCooldownBag)bagManager.getBag("HandcuffingCooldownBag");
+    }
+
     /**
      * Checks if a player is currently handcuffed.
      *
@@ -138,8 +147,7 @@ public class HandcuffingProvider extends BaseProvider {
      * @return True if the player is under cooldown, otherwise false.
      */
     public boolean haveCooldown(Player handcuffer) {
-        HandcuffingCooldownBag handcuffingCooldownBag = (HandcuffingCooldownBag)bagManager.getBag("HandcuffingCooldownBag");
-        return handcuffingCooldownBag.getMap().containsKey(handcuffer);
+        return handcuffingCooldownBag.getData().containsKey(handcuffer);
     }
 
     /**
@@ -149,23 +157,20 @@ public class HandcuffingProvider extends BaseProvider {
      * @return The timestamp when the handcuffing action occurred.
      */
     public Cooldown getCooldown(Player handcuffer) {
-        HandcuffingCooldownBag handcuffingCooldownBag = (HandcuffingCooldownBag)bagManager.getBag("HandcuffingCooldownBag");
-        return handcuffingCooldownBag.getMap().get(handcuffer);
+        return handcuffingCooldownBag.getData().get(handcuffer);
     }
 
     /**
      * Sets the cooldown for the handcuffing action.
      */
     public void saveCooldown(Player handcuffer, Cooldown cooldown) {
-        HandcuffingCooldownBag handcuffingCooldownBag = (HandcuffingCooldownBag)bagManager.getBag("HandcuffingCooldownBag");
-        handcuffingCooldownBag.getMap().put(handcuffer, cooldown);
+        handcuffingCooldownBag.getData().put(handcuffer, cooldown);
     }
 
     /**
      * Remove the cooldown for the handcuffing action.
      */
     public void removeCooldown(Player handcuffer) {
-        HandcuffingCooldownBag handcuffingCooldownBag = (HandcuffingCooldownBag)bagManager.getBag("HandcuffingCooldownBag");
-        handcuffingCooldownBag.getMap().remove(handcuffer);
+        handcuffingCooldownBag.getData().remove(handcuffer);
     }
 }

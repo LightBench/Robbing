@@ -62,7 +62,7 @@ public class HandcuffingListener extends BaseListener {
             int handcuffing_cooldown = config.getInt("handcuffing.cooldown");
 
             Cooldown cooldown = Handcuffing.getCooldown(handcuffer);
-            long waitingTime = cooldown.getCooldown() - ((System.currentTimeMillis() - cooldown.getTimestamp()) / 1000 );
+            long waitingTime = cooldown.getResidualTime();
             message = messages.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
             handcuffer.sendMessage(message);
             return;

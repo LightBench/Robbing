@@ -55,4 +55,8 @@ public class Cooldown extends BaseModel {
     public long getTimestamp() {
         return timestamp;
     }
+
+    public long getResidualTime() {
+        return getCooldown() - ((System.currentTimeMillis() - getTimestamp()) / 1000 );
+    }
 }

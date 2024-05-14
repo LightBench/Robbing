@@ -75,14 +75,8 @@ public class HandcuffsBar extends BaseModel {
      * Removes the handcuffs bar from a player.
      */
     public void removeHandcuffsBar() {
-        if (!haveHandcuffsBar())
-            return;
-
-        BossBar bar = provider.getHandcuffsBar(player);
-
         if (bar != null)
             bar.removePlayer(player);
-
         provider.removeHandcuffsBar(player);
     }
 
@@ -124,10 +118,7 @@ public class HandcuffsBar extends BaseModel {
      */
     public static HandcuffsBar getBarFromPlayer(Player player) {
         HandcuffsBarProvider provider = new HandcuffsBarProvider();
-        BossBar bar = provider.getHandcuffsBar(player);
-
-        if (bar == null)
-            return null;
+        BossBar bar = provider.getHandcuffsBar(player).getBossBar();
 
         return new HandcuffsBar(player, bar);
     }

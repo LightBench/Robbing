@@ -1,7 +1,6 @@
 package com.frahhs.robbing.block;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseModel;
 import com.frahhs.robbing.feature.BaseProvider;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;

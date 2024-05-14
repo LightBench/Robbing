@@ -1,30 +1,29 @@
 package com.frahhs.robbing.feature.kidnapping.models;
 
 import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.kidnapping.provider.KidnappingProvider;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Model class representing a kidnapping event.
  */
-public class KidnappingModel extends BaseModel {
+public class Kidnapping extends BaseModel {
     private final Player kidnapped;
     private final Player kidnapper;
 
-    // TODO: Implement in database
-    public static Map<Player, Player> kidnappingList = new HashMap<>();
+    private final KidnappingProvider provider;
 
     /**
-     * Constructs a KidnappingModel object.
+     * Constructs a Kidnapping object.
      *
      * @param kidnapper The player who is the kidnapper.
      * @param kidnapped The player who is kidnapped.
      */
-    public KidnappingModel(Player kidnapper, Player kidnapped) {
+    public Kidnapping(Player kidnapper, Player kidnapped) {
         this.kidnapper = kidnapper;
         this.kidnapped = kidnapped;
+
+        this.provider = new KidnappingProvider();
     }
 
     /**
@@ -49,14 +48,14 @@ public class KidnappingModel extends BaseModel {
      * Records the kidnapping event.
      */
     public void kidnap() {
-        kidnappingList.put(kidnapper, kidnapped);
+        provider.saveKidnapping(kidnapper, kidnapped);
     }
 
     /**
      * Frees the kidnapped player.
      */
     public void free() {
-        kidnappingList.remove(kidnapper);
+        provider.removeKidnapping(kidnapper);
     }
 
     /**
@@ -66,7 +65,8 @@ public class KidnappingModel extends BaseModel {
      * @return True if the player is kidnapped, otherwise false.
      */
     public static boolean isKidnapped(Player kidnapped) {
-        return kidnappingList.containsValue(kidnapped);
+        KidnappingProvider provider = new KidnappingProvider();
+        return provider.isKidnapped(kidnapped);
     }
 
     /**
@@ -76,36 +76,29 @@ public class KidnappingModel extends BaseModel {
      * @return True if the player is a kidnapper, otherwise false.
      */
     public static boolean isKidnapper(Player kidnapper) {
-        return kidnappingList.containsKey(kidnapper);
+        KidnappingProvider provider = new KidnappingProvider();
+        return provider.isKidnapper(kidnapper);
     }
 
     /**
-     * Retrieves the KidnappingModel object from the kidnapper player.
+     * Retrieves the Kidnapping object from the kidnapper player.
      *
      * @param kidnapper The kidnapper player.
-     * @return The KidnappingModel object.
+     * @return The Kidnapping object.
      */
-    public static KidnappingModel getFromKidnapper(Player kidnapper) {
-        if(!isKidnapper(kidnapper))
-            return null;
-
-        return new KidnappingModel(kidnapper, kidnappingList.get(kidnapper));
+    public static Kidnapping getFromKidnapper(Player kidnapper) {
+        KidnappingProvider provider = new KidnappingProvider();
+        return provider.getFromKidnapper(kidnapper);
     }
 
     /**
-     * Retrieves the KidnappingModel object from the kidnapped player.
+     * Retrieves the Kidnapping object from the kidnapped player.
      *
      * @param kidnapped The kidnapped player.
-     * @return The KidnappingModel object.
+     * @return The Kidnapping object.
      */
-    public static KidnappingModel getFromKidnapped(Player kidnapped) {
-        if(!isKidnapped(kidnapped))
-            return null;
-
-        for(Player curKidnapper : kidnappingList.keySet())
-            if(kidnappingList.get(curKidnapper) == kidnapped)
-                return new KidnappingModel(curKidnapper, kidnapped);
-
-        return null;
+    public static Kidnapping getFromKidnapped(Player kidnapped) {
+        KidnappingProvider provider = new KidnappingProvider();
+        return provider.getFromKidnapped(kidnapped);
     }
 }

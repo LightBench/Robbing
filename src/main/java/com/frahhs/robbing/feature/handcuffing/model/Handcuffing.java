@@ -7,7 +7,7 @@ import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
 /**
  * Model class representing data and operations related to handcuffing.

@@ -5,15 +5,13 @@ import com.frahhs.robbing.feature.BaseController;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
-import com.frahhs.robbing.feature.kidnapping.models.KidnappingModel;
+import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
 import com.frahhs.robbing.item.RobbingMaterial;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.sql.Timestamp;
 
 /**
  * Controller class for managing handcuffing actions.
@@ -108,7 +106,7 @@ public class HandcuffingController extends BaseController {
 
             // Check also if the target is in following mode and remove it
             KidnappingController kidnappingController = new KidnappingController();
-            if(KidnappingModel.isKidnapped(handcuffed)) {
+            if(Kidnapping.isKidnapped(handcuffed)) {
                 kidnappingController.free(handcuffed);
                 if(!silent) {
                     message = messages.getMessage("follow.make_unfollow_cuffed");

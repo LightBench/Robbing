@@ -1,4 +1,4 @@
-package com.frahhs.robbing.feature.robbing.events;
+package com.frahhs.robbing.feature.rob.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

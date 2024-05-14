@@ -1,7 +1,5 @@
 package com.frahhs.robbing.feature;
 
-import com.frahhs.robbing.Robbing;
-
 public abstract class Feature {
     protected abstract void onEnable();
 

@@ -1,7 +1,6 @@
 package com.frahhs.robbing.feature;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.bag.BagManager;
 
 import java.sql.Connection;
 

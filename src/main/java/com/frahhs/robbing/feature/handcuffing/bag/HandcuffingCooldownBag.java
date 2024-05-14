@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.bag;
 
-import com.frahhs.robbing.bag.Bag;
+import com.frahhs.robbing.feature.Bag;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * and the value is the timestamp indicating when the action occurred.
  */
 public class HandcuffingCooldownBag extends Bag {
-    public Map<Player, Cooldown> handcuffingCooldown;
+    private Map<Player, Cooldown> handcuffingCooldown;
 
     @Override
     protected void onEnable() {
@@ -31,23 +31,7 @@ public class HandcuffingCooldownBag extends Bag {
     }
 
     @Override
-    public Map<Player, Cooldown> getMap() {
+    public Map<Player, Cooldown> getData() {
         return handcuffingCooldown;
     }
-
-    /**
-     * Sets the cooldown for the handcuffing action.
-     */
-    /*public void setCooldown(Player handcuffer, int time) {
-        new Thread(() -> {
-            try {
-                Cooldown cooldown = new Cooldown(System.currentTimeMillis(), time);
-                handcuffingCooldown.put(handcuffer, cooldown);
-                Thread.sleep(time * 1000L);
-                handcuffingCooldown.remove(handcuffer.getPlayer());
-            } catch(InterruptedException v) {
-                System.out.println(v.getMessage());
-            }
-        }).start();
-    }*/
 }

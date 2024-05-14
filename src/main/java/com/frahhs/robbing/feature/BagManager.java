@@ -1,4 +1,4 @@
-package com.frahhs.robbing.bag;
+package com.frahhs.robbing.feature;
 
 import java.util.HashMap;
 import java.util.Map;

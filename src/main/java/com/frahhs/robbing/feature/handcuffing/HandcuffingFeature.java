@@ -1,15 +1,14 @@
 package com.frahhs.robbing.feature.handcuffing;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
-import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffedListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffingListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HitHandcuffsListener;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.model.HandcuffsBar;
-import com.frahhs.robbing.feature.kidnapping.listeners.KidnappingListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -17,11 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HandcuffingFeature extends Feature {
-    private Robbing plugin;
+    private final Robbing plugin;
 
     public HandcuffingFeature(Robbing plugin) {
         this.plugin = plugin;
     }
+
     @Override
     protected void onEnable() {
         // Handle Handcuffs bars
@@ -50,7 +50,6 @@ public class HandcuffingFeature extends Feature {
     protected void registerEvents() {
         plugin.getServer().getPluginManager().registerEvents(new HandcuffingListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new HandcuffedListener(), plugin);
-        plugin.getServer().getPluginManager().registerEvents(new KidnappingListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new HitHandcuffsListener(), plugin);
     }
 

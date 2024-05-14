@@ -8,10 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class for managing custom ItemStacks related to robbing mechanics.
+ * Class for managing custom Items related to robbing mechanics.
  */
 public class ItemManager {
-
     private final JavaPlugin plugin;
     private Map<String, RobbingItem> rbItems;
 
@@ -25,6 +24,7 @@ public class ItemManager {
 
         // Setup items map
         rbItems= new HashMap<>();
+        plugin.getServer().getPluginManager().registerEvents(new CustomRecipesListener(), plugin);
     }
 
     /**

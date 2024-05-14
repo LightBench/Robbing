@@ -1,7 +1,7 @@
 package com.frahhs.robbing.feature.kidnapping.controllers;
 
 import com.frahhs.robbing.feature.BaseController;
-import com.frahhs.robbing.feature.kidnapping.models.KidnappingModel;
+import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,8 +15,8 @@ public class KidnappingController extends BaseController {
      * @param kidnapped The player who is kidnapped.
      */
     public void kidnap(Player kidnapper, Player kidnapped) {
-        KidnappingModel kidnappingModel = new KidnappingModel(kidnapper, kidnapped);
-        kidnappingModel.kidnap();
+        Kidnapping kidnapping = new Kidnapping(kidnapper, kidnapped);
+        kidnapping.kidnap();
     }
 
     /**
@@ -25,10 +25,10 @@ public class KidnappingController extends BaseController {
      * @param kidnapped The player who is kidnapped.
      */
     public void free(Player kidnapped) {
-        if(!KidnappingModel.isKidnapped(kidnapped))
+        if(!Kidnapping.isKidnapped(kidnapped))
             return;
 
-        KidnappingModel.getFromKidnapped(kidnapped).free();
+        Kidnapping.getFromKidnapped(kidnapped).free();
     }
 
     /**
@@ -38,10 +38,10 @@ public class KidnappingController extends BaseController {
      * @return The player who is the kidnapper, or null if not found.
      */
     public Player getKidnapper(Player kidnapped) {
-        if(!KidnappingModel.isKidnapped(kidnapped))
+        if(!Kidnapping.isKidnapped(kidnapped))
             return null;
 
-        return KidnappingModel.getFromKidnapped(kidnapped).getKidnapper();
+        return Kidnapping.getFromKidnapped(kidnapped).getKidnapper();
     }
 
     /**
@@ -51,9 +51,9 @@ public class KidnappingController extends BaseController {
      * @return The player who is kidnapped, or null if not found.
      */
     public Player getKidnapped(Player kidnapper) {
-        if(!KidnappingModel.isKidnapper(kidnapper))
+        if(!Kidnapping.isKidnapper(kidnapper))
             return null;
 
-        return KidnappingModel.getFromKidnapper(kidnapper).getKidnapped();
+        return Kidnapping.getFromKidnapper(kidnapper).getKidnapped();
     }
 }

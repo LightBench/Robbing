@@ -6,7 +6,7 @@ import com.frahhs.robbing.feature.handcuffing.controller.HandcuffingController;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.feature.kidnapping.PathManager;
 import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
-import com.frahhs.robbing.feature.kidnapping.models.KidnappingModel;
+import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,14 +59,14 @@ public class KidnappingListener extends BaseListener {
         Player kidnapped = (Player) e.getRightClicked();
 
         // Check if kidnapped is already following someone
-        if(KidnappingModel.isKidnapped(kidnapped) && kidnappingController.getKidnapper(kidnapped) != kidnapper) {
+        if(Kidnapping.isKidnapped(kidnapped) && kidnappingController.getKidnapper(kidnapped) != kidnapper) {
             String message = messages.getMessage("follow.already_following_someone");
             kidnapper.sendMessage(message);
             return;
         }
 
         // Add (or remove) kidnapped and kidnapper to follow List
-        if(!KidnappingModel.isKidnapper(kidnapper)){
+        if(!Kidnapping.isKidnapper(kidnapper)){
             kidnappingController.kidnap(kidnapper, kidnapped);
             String message = messages.getMessage("follow.make_follow_cuffed");
             message = message.replace("{target}", kidnapped.getDisplayName());
@@ -90,7 +90,7 @@ public class KidnappingListener extends BaseListener {
 
         boolean sameLocation = e.getFrom().getX() == e.getTo().getX() && e.getFrom().getY() == e.getTo().getY() && e.getFrom().getZ() == e.getTo().getZ();
         if(!sameLocation) {
-            if(KidnappingModel.isKidnapper(kidnapper)) {
+            if(Kidnapping.isKidnapper(kidnapper)) {
                 kidnappingController.getKidnapped(kidnapper);
                 Player kidnapped = kidnappingController.getKidnapped(kidnapper);
                 assert kidnapped != null;

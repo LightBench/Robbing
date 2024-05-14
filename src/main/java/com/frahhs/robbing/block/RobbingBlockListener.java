@@ -1,8 +1,7 @@
-package com.frahhs.robbing.block.listeners;
+package com.frahhs.robbing.block;
 
 import com.frahhs.robbing.BaseListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
 import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
 import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;

@@ -1,8 +1,9 @@
-package com.frahhs.robbing.feature.robbing.listeners;
+package com.frahhs.robbing.feature.rob.listeners;
 
 import com.frahhs.robbing.BaseListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.robbing.controllers.CatchController;
+import com.frahhs.robbing.feature.rob.controllers.CatchController;
+import com.frahhs.robbing.feature.rob.model.Caught;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -46,7 +47,7 @@ public class CatchListener extends BaseListener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         // Check if player is caught
-        if(!catchController.isCaught(e.getPlayer()))
+        if(!Caught.isCaught(e.getPlayer()))
             return;
 
         // Check if player is moving

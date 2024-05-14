@@ -1,11 +1,13 @@
-package com.frahhs.robbing.feature.robbing.listeners;
+package com.frahhs.robbing.feature.rob.listeners;
 
 import com.frahhs.robbing.BaseListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
-import com.frahhs.robbing.feature.robbing.controllers.RobController;
-import com.frahhs.robbing.feature.robbing.events.ItemRobbedEvent;
-import com.frahhs.robbing.feature.robbing.events.StartRobbingEvent;
+import com.frahhs.robbing.feature.rob.controllers.RobController;
+import com.frahhs.robbing.feature.rob.events.ItemRobbedEvent;
+import com.frahhs.robbing.feature.rob.events.StartRobbingEvent;
+import com.frahhs.robbing.feature.rob.model.Rob;
+import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -79,8 +81,9 @@ public class RobListener extends BaseListener {
         }*/
 
         // Check if player is in robbing cooldown
-        if(robController.haveCooldown(robber)){
-            long waitingTime = robController.getCooldown(robber);
+        if(Rob.haveCooldown(robber)){
+            Cooldown cooldown = Rob.getCooldown(robber);
+            long waitingTime = cooldown.getResidualTime();
             String message = messages.getMessage("general.cooldown").replace("{time}", Long.toString(waitingTime));
             robber.sendMessage(message);
             return;
@@ -180,7 +183,7 @@ public class RobListener extends BaseListener {
         }
 
         // Add to robbing cooldown
-        robController.addRobber((Player) e.getWhoClicked());
+        robController.robbed((Player) e.getWhoClicked());
     }
 
     @EventHandler
@@ -204,7 +207,7 @@ public class RobListener extends BaseListener {
                 return;
 
             // Check if the robber is robbing now
-            if(!robController.isRobbingNow(robber))
+            if(!Rob.isRobbingNow(robber))
                 return;
 
             // The viewer must be different by the robbed
@@ -228,7 +231,7 @@ public class RobListener extends BaseListener {
 
         Player robber = (Player)e.getPlayer();
 
-        if(robController.isRobbingNow(robber))
+        if(Rob.isRobbingNow(robber))
             robController.stopRobbing(robber);
 
         // check if blindness effect after robbing is enabled
