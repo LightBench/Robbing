@@ -1,14 +1,13 @@
 package com.frahhs.robbing.block.listeners;
 
+import com.frahhs.robbing.BaseListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
-import com.frahhs.robbing.features.BaseListener;
-import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
-import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;
-import com.frahhs.robbing.item.ItemsManager;
 import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
+import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
+import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;
+import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
-import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
@@ -24,15 +23,15 @@ public class RobbingBlockListener extends BaseListener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
-        ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
+        ItemManager itemManager = Robbing.getInstance().getItemsManager();
         ItemStack item = e.getItemInHand();
 
         // Check if is a Robbing item
-        if(!itemsManager.isRegistered(item))
+        if(!itemManager.isRegistered(item))
             return;
 
         // Instance of the Robbing item
-        RobbingItem rbItem = itemsManager.getByItemStack(item);
+        RobbingItem rbItem = itemManager.getByItemStack(item);
 
         // Check if is a Robbing block
         if(!rbItem.getRBMaterial().isBlock())
@@ -55,12 +54,12 @@ public class RobbingBlockListener extends BaseListener {
         robbingBlockPlaceEvent.setBuild(e.canBuild());
 
         // Place the Robbing block
-        block.place();
+        block.place(e.getPlayer());
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
-        ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
+        ItemManager itemManager = Robbing.getInstance().getItemsManager();
 
         // Check if is a Robbing item
         if(!RobbingBlock.isRBBlock(e.getBlock().getLocation()))
@@ -73,7 +72,7 @@ public class RobbingBlockListener extends BaseListener {
             return;
 
         // Instance of the Robbing item
-        RobbingItem item = itemsManager.get(block.getRobbingMaterial());
+        RobbingItem item = itemManager.get(block.getRobbingMaterial());
 
         // Call the RobbingBlockBreakEvent event
         RobbingBlockBreakEvent robbingBlockBreakEvent = new RobbingBlockBreakEvent(block, e);
@@ -114,6 +113,9 @@ public class RobbingBlockListener extends BaseListener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
+        if(e.getClickedBlock() == null)
+            return;
+
         if(!RobbingBlock.isRBBlock(e.getClickedBlock())) {
             return;
         }

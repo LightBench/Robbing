@@ -9,8 +9,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class Lockpick extends RobbingItem {
-    public Lockpick() {
-        super();
+    public Lockpick(Robbing plugin) {
+        super(plugin);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Lockpick extends RobbingItem {
 
     @Override
     public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(Robbing.getInstance(), "Lockpick");
+        return new NamespacedKey(plugin, "Lockpick");
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.frahhs.robbing.item;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.providers.ConfigProvider;
-import com.frahhs.robbing.providers.MessagesProvider;
+import com.frahhs.robbing.provider.ConfigProvider;
+import com.frahhs.robbing.provider.MessagesProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,15 +18,20 @@ import java.util.List;
  * Abstract class representing a custom robbing item.
  */
 public abstract class RobbingItem {
-    protected final ConfigProvider configProvider = Robbing.getInstance().getConfigProvider();
-    protected final MessagesProvider messagesProvider = Robbing.getInstance().getMessagesProvider();
+    protected final Robbing plugin;
+    protected final ConfigProvider configProvider;
+    protected final MessagesProvider messagesProvider;
 
     protected ItemStack item;
 
     /**
      * Constructor for RBItem.
      */
-    protected RobbingItem() {
+    protected RobbingItem(Robbing plugin) {
+        this.plugin = plugin;
+        this.configProvider = plugin.getConfigProvider();
+        this.messagesProvider = plugin.getMessagesProvider();
+
         if(getVanillaMaterial().isBlock())
             item = new ItemStack(Material.BARRIER, 1);
         else
@@ -73,6 +78,7 @@ public abstract class RobbingItem {
     /**
      * Abstract method to get the name of the custom robbing item.
      * The name must be unique.
+     * // TODO: Unnecessary, Material is enough
      */
     @NotNull
     public abstract String getItemName();

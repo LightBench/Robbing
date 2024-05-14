@@ -1,8 +1,9 @@
 package com.frahhs.robbing.block;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.features.BaseModel;
-import com.frahhs.robbing.item.ItemsManager;
+import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.Bukkit;
@@ -13,25 +14,22 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
 
-public class RobbingBlock extends BaseModel {
+public class RobbingBlock extends BaseProvider {
     private RobbingItem item;
     private Entity armorStand;
     private Location location;
-
-    private final Connection dbConnection;
 
     public RobbingBlock(RobbingItem item, Location location) {
         this.item = item;
         this.armorStand = getArmorStand();
         this.location = location;
-
-        dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
     }
 
     public void setLocation(Location location) {
@@ -50,7 +48,7 @@ public class RobbingBlock extends BaseModel {
         return item.getRBMaterial();
     }
 
-    public void place() {
+    public void place(Player placer) {
         location = location.getBlock().getLocation().add(0.5, 0, 0.5);
 
         Location spawn_location = location.clone();
@@ -62,20 +60,27 @@ public class RobbingBlock extends BaseModel {
         armorStand.setMarker(true);
         armorStand.setVisualFire(true);
         armorStand.setInvisible(true);
+
+        assert armorStand.getEquipment() != null;
         armorStand.getEquipment().setHelmet(item.getItemStack());
         armorStand.teleport(location);
         setArmorStand(armorStand);
 
         // Teleport is not immediately, await before set the block
         Location finalLocation = location.clone();
+
+        if (placer == null) {
+            save();
+        } else {
+            save(placer);
+        }
+
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Robbing.getInstance(), new Runnable(){
             public void run(){
                 //Run after wait things here
                 finalLocation.getBlock().setType(Material.IRON_BLOCK);
             }
-        }, 12);
-
-        save();
+        }, 10);
     }
 
     public void destroy() {
@@ -109,6 +114,28 @@ public class RobbingBlock extends BaseModel {
             ps.setInt(4, location.getBlockX());
             ps.setInt(5, location.getBlockY());
             ps.setInt(6, location.getBlockZ());
+            ps.executeUpdate();
+            dbConnection.commit();
+            ps.close();
+        } catch ( Exception e ) {
+            Robbing.getInstance().getRBLogger().error("%s: %s",e.getClass().getName(), e.getMessage());
+        }
+    }
+
+    private void save(Player placer) {
+        if(armorStand == null)
+            throw new RuntimeException("Tried to save a not placed Robbing block!");
+
+        try {
+            PreparedStatement ps;
+            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (placer, itemName, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ps.setString(1, placer.getUniqueId().toString());
+            ps.setString(2, item.getItemName());
+            ps.setString(3, armorStand.getUniqueId().toString());
+            ps.setString(4, location.getWorld().getName());
+            ps.setInt(5, location.getBlockX());
+            ps.setInt(6, location.getBlockY());
+            ps.setInt(7, location.getBlockZ());
             ps.executeUpdate();
             dbConnection.commit();
             ps.close();
@@ -213,8 +240,8 @@ public class RobbingBlock extends BaseModel {
 
             if(rs.next()) {
                 String itemName = rs.getString("itemName");
-                ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
-                RobbingItem item = itemsManager.getByName(itemName);
+                ItemManager itemManager = Robbing.getInstance().getItemsManager();
+                RobbingItem item = itemManager.getByName(itemName);
 
                 RobbingBlock block = new RobbingBlock(item, location);
 
@@ -249,8 +276,8 @@ public class RobbingBlock extends BaseModel {
 
             if(rs.next()) {
                 String itemName = rs.getString("itemName");
-                ItemsManager itemsManager = Robbing.getInstance().getItemsManager();
-                RobbingItem item = itemsManager.getByName(itemName);
+                ItemManager itemManager = Robbing.getInstance().getItemsManager();
+                RobbingItem item = itemManager.getByName(itemName);
 
                 World world = Bukkit.getWorld(rs.getString("world"));
                 int blockX = rs.getInt("blockX");

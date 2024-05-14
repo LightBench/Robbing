@@ -1,24 +1,22 @@
 package com.frahhs.robbing;
 
 import co.aikar.commands.PaperCommandManager;
-import com.frahhs.robbing.commands.RobbingCommand;
-import com.frahhs.robbing.database.RBDatabase;
+import com.frahhs.robbing.bag.BagManager;
 import com.frahhs.robbing.block.listeners.RobbingBlockListener;
-import com.frahhs.robbing.features.generics.listeners.CustomRecipesListener;
-import com.frahhs.robbing.features.handcuffing.controllers.HandcuffsBarController;
-import com.frahhs.robbing.features.handcuffing.listeners.HandcuffedListener;
-import com.frahhs.robbing.features.handcuffing.listeners.HandcuffingListener;
-import com.frahhs.robbing.features.handcuffing.listeners.HitHandcuffsListener;
-import com.frahhs.robbing.features.kidnapping.listeners.KidnappingListener;
-import com.frahhs.robbing.features.robbing.listeners.CatchListener;
-import com.frahhs.robbing.features.robbing.listeners.RobListener;
-import com.frahhs.robbing.item.ItemsManager;
+import com.frahhs.robbing.command.RobbingCommand;
+import com.frahhs.robbing.database.RBDatabase;
+import com.frahhs.robbing.feature.FeatureManager;
+import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
+import com.frahhs.robbing.feature.robbing.listeners.CatchListener;
+import com.frahhs.robbing.feature.robbing.listeners.RobListener;
+import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.items.Handcuffs;
 import com.frahhs.robbing.item.items.Lockpick;
 import com.frahhs.robbing.item.items.Safe;
-import com.frahhs.robbing.providers.ConfigProvider;
-import com.frahhs.robbing.providers.MessagesProvider;
-import com.frahhs.robbing.utils.RobbingLogger;
+import com.frahhs.robbing.item.listeners.CustomRecipesListener;
+import com.frahhs.robbing.provider.ConfigProvider;
+import com.frahhs.robbing.provider.MessagesProvider;
+import com.frahhs.robbing.util.RobbingLogger;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,10 +27,15 @@ import java.util.logging.Level;
 public final class Robbing extends JavaPlugin {
     private static Robbing instance;
 
-    // Managers
+    // Providers
     private ConfigProvider configProvider;
     private MessagesProvider messagesProvider;
-    PaperCommandManager commandManager;
+
+    // Managers
+    private PaperCommandManager commandManager;
+    private BagManager bagManager;
+    private ItemManager itemManager;
+    private FeatureManager featureManager;
 
     // Database
     private RBDatabase rbDatabase;
@@ -40,12 +43,12 @@ public final class Robbing extends JavaPlugin {
     // Utils
     private RobbingLogger robbingLogger;
 
-    // Items
-    private ItemsManager itemsManager;
-
     @Override
     public void onEnable() {
         //TODO: alarm system
+        // TODO: Remove getter and setters from controllers
+        // make controller methods return the Model object
+        // make the model instantiable only in the controllers (this line maybe, not sure)
         instance = this;
 
         // Setup utils
@@ -55,8 +58,10 @@ public final class Robbing extends JavaPlugin {
         // Setup managers
         configProvider = new ConfigProvider(this);
         messagesProvider = new MessagesProvider(this);
-        itemsManager = new ItemsManager(this);
+        itemManager = new ItemManager(this);
         commandManager  = new PaperCommandManager(this);
+        bagManager = new BagManager();
+        featureManager = new FeatureManager(this);
 
         // Setup Database connection
         rbDatabase = new RBDatabase(this);
@@ -65,6 +70,7 @@ public final class Robbing extends JavaPlugin {
         registerCommands();
         registerEvents();
         registerItems();
+        registerFeatures();
 
         // Disable plugin if is disabled in the config
         if(!configProvider.getBoolean("general.enabled"))
@@ -73,12 +79,18 @@ public final class Robbing extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        // Disable database
         rbDatabase.disable();
 
-        // Remove all handcuffs bar
-        HandcuffsBarController handcuffsBarController = new HandcuffsBarController();
-        handcuffsBarController.onDisable();
+        // Disable features
+        featureManager.disableFeatures();
+
+        // Disable bags
+        bagManager.disableBags();
+    }
+
+    public static Robbing getInstance() {
+        return instance;
     }
 
     public void reload() {
@@ -86,9 +98,13 @@ public final class Robbing extends JavaPlugin {
         configProvider.reload();
         messagesProvider.reload();
 
-        // Items
-        itemsManager.dispose();
+        // Item
+        itemManager.dispose();
         registerItems();
+
+        // Bag
+        bagManager.disableBags();
+        bagManager.enableBags();
     }
 
     private void registerEvents() {
@@ -99,35 +115,31 @@ public final class Robbing extends JavaPlugin {
         // Steal
         getServer().getPluginManager().registerEvents(new RobListener(),this);
         getServer().getPluginManager().registerEvents(new CatchListener(),this);
-
-        // Handcuffs
-        getServer().getPluginManager().registerEvents(new HandcuffingListener(),this);
-        getServer().getPluginManager().registerEvents(new HandcuffedListener(),this);
-        getServer().getPluginManager().registerEvents(new KidnappingListener(),this);
-        getServer().getPluginManager().registerEvents(new HitHandcuffsListener(),this);
     }
 
     private void registerCommands() {
+        // Command settings
         commandManager.enableUnstableAPI("help");
-        commandManager.registerCommand(new RobbingCommand());
 
+        // Commands
+        commandManager.registerCommand(new RobbingCommand(this));
+
+        // Command completions
         commandManager.getCommandCompletions().registerCompletion("RBItems", c -> {
             List<String> rbItems = new ArrayList<>();
-            itemsManager.getRegisteredItems().forEach(item -> {
-                rbItems.add(item.getItemName());
-            });
+            itemManager.getRegisteredItems().forEach(item -> rbItems.add(item.getItemName()));
             return ImmutableList.copyOf(rbItems);
         });
     }
 
-    private void registerItems() {
-        itemsManager.registerItem(new Handcuffs());
-        itemsManager.registerItem(new Lockpick());
-        itemsManager.registerItem(new Safe());
+    public void registerFeatures() {
+        featureManager.registerFeatures(new HandcuffingFeature(this));
     }
 
-    public static Robbing getInstance() {
-        return instance;
+    private void registerItems() {
+        itemManager.registerItem(new Handcuffs(this));
+        itemManager.registerItem(new Lockpick(this));
+        itemManager.registerItem(new Safe(this));
     }
 
     public RobbingLogger getRBLogger() {
@@ -146,7 +158,11 @@ public final class Robbing extends JavaPlugin {
         return messagesProvider;
     }
 
-    public ItemsManager getItemsManager() {
-        return itemsManager;
+    public BagManager getBagManager() {
+        return bagManager;
+    }
+
+    public ItemManager getItemsManager() {
+        return itemManager;
     }
 }

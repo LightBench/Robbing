@@ -9,8 +9,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class Handcuffs extends RobbingItem {
-    public Handcuffs() {
-        super();
+    public Handcuffs(Robbing plugin) {
+        super(plugin);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Handcuffs extends RobbingItem {
 
     @Override
     public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(Robbing.getInstance(), "Handcuffs");
+        return new NamespacedKey(plugin, "Handcuffs");
     }
 
     @Override

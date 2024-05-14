@@ -9,8 +9,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class Safe extends RobbingItem {
-    public Safe() {
-        super();
+    public Safe(Robbing plugin) {
+        super(plugin);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Safe extends RobbingItem {
 
     @Override
     public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(Robbing.getInstance(), "Safe");
+        return new NamespacedKey(plugin, "Safe");
     }
 
     @Override

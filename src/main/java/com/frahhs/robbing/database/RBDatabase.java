@@ -1,8 +1,7 @@
 package com.frahhs.robbing.database;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.providers.ConfigProvider;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.frahhs.robbing.provider.ConfigProvider;
 
 import java.io.File;
 import java.sql.Connection;
@@ -15,7 +14,7 @@ import java.util.Objects;
  * Class for managing the connection to the robbing database.
  */
 public class RBDatabase {
-    private final JavaPlugin plugin;
+    private final Robbing plugin;
     private final String sqlite_path;
     private final String mysql_address;
     private final String mysql_port;
@@ -24,7 +23,7 @@ public class RBDatabase {
     private final String db_name;
     private final String db_type;
     private Connection dbConnection = null;
-    private final ConfigProvider configProvider = Robbing.getInstance().getConfigProvider();
+    private final ConfigProvider configProvider;
 
     /**
      * Enum representing the types of supported databases.
@@ -39,8 +38,9 @@ public class RBDatabase {
      *
      * @param plugin The main JavaPlugin instance.
      */
-    public RBDatabase(JavaPlugin plugin) {
+    public RBDatabase(Robbing plugin) {
         this.plugin = plugin;
+        configProvider = plugin.getConfigProvider();
 
         // Setup variables
         db_name = configProvider.getString("database.database_name");
@@ -57,7 +57,7 @@ public class RBDatabase {
             File data_folder = new File(Robbing.getPlugin(Robbing.class).getDataFolder().getAbsolutePath() + "/data");
             if (!data_folder.exists())
                 if (data_folder.mkdir())
-                    Robbing.getInstance().getRBLogger().info("Database folder created!");
+                    plugin.getRBLogger().info("Database folder created!");
 
             // Create SQLite connection
             createConnection(DBType.SQLITE);
@@ -65,8 +65,8 @@ public class RBDatabase {
             // Create MySQL connection
             createConnection(DBType.MYSQL);
         } else {
-            Robbing.getInstance().getRBLogger().error("Database type %s selected in the config is not valid, you must choose SQLite or MySQL", db_type);
-            this.plugin.getPluginLoader().disablePlugin(Robbing.getInstance());
+            plugin.getRBLogger().error("Database type %s selected in the config is not valid, you must choose SQLite or MySQL", db_type);
+            this.plugin.getPluginLoader().disablePlugin(plugin);
         }
 
         // Setup tables
@@ -119,7 +119,7 @@ public class RBDatabase {
 
             dbConnection.close();
         } catch (SQLException e) {
-            Robbing.getInstance().getRBLogger().error(e.toString());
+            plugin.getRBLogger().error(e.toString());
         }
     }
 
@@ -127,7 +127,7 @@ public class RBDatabase {
      * Creates the handcuffing table if it does not exist.
      */
     public void handcuffingTable() {
-        Statement stmt = null;
+        Statement stmt;
 
         // if table safes not exist create it
         try {
@@ -136,7 +136,7 @@ public class RBDatabase {
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"    +
                          "handcuffed CHAR(100) NOT NULL,"           +
                          "handcuffer CHAR(100) NOT NULL,"           +
-                         "timestamp TIMESTAMP NOT NULL)"            ;
+                         "timestamp DEFAULT CURRENT_TIMESTAMP)"            ;
             stmt.executeUpdate(sql);
             dbConnection.commit();
             stmt.close();
@@ -147,10 +147,9 @@ public class RBDatabase {
 
     /**
      * Creates the handcuffing table if it does not exist.
-     * TODO: add placerUUID column
      */
     public void blocksPlacedTable() {
-        Statement stmt = null;
+        Statement stmt;
 
         // if table safes not exist create it
         try {
@@ -158,6 +157,7 @@ public class RBDatabase {
             String sql = "CREATE TABLE IF NOT EXISTS BlocksPlaced (" +
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
                          "timestamp DEFAULT CURRENT_TIMESTAMP,"      +
+                         "placer CHAR(100),"                         +
                          "itemName CHAR(100) NOT NULL,"              + // TODO: Change to Material
                          "armorStandUUID CHAR(100) NOT NULL,"        +
                          "world CHAR(100) NOT NULL,"                 +
