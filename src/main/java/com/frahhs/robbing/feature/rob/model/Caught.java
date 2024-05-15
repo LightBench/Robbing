@@ -6,6 +6,9 @@ import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
+/**
+ * Model class representing the caught action.
+ */
 public class Caught {
     private Caught() {}
 
@@ -33,8 +36,9 @@ public class Caught {
 
     /**
      * Sets the cooldown for the caught action.
-     * <p>
-     * Set to 0 to remove cooldown.
+     *
+     * @param robber The player to set the cooldown for.
+     * @param time   The duration of the cooldown in seconds.
      */
     public static void setCooldown(Player robber, int time) {
         CaughtProvider provider = new CaughtProvider();
@@ -45,14 +49,16 @@ public class Caught {
                 provider.saveCooldown(robber, cooldown);
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(robber.getPlayer());
-            } catch(InterruptedException v) {
-                System.out.println(v.getMessage());
+            } catch(InterruptedException e) {
+                System.out.println(e.getMessage());
             }
         }).start();
     }
 
     /**
      * Sets the default cooldown for the caught action.
+     *
+     * @param robber The player to set the default cooldown for.
      */
     public static void setCooldown(Player robber) {
         ConfigProvider config = Robbing.getInstance().getConfigProvider();

@@ -13,11 +13,17 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+/**
+ * Provider class for managing handcuffing-related data and database operations.
+ */
 public class HandcuffingProvider extends Provider {
     private final HandcuffingCooldownBag handcuffingCooldownBag;
 
+    /**
+     * Constructs a HandcuffingProvider instance.
+     */
     public HandcuffingProvider() {
-        handcuffingCooldownBag = (HandcuffingCooldownBag)bagManager.getBag("HandcuffingCooldownBag");
+        handcuffingCooldownBag = (HandcuffingCooldownBag) bagManager.getBag("HandcuffingCooldownBag");
     }
 
     /**
@@ -30,16 +36,16 @@ public class HandcuffingProvider extends Provider {
         try {
             Statement stmt = dbConnection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Handcuffing");
-            while ( rs.next() ) {
+            while (rs.next()) {
                 String handcuffedPlayerUUID = rs.getString("handcuffed");
                 Player handcuffedPlayer = Bukkit.getPlayer(UUID.fromString(handcuffedPlayerUUID));
-                if(handcuffed.equals(handcuffedPlayer))
+                if (handcuffed.equals(handcuffedPlayer))
                     return true;
             }
             dbConnection.commit();
             stmt.close();
-        } catch ( Exception e ) {
-            logger.error("%s: %s",e.getClass().getName(), e.getMessage());
+        } catch (Exception e) {
+            logger.error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -59,8 +65,8 @@ public class HandcuffingProvider extends Provider {
             ps.executeUpdate();
             dbConnection.commit();
             ps.close();
-        } catch ( Exception e ) {
-            logger.error("%s: %s",e.getClass().getName(), e.getMessage());
+        } catch (Exception e) {
+            logger.error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -77,8 +83,8 @@ public class HandcuffingProvider extends Provider {
             ps.executeUpdate();
             dbConnection.commit();
             ps.close();
-        } catch ( Exception e ) {
-            logger.error("%s: %s",e.getClass().getName(), e.getMessage());
+        } catch (Exception e) {
+            logger.error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -107,18 +113,18 @@ public class HandcuffingProvider extends Provider {
             Player handcuffer = Bukkit.getPlayer(UUID.fromString(handcufferPlayerUUID));
 
             return new Handcuffing(handcuffer, handcuffed);
-        } catch ( Exception e ) {
-            logger.error("%s: %s",e.getClass().getName(), e.getMessage());
+        } catch (Exception e) {
+            logger.error("%s: %s", e.getClass().getName(), e.getMessage());
         }
 
         return null;
     }
 
     /**
-     * Retrieves a HandcuffingModel instance based on the handcuffed player.
+     * Retrieves the timestamp of the handcuffing event.
      *
-     * @param handcuffed The handcuffed player.
-     * @return The HandcuffingModel instance, or null if not found.
+     * @param handcuffed The player who was handcuffed.
+     * @return The timestamp of the handcuffing event.
      */
     public Timestamp getTimestamp(Player handcuffed) {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
@@ -133,8 +139,8 @@ public class HandcuffingProvider extends Provider {
             ps.close();
 
             return timestamp;
-        } catch ( Exception e ) {
-            logger.error("%s: %s",e.getClass().getName(), e.getMessage());
+        } catch (Exception e) {
+            logger.error("%s: %s", e.getClass().getName(), e.getMessage());
         }
 
         return null;
@@ -162,13 +168,18 @@ public class HandcuffingProvider extends Provider {
 
     /**
      * Sets the cooldown for the handcuffing action.
+     *
+     * @param handcuffer The player to set the cooldown for.
+     * @param cooldown   The cooldown duration.
      */
     public void saveCooldown(Player handcuffer, Cooldown cooldown) {
         handcuffingCooldownBag.getData().put(handcuffer, cooldown);
     }
 
     /**
-     * Remove the cooldown for the handcuffing action.
+     * Removes the cooldown for the handcuffing action.
+     *
+     * @param handcuffer The player to remove the cooldown from.
      */
     public void removeCooldown(Player handcuffer) {
         handcuffingCooldownBag.getData().remove(handcuffer);

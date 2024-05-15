@@ -29,6 +29,7 @@ public class HandcuffingController extends Controller {
      * @param handcuffer The player who put the handcuffs.
      * @param handcuffed The player to whom put the handcuffs.
      * @param silent Indicates whether to send messages or not.
+     * @return The Handcuffing instance representing the handcuffing action.
      */
     public Handcuffing putHandcuffs(Player handcuffer, Player handcuffed, boolean silent) {
         Handcuffing handcuffing = new Handcuffing(handcuffer, handcuffed);
@@ -39,7 +40,7 @@ public class HandcuffingController extends Controller {
             Bukkit.getPluginManager().callEvent(toggleHandcuffsEvent);
 
             // Check if event is cancelled
-            if(toggleHandcuffsEvent.isCancelled())
+            if (toggleHandcuffsEvent.isCancelled())
                 return;
 
             // Handcuffing stuff
@@ -48,7 +49,7 @@ public class HandcuffingController extends Controller {
             handcuffed.setGliding(false);
 
             // Send handcuffing messages...
-            if(!silent) {
+            if (!silent) {
                 String message;
                 message = messages.getMessage("handcuffing.cuffed").replace("{player}", handcuffer.getDisplayName());
                 handcuffed.sendMessage(message);
@@ -68,6 +69,7 @@ public class HandcuffingController extends Controller {
      *
      * @param handcuffer The player who put the handcuffs.
      * @param handcuffed The player to whom put the handcuffs.
+     * @return The Handcuffing instance representing the handcuffing action.
      */
     public Handcuffing putHandcuffs(Player handcuffer, Player handcuffed) {
         return putHandcuffs(handcuffer, handcuffed, false);
@@ -88,7 +90,7 @@ public class HandcuffingController extends Controller {
             Bukkit.getPluginManager().callEvent(toggleHandcuffsEvent);
 
             // Check if event is cancelled
-            if(toggleHandcuffsEvent.isCancelled())
+            if (toggleHandcuffsEvent.isCancelled())
                 return;
 
             // Handcuffing stuff
@@ -97,7 +99,7 @@ public class HandcuffingController extends Controller {
 
             String message;
             // Send handcuffing messages...
-            if(!silent) {
+            if (!silent) {
                 message = messages.getMessage("handcuffing.uncuffed").replace("{player}", handcuffer.getDisplayName());
                 handcuffed.sendMessage(message);
                 message = messages.getMessage("handcuffing.uncuff").replace("{target}", handcuffed.getDisplayName());
@@ -106,9 +108,9 @@ public class HandcuffingController extends Controller {
 
             // Check also if the target is in following mode and remove it
             KidnappingController kidnappingController = new KidnappingController();
-            if(Kidnapping.isKidnapped(handcuffed)) {
+            if (Kidnapping.isKidnapped(handcuffed)) {
                 kidnappingController.free(handcuffed);
-                if(!silent) {
+                if (!silent) {
                     message = messages.getMessage("follow.make_unfollow_cuffed");
                     message = message.replace("{target}", handcuffed.getDisplayName());
                     handcuffer.sendMessage(message);
@@ -164,7 +166,7 @@ public class HandcuffingController extends Controller {
 
         new Thread(() -> {
             try {
-                for(int i = delay; i >= 1; i--) {
+                for (int i = delay; i >= 1; i--) {
                     TextComponent time_to_escape_tc = new TextComponent(time_to_escape.replace("{time}", Integer.toString(i)));
                     TextComponent handcuffing_tc = new TextComponent(handcuffing.replace("{time}", Integer.toString(i)));
                     TextComponent escaped_tc = new TextComponent(escaped.replace("{time}", Integer.toString(i)));
@@ -173,7 +175,7 @@ public class HandcuffingController extends Controller {
                     handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, time_to_escape_tc);
                     handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffing_tc);
                     Thread.sleep(1000L);
-                    if(handcuffer.getLocation().distance(handcuffed.getLocation()) > distance) {
+                    if (handcuffer.getLocation().distance(handcuffed.getLocation()) > distance) {
                         handcuffed.spigot().sendMessage(ChatMessageType.ACTION_BAR, escaped_tc);
                         handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffing_failed_tc);
                         return;
@@ -185,7 +187,7 @@ public class HandcuffingController extends Controller {
                 handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffed_msg_tc);
 
                 putHandcuffs(handcuffer, handcuffed);
-            } catch(InterruptedException v) {
+            } catch (InterruptedException v) {
                 System.out.println(v.getMessage());
             }
         }).start();

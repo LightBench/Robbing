@@ -5,7 +5,7 @@ import com.frahhs.robbing.feature.Model;
 /**
  * Model class representing a cooldown for an action.
  */
-public class Cooldown extends Model {
+public class Cooldown {
     private long timestamp;
     private int cooldown;
 
@@ -56,7 +56,12 @@ public class Cooldown extends Model {
         return timestamp;
     }
 
+    /**
+     * Retrieves the residual time remaining in the cooldown.
+     *
+     * @return The remaining time in seconds.
+     */
     public long getResidualTime() {
-        return getCooldown() - ((System.currentTimeMillis() - getTimestamp()) / 1000 );
+        return getCooldown() - ((System.currentTimeMillis() - getTimestamp()) / 1000);
     }
 }

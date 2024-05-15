@@ -19,7 +19,7 @@ public class Handcuffing extends Model {
     private final HandcuffingProvider provider;
 
     /**
-     * Constructs a HandcuffingModel instance.
+     * Constructs a Handcuffing instance.
      *
      * @param handcuffer The player who handcuffed.
      * @param handcuffed The player who is handcuffed.
@@ -27,14 +27,13 @@ public class Handcuffing extends Model {
     public Handcuffing(Player handcuffer, Player handcuffed) {
         this.handcuffed = handcuffed;
         this.handcuffer = handcuffer;
-
         this.provider = new HandcuffingProvider();
     }
 
     /**
      * Retrieves the handcuffer.
      *
-     * @return The handcuffer.
+     * @return The player who applied the handcuffs.
      */
     public Player getHandcuffer() {
         return handcuffer;
@@ -43,7 +42,7 @@ public class Handcuffing extends Model {
     /**
      * Retrieves the handcuffed player.
      *
-     * @return The handcuffed player.
+     * @return The player who is handcuffed.
      */
     public Player getHandcuffed() {
         return handcuffed;
@@ -52,7 +51,7 @@ public class Handcuffing extends Model {
     /**
      * Retrieves the timestamp of the handcuffing event.
      *
-     * @return The timestamp.
+     * @return The timestamp of the handcuffing event.
      */
     public Timestamp getTimestamp() {
         return provider.getTimestamp(handcuffed);
@@ -84,10 +83,10 @@ public class Handcuffing extends Model {
     }
 
     /**
-     * Retrieves a HandcuffingModel instance based on the handcuffed player.
+     * Retrieves a Handcuffing instance based on the handcuffed player.
      *
      * @param handcuffed The handcuffed player.
-     * @return The HandcuffingModel instance, or null if not found.
+     * @return The Handcuffing instance, or null if not found.
      */
     public static Handcuffing getFromHandcuffed(Player handcuffed) {
         HandcuffingProvider provider = new HandcuffingProvider();
@@ -109,7 +108,7 @@ public class Handcuffing extends Model {
      * Retrieves the cooldown timestamp for a player.
      *
      * @param handcuffer The player to check.
-     * @return The timestamp when the handcuffing action occurred.
+     * @return The cooldown object containing the timestamp and duration.
      */
     public static Cooldown getCooldown(Player handcuffer) {
         HandcuffingProvider provider = new HandcuffingProvider();
@@ -118,8 +117,9 @@ public class Handcuffing extends Model {
 
     /**
      * Sets the cooldown for the handcuffing action.
-     * <p>
-     * Set to 0 to remove cooldown.
+     *
+     * @param handcuffer The player who applied the handcuffs.
+     * @param time       The duration of the cooldown in seconds.
      */
     public static void setCooldown(Player handcuffer, int time) {
         HandcuffingProvider provider = new HandcuffingProvider();
@@ -129,8 +129,8 @@ public class Handcuffing extends Model {
                 Cooldown cooldown = new Cooldown(System.currentTimeMillis(), time);
                 provider.saveCooldown(handcuffer, cooldown);
                 Thread.sleep(time * 1000L);
-                provider.removeCooldown(handcuffer.getPlayer());
-            } catch(InterruptedException v) {
+                provider.removeCooldown(handcuffer);
+            } catch (InterruptedException v) {
                 System.out.println(v.getMessage());
             }
         }).start();
@@ -138,6 +138,8 @@ public class Handcuffing extends Model {
 
     /**
      * Sets the default cooldown for the handcuffing action.
+     *
+     * @param handcuffer The player who applied the handcuffs.
      */
     public static void setCooldown(Player handcuffer) {
         ConfigProvider config = Robbing.getInstance().getConfigProvider();

@@ -8,6 +8,7 @@ import com.frahhs.robbing.util.RobbingLogger;
  * Abstract base class for features in the plugin.
  */
 public abstract class RBObject {
+    // Instance of the main plugin class
     protected final Robbing plugin = Robbing.getInstance();
 
     /** Configuration manager instance. */

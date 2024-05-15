@@ -18,15 +18,14 @@ public class KidnappingController extends Controller {
      * @param kidnapped The player who is kidnapped.
      */
     public void kidnap(Player kidnapper, Player kidnapped) {
-        ToggleKidnapEvent toggleKidnapEvent = new ToggleKidnapEvent(kidnapper, kidnapper, true);
+        ToggleKidnapEvent toggleKidnapEvent = new ToggleKidnapEvent(kidnapper, kidnapped, true);
         Bukkit.getPluginManager().callEvent(toggleKidnapEvent);
 
         Kidnapping kidnapping = new Kidnapping(kidnapper, kidnapped);
 
-        if(toggleKidnapEvent.isCancelled())
-            return;
-
-        kidnapping.setKidnap();
+        if (!toggleKidnapEvent.isCancelled()) {
+            kidnapping.setKidnap();
+        }
     }
 
     /**
@@ -36,18 +35,16 @@ public class KidnappingController extends Controller {
      */
     public void free(Player kidnapped) {
         LocationPath locationPath = new LocationPath();
-        if(!Kidnapping.isKidnapped(kidnapped))
-            return;
+        if (Kidnapping.isKidnapped(kidnapped)) {
+            ToggleKidnapEvent toggleKidnapEvent = new ToggleKidnapEvent(Kidnapping.getFromKidnapped(kidnapped).getKidnapper(), kidnapped, true);
+            Bukkit.getPluginManager().callEvent(toggleKidnapEvent);
 
-        ToggleKidnapEvent toggleKidnapEvent = new ToggleKidnapEvent(Kidnapping.getFromKidnapped(kidnapped).getKidnapper(), kidnapped, true);
-        Bukkit.getPluginManager().callEvent(toggleKidnapEvent);
-
-        if(toggleKidnapEvent.isCancelled())
-            return;
-
-        Kidnapping kidnapping = Kidnapping.getFromKidnapped(kidnapped);
-        kidnapping.removeKidnap();
-        locationPath.removePlayerPath(kidnapping.getKidnapper());
+            if (!toggleKidnapEvent.isCancelled()) {
+                Kidnapping kidnapping = Kidnapping.getFromKidnapped(kidnapped);
+                kidnapping.removeKidnap();
+                locationPath.removePlayerPath(kidnapping.getKidnapper());
+            }
+        }
     }
 
     /**
@@ -57,10 +54,11 @@ public class KidnappingController extends Controller {
      * @return The player who is the kidnapper, or null if not found.
      */
     public Player getKidnapper(Player kidnapped) {
-        if(!Kidnapping.isKidnapped(kidnapped))
+        if (Kidnapping.isKidnapped(kidnapped)) {
+            return Kidnapping.getFromKidnapped(kidnapped).getKidnapper();
+        } else {
             return null;
-
-        return Kidnapping.getFromKidnapped(kidnapped).getKidnapper();
+        }
     }
 
     /**
@@ -70,9 +68,10 @@ public class KidnappingController extends Controller {
      * @return The player who is kidnapped, or null if not found.
      */
     public Player getKidnapped(Player kidnapper) {
-        if(!Kidnapping.isKidnapper(kidnapper))
+        if (Kidnapping.isKidnapper(kidnapper)) {
+            return Kidnapping.getFromKidnapper(kidnapper).getKidnapped();
+        } else {
             return null;
-
-        return Kidnapping.getFromKidnapper(kidnapper).getKidnapped();
+        }
     }
 }

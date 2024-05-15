@@ -21,7 +21,7 @@ public class HandcuffsBar extends Model {
     private HandcuffsBarProvider provider;
 
     /**
-     * Constructs a HandcuffsBarModel instance.
+     * Constructs a HandcuffsBar instance.
      *
      * @param player The player associated with the health bar.
      */
@@ -36,9 +36,10 @@ public class HandcuffsBar extends Model {
     }
 
     /**
-     * Constructs a HandcuffsBarModel instance from an existing bar.
+     * Constructs a HandcuffsBar instance from an existing bar.
      *
      * @param player The player associated with the health bar.
+     * @param bar    The existing boss bar.
      */
     public HandcuffsBar(Player player, BossBar bar) {
         this.provider = new HandcuffsBarProvider();
@@ -68,18 +69,18 @@ public class HandcuffsBar extends Model {
      * Adds the handcuffs bar to a player.
      */
     public void putHandcuffsBar() {
-        if(!Bukkit.getOnlinePlayers().contains(player))
+        if (!Bukkit.getOnlinePlayers().contains(player))
             return;
 
         this.bar.addPlayer(player);
-        provider.saveHandcuffsBar(player, this.getBossBar());
+        provider.saveHandcuffsBar(player, this.bar);
     }
 
     /**
      * Removes the handcuffs bar from a player.
      */
     public void removeHandcuffsBar() {
-        if(!Bukkit.getOnlinePlayers().contains(player))
+        if (!Bukkit.getOnlinePlayers().contains(player))
             return;
 
         if (bar != null)
@@ -93,7 +94,7 @@ public class HandcuffsBar extends Model {
      * @return True if the health bar is broken, false otherwise.
      */
     public boolean hit() {
-        if(bar.getProgress() - 0.005 <= 0.005)
+        if (bar.getProgress() - 0.005 <= 0.005)
             return true;
 
         bar.setProgress(bar.getProgress() - 0.005);
@@ -111,28 +112,36 @@ public class HandcuffsBar extends Model {
         return provider.haveHandcuffsBar(player);
     }
 
+    /**
+     * Checks if a boss bar is a handcuffs bar.
+     *
+     * @param bar The boss bar to check.
+     * @return True if the boss bar is a handcuffs bar, false otherwise.
+     */
     public static boolean isHandcuffsBar(BossBar bar) {
         HandcuffsBarProvider provider = new HandcuffsBarProvider();
-
         return provider.isHandcuffsBar(bar);
     }
 
     /**
-     * Retrieves the bar associated with a player.
+     * Retrieves the handcuffs bar associated with a player.
      *
      * @param player The player.
-     * @return The health bar associated with the player, null otherwise.
+     * @return The handcuffs bar associated with the player, or null if not found.
      */
     public static HandcuffsBar getBarFromPlayer(Player player) {
         HandcuffsBarProvider provider = new HandcuffsBarProvider();
         BossBar bar = provider.getHandcuffsBar(player).getBossBar();
-
         return new HandcuffsBar(player, bar);
     }
 
+    /**
+     * Retrieves a list of all active handcuffs bars.
+     *
+     * @return A list of handcuffs bars.
+     */
     public static List<HandcuffsBar> getAll() {
         HandcuffsBarProvider provider = new HandcuffsBarProvider();
-
         return provider.getAllHandcuffsBar();
     }
 }

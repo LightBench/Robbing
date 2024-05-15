@@ -8,22 +8,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class for managing custom Items related to robbing mechanics.
+ * Class for managing custom items related to robbing mechanics.
  */
 public class ItemManager {
     private final JavaPlugin plugin;
     private Map<String, RobbingItem> rbItems;
 
     /**
-     * Constructor for ItemsManager.
+     * Constructor for ItemManager.
      *
      * @param plugin The JavaPlugin instance.
      */
     public ItemManager(JavaPlugin plugin) {
         this.plugin = plugin;
 
-        // Setup items map
-        rbItems= new HashMap<>();
+        // Initialize the items map
+        rbItems = new HashMap<>();
         plugin.getServer().getPluginManager().registerEvents(new CustomRecipesListener(), plugin);
     }
 
@@ -33,36 +33,39 @@ public class ItemManager {
      * @param rbItem The RBItem to register.
      */
     public void registerItem(RobbingItem rbItem) {
-        //TODO: add custom exception here and more checks for the items validation
-        if(rbItems.containsKey(rbItem.getItemName()))
-            throw new RuntimeException(String.format("Item name [%s] already existing.", rbItem.getItemName()));
+        if (rbItems.containsKey(rbItem.getItemName())) {
+            throw new RuntimeException(String.format("Item name [%s] already exists.", rbItem.getItemName()));
+        }
 
         rbItems.put(rbItem.getItemName(), rbItem);
-        if(rbItem.isCraftable())
+        if (rbItem.isCraftable()) {
             plugin.getServer().addRecipe(rbItem.getShapedRecipe());
+        }
     }
 
     /**
      * Dispose all registered items.
      */
     public void dispose() {
-        for (String key : rbItems.keySet())
-            if(rbItems.get(key).isCraftable())
+        for (String key : rbItems.keySet()) {
+            if (rbItems.get(key).isCraftable()) {
                 plugin.getServer().removeRecipe(rbItems.get(key).getNamespacedKey());
-
-        rbItems = new HashMap<>();
+            }
+        }
+        rbItems.clear();
     }
 
     /**
      * Retrieves an ItemStack based on RBMaterial.
      *
      * @param robbingMaterial The RBMaterial to retrieve.
-     * @return The corresponding ItemStack, or null if no matching RBItem is found.
+     * @return The corresponding RobbingItem, or null if no matching RBItem is found.
      */
     public RobbingItem get(RobbingMaterial robbingMaterial) {
-        for (String key : rbItems.keySet()) {
-            if(rbItems.get(key).getRBMaterial().equals(robbingMaterial))
-                return rbItems.get(key);
+        for (RobbingItem item : rbItems.values()) {
+            if (item.getRBMaterial().equals(robbingMaterial)) {
+                return item;
+            }
         }
         return null;
     }
@@ -71,19 +74,29 @@ public class ItemManager {
      * Retrieves an ItemStack based on item name.
      *
      * @param itemName The name of the item to retrieve.
-     * @return The corresponding ItemStack, or null if no matching RBItem is found.
+     * @return The corresponding RobbingItem, or null if no matching RBItem is found.
      */
     public RobbingItem getByName(String itemName) {
-        for (String key : rbItems.keySet())
-            if(rbItems.get(key).getItemName().equalsIgnoreCase(itemName))
-                return rbItems.get(key);
+        for (RobbingItem item : rbItems.values()) {
+            if (item.getItemName().equalsIgnoreCase(itemName)) {
+                return item;
+            }
+        }
         return null;
     }
 
+    /**
+     * Retrieves a RobbingItem based on the provided ItemStack.
+     *
+     * @param itemStack The ItemStack to match.
+     * @return The corresponding RobbingItem, or null if no matching RBItem is found.
+     */
     public RobbingItem getByItemStack(ItemStack itemStack) {
-        for(RobbingItem cur : getRegisteredItems())
-            if(cur.getItemStack().isSimilar(itemStack))
-                return cur;
+        for (RobbingItem item : rbItems.values()) {
+            if (item.getItemStack().isSimilar(itemStack)) {
+                return item;
+            }
+        }
         return null;
     }
 
@@ -96,10 +109,18 @@ public class ItemManager {
         return rbItems.values();
     }
 
+    /**
+     * Checks if the provided ItemStack is registered as a custom item.
+     *
+     * @param itemStack The ItemStack to check.
+     * @return True if the ItemStack is registered, otherwise false.
+     */
     public boolean isRegistered(ItemStack itemStack) {
-        for(RobbingItem cur : getRegisteredItems())
-            if(cur.getItemStack().isSimilar(itemStack))
+        for (RobbingItem item : rbItems.values()) {
+            if (item.getItemStack().isSimilar(itemStack)) {
                 return true;
+            }
+        }
         return false;
     }
 }

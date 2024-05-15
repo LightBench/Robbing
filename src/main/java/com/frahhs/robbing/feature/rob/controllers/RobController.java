@@ -14,14 +14,14 @@ public class RobController extends Model {
     public RobController() {}
 
     /**
-     * Starts the robbery action between a robber and a robbed player.
+     * Initiates the robbery action between a robber and a victim player.
      *
      * @param robber The player initiating the robbery.
-     * @param robbed The player being robbed.
+     * @param victim The player being robbed.
      */
-    public void startRobbing(Player robber, Player robbed) {
-        Rob.setRobbingNow(robber, robbed);
-        robber.openInventory(robbed.getInventory());
+    public void startRobbing(Player robber, Player victim) {
+        Rob.setRobbingNow(robber, victim);
+        robber.openInventory(victim.getInventory());
     }
 
     /**
@@ -36,7 +36,11 @@ public class RobController extends Model {
         }
     }
 
-    // Called if the player really performed the action
+    /**
+     * Marks the player as successfully robbed, triggering cooldown.
+     *
+     * @param robber The player who successfully performed the robbery.
+     */
     public void robbed(Player robber) {
         Rob.setCooldown(robber);
     }

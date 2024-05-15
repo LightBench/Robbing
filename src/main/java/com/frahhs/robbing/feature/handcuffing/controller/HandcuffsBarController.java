@@ -40,6 +40,7 @@ public class HandcuffsBarController extends Controller {
      *
      * @param player The player whose handcuffs bar is being iterated.
      * @return True if the health bar is broken, false otherwise.
+     * @throws RuntimeException if the player does not have a handcuffs bar.
      */
     public boolean hit(Player player) {
         if (!HandcuffsBar.haveBar(player)) {
