@@ -1,13 +1,14 @@
 package com.frahhs.robbing.feature.kidnapping.controllers;
 
-import com.frahhs.robbing.feature.BaseController;
+import com.frahhs.robbing.feature.Controller;
+import com.frahhs.robbing.feature.kidnapping.models.LocationPath;
 import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
 import org.bukkit.entity.Player;
 
 /**
  * Controller class for managing kidnapping operations.
  */
-public class KidnappingController extends BaseController {
+public class KidnappingController extends Controller {
     /**
      * Initiates a kidnapping.
      *
@@ -16,7 +17,7 @@ public class KidnappingController extends BaseController {
      */
     public void kidnap(Player kidnapper, Player kidnapped) {
         Kidnapping kidnapping = new Kidnapping(kidnapper, kidnapped);
-        kidnapping.kidnap();
+        kidnapping.setKidnap();
     }
 
     /**
@@ -25,10 +26,13 @@ public class KidnappingController extends BaseController {
      * @param kidnapped The player who is kidnapped.
      */
     public void free(Player kidnapped) {
+        LocationPath locationPath = new LocationPath();
         if(!Kidnapping.isKidnapped(kidnapped))
             return;
 
-        Kidnapping.getFromKidnapped(kidnapped).free();
+        Kidnapping kidnapping = Kidnapping.getFromKidnapped(kidnapped);
+        kidnapping.removeKidnap();
+        locationPath.removePlayerPath(kidnapping.getKidnapper());
     }
 
     /**

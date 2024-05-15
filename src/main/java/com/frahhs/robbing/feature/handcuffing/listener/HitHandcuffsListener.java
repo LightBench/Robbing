@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
-import com.frahhs.robbing.BaseListener;
+import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.feature.handcuffing.controller.HandcuffsBarController;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-public class HitHandcuffsListener extends BaseListener {
+public class HitHandcuffsListener extends RBListener {
     KidnappingController kidnappingController;
     HandcuffsBarController handcuffsBarController;
 

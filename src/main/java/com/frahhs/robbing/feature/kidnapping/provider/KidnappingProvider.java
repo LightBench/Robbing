@@ -1,11 +1,11 @@
 package com.frahhs.robbing.feature.kidnapping.provider;
 
-import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
 import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
 import org.bukkit.entity.Player;
 
-public class KidnappingProvider extends BaseProvider {
+public class KidnappingProvider extends Provider {
     private final KidnappingBag kidnappingBag;
 
     public KidnappingProvider() {

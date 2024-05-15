@@ -1,6 +1,6 @@
 package com.frahhs.robbing.block;
 
-import com.frahhs.robbing.BaseListener;
+import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
 import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class RobbingBlockListener extends BaseListener {
+public class RobbingBlockListener extends RBListener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {

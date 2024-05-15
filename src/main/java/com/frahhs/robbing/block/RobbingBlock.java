@@ -1,7 +1,7 @@
 package com.frahhs.robbing.block;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -20,14 +21,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
 
-public class RobbingBlock extends BaseProvider {
-    private RobbingItem item;
+public class RobbingBlock extends Provider {
+    private final RobbingItem item;
     private Entity armorStand;
     private Location location;
 
     public RobbingBlock(RobbingItem item, Location location) {
         this.item = item;
-        this.armorStand = getArmorStand();
         this.location = location;
     }
 
@@ -48,7 +48,24 @@ public class RobbingBlock extends BaseProvider {
     }
 
     public void place(Player placer) {
+        // Handle block facing
+        double y = placer.getLocation().getYaw();
+        float direction = 0;
+        if(placer.getFacing().equals(BlockFace.SOUTH)){
+            direction = 0;
+        }
+        if(placer.getFacing().equals(BlockFace.WEST)){
+            direction = 90;
+        }
+        if(placer.getFacing().equals(BlockFace.NORTH)){
+            direction = 180;
+        }
+        if(placer.getFacing().equals(BlockFace.EAST)){
+            direction = 270;
+        }
+
         location = location.getBlock().getLocation().add(0.5, 0, 0.5);
+        location.setYaw(direction + 180);
 
         Location spawn_location = location.clone();
         spawn_location.setY(-5);
@@ -68,11 +85,7 @@ public class RobbingBlock extends BaseProvider {
         // Teleport is not immediately, await before set the block
         Location finalLocation = location.clone();
 
-        if (placer == null) {
-            save();
-        } else {
-            save(placer);
-        }
+        save(placer);
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Robbing.getInstance(), new Runnable(){
             public void run(){
@@ -106,8 +119,8 @@ public class RobbingBlock extends BaseProvider {
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (itemName, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?);");
-            ps.setString(1, item.getItemName());
+            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (material, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?);");
+            ps.setString(1, item.getRBMaterial().toString());
             ps.setString(2, armorStand.getUniqueId().toString());
             ps.setString(3, location.getWorld().getName());
             ps.setInt(4, location.getBlockX());
@@ -127,9 +140,9 @@ public class RobbingBlock extends BaseProvider {
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (placer, itemName, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (placer, material, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, placer.getUniqueId().toString());
-            ps.setString(2, item.getItemName());
+            ps.setString(2, item.getRBMaterial().toString());
             ps.setString(3, armorStand.getUniqueId().toString());
             ps.setString(4, location.getWorld().getName());
             ps.setInt(5, location.getBlockX());
@@ -238,9 +251,9 @@ public class RobbingBlock extends BaseProvider {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()) {
-                String itemName = rs.getString("itemName");
+                RobbingMaterial material = RobbingMaterial.valueOf(rs.getString("material"));
                 ItemManager itemManager = Robbing.getInstance().getItemsManager();
-                RobbingItem item = itemManager.getByName(itemName);
+                RobbingItem item = itemManager.get(material);
 
                 RobbingBlock block = new RobbingBlock(item, location);
 
@@ -274,9 +287,9 @@ public class RobbingBlock extends BaseProvider {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()) {
-                String itemName = rs.getString("itemName");
+                RobbingMaterial material = RobbingMaterial.valueOf(rs.getString("material"));
                 ItemManager itemManager = Robbing.getInstance().getItemsManager();
-                RobbingItem item = itemManager.getByName(itemName);
+                RobbingItem item = itemManager.get(material);
 
                 World world = Bukkit.getWorld(rs.getString("world"));
                 int blockX = rs.getInt("blockX");

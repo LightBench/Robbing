@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.kidnapping.bag;
 
-import com.frahhs.robbing.feature.Bag;
+import com.frahhs.robbing.util.bag.Bag;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

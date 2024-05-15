@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
-import com.frahhs.robbing.BaseListener;
+import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.feature.handcuffing.controller.HandcuffingController;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.util.Cooldown;
@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class HandcuffingListener extends BaseListener {
+public class HandcuffingListener extends RBListener {
     private final HandcuffingController handcuffingController = new HandcuffingController();
 
     @EventHandler

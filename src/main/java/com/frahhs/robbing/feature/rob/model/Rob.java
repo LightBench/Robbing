@@ -1,13 +1,13 @@
 package com.frahhs.robbing.feature.rob.model;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.feature.rob.provider.RobProvider;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
-public class Rob extends BaseModel {
+public class Rob extends Model {
     private final Player robber;
     private final Player robbed;
 

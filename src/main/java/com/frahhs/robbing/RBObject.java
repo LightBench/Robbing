@@ -1,6 +1,5 @@
-package com.frahhs.robbing.feature;
+package com.frahhs.robbing;
 
-import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.RobbingLogger;
@@ -8,7 +7,7 @@ import com.frahhs.robbing.util.RobbingLogger;
 /**
  * Abstract base class for features in the plugin.
  */
-public abstract class Base {
+public abstract class RBObject {
     protected final Robbing plugin = Robbing.getInstance();
 
     /** Configuration manager instance. */

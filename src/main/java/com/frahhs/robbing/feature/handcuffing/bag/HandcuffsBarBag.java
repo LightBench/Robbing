@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.bag;
 
-import com.frahhs.robbing.feature.Bag;
+import com.frahhs.robbing.util.bag.Bag;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 

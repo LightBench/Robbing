@@ -1,6 +1,6 @@
-package com.frahhs.robbing.feature.kidnapping;
+package com.frahhs.robbing.feature.kidnapping.models;
 
-import com.frahhs.robbing.feature.Base;
+import com.frahhs.robbing.RBObject;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Model class representing the path for kidnapping.
  */
-public class PathManager extends Base {
+public class LocationPath extends RBObject {
     public static Map<Player, List<Location>> paths = new HashMap<>();
 
     /**
@@ -73,5 +73,9 @@ public class PathManager extends Base {
             if(kidnapper.getLocation().distance(kidnapped.getLocation()) > 2)
                 kidnapped.teleport(getLocation(kidnapper, 10));
         }
+    }
+
+    public void removePlayerPath(Player player) {
+        paths.remove(player);
     }
 }

@@ -1,13 +1,13 @@
 package com.frahhs.robbing.feature.rob.controllers;
 
-import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.feature.rob.model.Rob;
 import org.bukkit.entity.Player;
 
 /**
  * Controller class for managing robbery actions.
  */
-public class RobController extends BaseModel {
+public class RobController extends Model {
     /**
      * Constructor for RobController.
      */

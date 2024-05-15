@@ -1,15 +1,16 @@
 package com.frahhs.robbing.feature.handcuffing.provider;
 
-import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
 import com.frahhs.robbing.feature.handcuffing.model.HandcuffsBar;
+import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandcuffsBarProvider extends BaseProvider {
+public class HandcuffsBarProvider extends Provider {
     private final HandcuffsBarBag handcuffsBarBag;
 
     public HandcuffsBarProvider() {
@@ -60,7 +61,8 @@ public class HandcuffsBarProvider extends BaseProvider {
     public List<HandcuffsBar> getAllHandcuffsBar() {
         List<HandcuffsBar> bars = new ArrayList<>();
         for(Player player : handcuffsBarBag.getData().keySet())
-            bars.add(new HandcuffsBar(player, handcuffsBarBag.getData().get(player)));
+            if(Bukkit.getOnlinePlayers().contains(player))
+                bars.add(new HandcuffsBar(player, handcuffsBarBag.getData().get(player)));
 
         return bars;
     }

@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.rob.bag;
 
-import com.frahhs.robbing.feature.Bag;
+import com.frahhs.robbing.util.bag.Bag;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 

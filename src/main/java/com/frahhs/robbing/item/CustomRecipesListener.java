@@ -1,13 +1,13 @@
 package com.frahhs.robbing.item;
 
-import com.frahhs.robbing.BaseListener;
+import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomRecipesListener extends BaseListener {
+public class CustomRecipesListener extends RBListener {
 
     @EventHandler
     public void onCraft(CraftItemEvent e) {

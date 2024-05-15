@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.rob.listeners;
 
-import com.frahhs.robbing.BaseListener;
+import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.feature.rob.controllers.RobController;
@@ -26,7 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Listener class for robbery-related events.
  */
-public class RobListener extends BaseListener {
+public class RobListener extends RBListener {
     public final RobController robController;
 
     public RobListener() {

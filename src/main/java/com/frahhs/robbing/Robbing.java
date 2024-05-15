@@ -4,12 +4,11 @@ import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
-import com.frahhs.robbing.feature.BagManager;
+import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
 import com.frahhs.robbing.feature.rob.RobbingFeature;
-import com.frahhs.robbing.feature.rob.listeners.CatchListener;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.items.Handcuffs;
 import com.frahhs.robbing.item.items.Lockpick;
@@ -45,10 +44,7 @@ public final class Robbing extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //TODO: alarm system
-        // TODO: Remove getter and setters from controllers
-        // make controller methods return the Model object
-        // make the model instantiable only in the controllers (this line maybe, not sure)
+        // TODO: alarm system
         instance = this;
 
         // Setup utils

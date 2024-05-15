@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.controller;
 
-import com.frahhs.robbing.feature.BaseController;
+import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.feature.handcuffing.model.HandcuffsBar;
 import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 /**
  * Controller class for managing handcuffs bar actions.
  */
-public class HandcuffsBarController extends BaseController {
+public class HandcuffsBarController extends Controller {
     /**
      * Puts the handcuffs bar on a player.
      *

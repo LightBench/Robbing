@@ -1,4 +1,4 @@
-package com.frahhs.robbing.feature;
+package com.frahhs.robbing.util.bag;
 
 abstract public class Bag {
     /**

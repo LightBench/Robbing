@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.provider;
 
-import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.util.Cooldown;
@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-public class HandcuffingProvider extends BaseProvider {
+public class HandcuffingProvider extends Provider {
     private final HandcuffingCooldownBag handcuffingCooldownBag;
 
     public HandcuffingProvider() {

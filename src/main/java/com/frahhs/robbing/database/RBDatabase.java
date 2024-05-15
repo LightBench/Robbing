@@ -158,7 +158,7 @@ public class RBDatabase {
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
                          "timestamp DEFAULT CURRENT_TIMESTAMP,"      +
                          "placer CHAR(100),"                         +
-                         "itemName CHAR(100) NOT NULL,"              + // TODO: Change to Material
+                         "material CHAR(100) NOT NULL,"              + // TODO: Change to Material
                          "armorStandUUID CHAR(100) NOT NULL,"        +
                          "world CHAR(100) NOT NULL,"                 +
                          "blockX int NOT NULL,"                      +

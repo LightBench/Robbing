@@ -1,20 +1,16 @@
 package com.frahhs.robbing.feature.rob.controllers;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseController;
+import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.feature.rob.model.Caught;
 import com.frahhs.robbing.feature.rob.model.Rob;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Controller class for managing caught players.
  */
-public class CatchController extends BaseController {
+public class CatchController extends Controller {
     /**
      * Handles catching a robber.
      * TODO: add cooldown on the action bar

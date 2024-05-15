@@ -1,10 +1,10 @@
 package com.frahhs.robbing.feature.kidnapping.listeners;
 
-import com.frahhs.robbing.BaseListener;
+import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.handcuffing.controller.HandcuffingController;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
-import com.frahhs.robbing.feature.kidnapping.PathManager;
+import com.frahhs.robbing.feature.kidnapping.models.LocationPath;
 import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
 import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
 import com.frahhs.robbing.item.RobbingMaterial;
@@ -14,13 +14,13 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class KidnappingListener extends BaseListener {
-    private final PathManager pathManager;
+public class KidnappingListener extends RBListener {
+    private final LocationPath locationPath;
     private final KidnappingController kidnappingController;
     private final HandcuffingController handcuffingController;
 
     public KidnappingListener() {
-        pathManager = new PathManager();
+        locationPath = new LocationPath();
         kidnappingController = new KidnappingController();
         handcuffingController = new HandcuffingController();
     }
@@ -96,7 +96,7 @@ public class KidnappingListener extends BaseListener {
                 assert kidnapped != null;
 
                 // Update pathing List
-                pathManager.addLocationToPath(kidnapper, kidnapped);
+                locationPath.addLocationToPath(kidnapper, kidnapped);
 
                 // Remove kidnapped condition
                 boolean removeFollower = false;
@@ -119,7 +119,7 @@ public class KidnappingListener extends BaseListener {
                 }
 
                 // Make kidnapped follow
-                pathManager.update(kidnapper, kidnapped);
+                locationPath.update(kidnapper, kidnapped);
             }
         }
     }

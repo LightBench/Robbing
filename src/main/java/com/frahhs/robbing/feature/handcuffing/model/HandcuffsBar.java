@@ -1,8 +1,9 @@
 package com.frahhs.robbing.feature.handcuffing.model;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.feature.handcuffing.provider.HandcuffsBarProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Model class representing the health bar for handcuffs.
  */
-public class HandcuffsBar extends BaseModel {
+public class HandcuffsBar extends Model {
     private final BossBar bar;
     private final Player player;
 
@@ -67,6 +68,9 @@ public class HandcuffsBar extends BaseModel {
      * Adds the handcuffs bar to a player.
      */
     public void putHandcuffsBar() {
+        if(!Bukkit.getOnlinePlayers().contains(player))
+            return;
+
         this.bar.addPlayer(player);
         provider.saveHandcuffsBar(player, this.getBossBar());
     }
@@ -75,6 +79,9 @@ public class HandcuffsBar extends BaseModel {
      * Removes the handcuffs bar from a player.
      */
     public void removeHandcuffsBar() {
+        if(!Bukkit.getOnlinePlayers().contains(player))
+            return;
+
         if (bar != null)
             bar.removePlayer(player);
         provider.removeHandcuffsBar(player);

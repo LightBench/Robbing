@@ -1,13 +1,11 @@
 package com.frahhs.robbing.feature.rob.provider;
 
-import com.frahhs.robbing.feature.BaseProvider;
+import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.rob.bag.CaughtBag;
-import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
-import com.frahhs.robbing.feature.rob.bag.RobbingNowBag;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
-public class CaughtProvider extends BaseProvider {
+public class CaughtProvider extends Provider {
     private final CaughtBag caughtBag;
 
     public CaughtProvider() {

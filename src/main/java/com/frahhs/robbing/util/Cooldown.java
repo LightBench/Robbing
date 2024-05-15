@@ -1,11 +1,11 @@
 package com.frahhs.robbing.util;
 
-import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.Model;
 
 /**
  * Model class representing a cooldown for an action.
  */
-public class Cooldown extends BaseModel {
+public class Cooldown extends Model {
     private long timestamp;
     private int cooldown;
 

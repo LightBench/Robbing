@@ -1,7 +1,7 @@
 package com.frahhs.robbing.feature.handcuffing.model;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseModel;
+import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.feature.handcuffing.provider.HandcuffingProvider;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 /**
  * Model class representing data and operations related to handcuffing.
  */
-public class Handcuffing extends BaseModel {
+public class Handcuffing extends Model {
     private final Player handcuffer;
     private final Player handcuffed;
 

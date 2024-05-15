@@ -1,7 +1,7 @@
 package com.frahhs.robbing.feature.handcuffing.controller;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.BaseController;
+import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Controller class for managing handcuffing actions.
  */
-public class HandcuffingController extends BaseController {
+public class HandcuffingController extends Controller {
 
     /**
      * Default constructor for HandcuffingController.
