@@ -2,6 +2,7 @@ package com.frahhs.robbing.feature.rob.listeners;
 
 import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
 import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.feature.rob.controllers.RobController;
 import com.frahhs.robbing.feature.rob.events.ItemRobbedEvent;
@@ -72,13 +73,14 @@ public class RobListener extends RBListener {
         if(Handcuffing.isHandcuffed(robber))
             return;
 
-        // TODO: Check if robbing worldguard flag is deny
-        /*if(Robbing.getInstance().getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-            if (WorldGuardManager.checkStealFlag(thief)) {
-                thief.sendMessage(Robbing.prefix + Robbing.getMessageManager().getMessage("robbing", "deny_rob_region"));
+        // Check if robbing worldguard flag is deny
+        if(Robbing.getInstance().getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+            if (WorldGuardManager.checkStealFlag(robbed)) {
+                String message = messages.getMessage("robbing.deny_rob_region");
+                robber.sendMessage(message);
                 return;
             }
-        }*/
+        }
 
         // Check if player is in robbing cooldown
         if(Rob.haveCooldown(robber)){

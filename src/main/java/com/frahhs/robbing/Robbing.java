@@ -4,6 +4,7 @@ import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
+import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
@@ -17,6 +18,7 @@ import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.RobbingLogger;
 import com.google.common.collect.ImmutableList;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -83,6 +85,13 @@ public final class Robbing extends JavaPlugin {
 
         // Disable bags
         bagManager.disableBags();
+    }
+
+    @Override
+    public void onLoad() {
+        // Worldguard
+        if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null)
+            WorldGuardManager.registerStealFlag();
     }
 
     public static Robbing getInstance() {

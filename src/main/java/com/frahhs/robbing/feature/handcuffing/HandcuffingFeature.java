@@ -43,7 +43,8 @@ public class HandcuffingFeature extends Feature {
         List<HandcuffsBar> bars = HandcuffsBar.getAll();
 
         for (HandcuffsBar cur : bars)
-            cur.removeHandcuffsBar();
+            if(cur != null)
+                cur.removeHandcuffsBar();
     }
 
     @Override
