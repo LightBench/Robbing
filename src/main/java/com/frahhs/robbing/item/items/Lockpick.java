@@ -41,7 +41,7 @@ public class Lockpick extends RobbingItem {
 
     @Override
     public boolean isCraftable() {
-        return configProvider.getBoolean("lockpick.enable_crafting");
+        return configProvider.getBoolean("lockpicking.enable-crafting.lockpick");
     }
 
     @Override

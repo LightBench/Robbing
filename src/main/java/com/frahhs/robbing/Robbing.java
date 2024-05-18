@@ -71,7 +71,7 @@ public final class Robbing extends JavaPlugin {
         registerFeatures();
 
         // Disable plugin if is disabled in the config
-        if(!configProvider.getBoolean("general.enabled"))
+        if(!configProvider.getBoolean("enabled"))
             this.getPluginLoader().disablePlugin(this);
     }
 

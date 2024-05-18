@@ -43,7 +43,7 @@ public class RBDatabase {
         configProvider = plugin.getConfigProvider();
 
         // Setup variables
-        db_name = configProvider.getString("database.database_name");
+        db_name = configProvider.getString("database.database-name");
         sqlite_path = this.plugin.getDataFolder().getAbsolutePath() + "/data/" + db_name + ".db";
         mysql_address = configProvider.getString("database.mysql.address");
         mysql_port = configProvider.getString("database.mysql.port");

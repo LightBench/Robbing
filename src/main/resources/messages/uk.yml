@@ -9,7 +9,7 @@ robbing:
   cant_steal: Ви не можете вкрасти це!
   escaped: '{target} втік!'
   deny_rob_region: Ви не можете красти тут!
-  caught_robber: '{player} спіймав тебе!'
+  catch-robber: '{player} спіймав тебе!'
   cannot_jump_if_caught: Ви заарештовані і не можете стрибати
   to_catcher: Ви впіймали {player}!
 handcuffing:

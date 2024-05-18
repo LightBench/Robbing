@@ -57,7 +57,7 @@ public class RobListener extends RBListener {
             return;
 
         // Check if target is an NPC
-        if(!config.getBoolean("rob.NPC_robbing"))
+        if(!config.getBoolean("rob.NPC-rob"))
             if(e.getRightClicked().hasMetadata("NPC"))
                 return;
 
@@ -65,7 +65,7 @@ public class RobListener extends RBListener {
         Player robbed = (Player) e.getRightClicked();
 
         // Check if robber is sneaking
-        if(config.getBoolean("rob.sneak_to_rob"))
+        if(config.getBoolean("rob.sneak-to-rob"))
             if(!robber.isSneaking())
                 return;
 
@@ -125,24 +125,12 @@ public class RobListener extends RBListener {
         if(e.getSlot() >= 36)
             return;
 
+        ItemStack item = e.getCurrentItem();
+
         // Check if slot is null
-        if(e.getCurrentItem() == null)
+        if(item == null)
             return;
 
-        boolean cancelRobbing = false;
-        boolean whitelisted = false;
-
-        // If whitelist enabled and Item is not in whitelist remove
-        if(config.getBoolean("rob.whitelist_enabled")) {
-            for (String el : config.getStringList("rob.whitelist_items")) {
-                if(e.getCurrentItem().getType().equals(Material.getMaterial(el))) {
-                    whitelisted = true;
-                }
-            }
-        }
-
-        // Instance main feature variables
-        ItemStack stolenItem = e.getCurrentItem();
         Player robber = (Player) e.getWhoClicked();
         Player robbed = null;
 
@@ -150,32 +138,16 @@ public class RobListener extends RBListener {
             if(curPlayer.getInventory().equals(e.getInventory()))
                 robbed = curPlayer;
 
-        // Check if target is null (Probably never)
-        if(robbed == null) {
-            Robbing.getInstance().getRBLogger().unexpectedError("U8PH3N");
-            return;
-        }
-
-        // If current Item is the same of denied, cancel action
-        for (String el : config.getStringList("rob.denied_items")) {
-            if(e.getCurrentItem().getType().equals(Material.getMaterial(el))) {
-                cancelRobbing = true;
-            }
-        }
-
-        // Check whitelisted
-        if(config.getBoolean("rob.whitelist_enabled") && !whitelisted)
-            cancelRobbing = true;
-
-        // Cancel steal if needed
-        if(cancelRobbing) {
+        // Check rob whitelist and blacklist
+        if(!Rob.itemIsRobbable(item)) {
             e.setCancelled(true);
             String message = messages.getMessage("robbing.cant_steal");
             e.getWhoClicked().sendMessage(message);
+            return;
         }
 
         // Call ItemStealCooldown
-        ItemRobbedEvent itemStealEvent = new ItemRobbedEvent(stolenItem, robber, robbed);
+        ItemRobbedEvent itemStealEvent = new ItemRobbedEvent(item, robber, robbed);
         Bukkit.getPluginManager().callEvent(itemStealEvent);
 
         // Check if event is cancelled
@@ -215,7 +187,7 @@ public class RobListener extends RBListener {
             // The viewer must be different by the robbed
             if (!robber.equals(robbed)) {
                 // Check how far is the robber
-                if (robbed.getLocation().distance(robber.getLocation()) >= config.getInt("rob.max_distance")) {
+                if (robbed.getLocation().distance(robber.getLocation()) >= config.getInt("rob.max-distance")) {
                     robController.stopRobbing(robber);
                     String message = messages.getMessage("robbing.escaped").replace("{target}", robbed.getDisplayName());
                     robber.sendMessage(message);
@@ -237,11 +209,11 @@ public class RobListener extends RBListener {
             robController.stopRobbing(robber);
 
         // check if blindness effect after robbing is enabled
-        if(!config.getBoolean("rob.blindness_after_robbing"))
+        if(!config.getBoolean("rob.blindness-after-robbing.enabled"))
             return;
 
         // Check if player was robbing and add blindness effect to the target
-        int blindness_duration = config.getInt("rob.blindness_duration");
+        int blindness_duration = config.getInt("rob.blindness-after-robbing.duration");
         if (e.getInventory().getType() == InventoryType.PLAYER && !e.getPlayer().getInventory().equals(e.getInventory())) {
             for(Player p : Bukkit.getOnlinePlayers()){
                 if(e.getInventory().equals(p.getInventory()))

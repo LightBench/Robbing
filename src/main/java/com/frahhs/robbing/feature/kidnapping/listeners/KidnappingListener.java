@@ -28,7 +28,7 @@ public class KidnappingListener extends RBListener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent e) {
         // Check if following is enabled
-        if(!config.getBoolean("handcuffing.following"))
+        if(!config.getBoolean("handcuffing.kidnap.enabled"))
             return;
 
         // Check if kidnapper is using main hand
@@ -44,7 +44,7 @@ public class KidnappingListener extends RBListener {
             return;
 
         // Check if kidnapper is using cuffs
-        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS)))
+        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS).getItemStack()))
             return;
 
         // Check if kidnapper have follow permissions

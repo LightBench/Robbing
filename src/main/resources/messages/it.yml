@@ -23,7 +23,7 @@ robbing:
   cant_steal: Non puoi rubare questo oggetto!
   escaped: '{target} è scappato!'
   deny_rob_region: Non puoi rubare qui!
-  caught_robber: '{player} ti ha catturato!'
+  catch-robber: '{player} ti ha catturato!'
   to_catcher: Hai catturato {player}!
   cannot_jump_if_caught: Sei stato catturato, non puoi saltare
 safes:

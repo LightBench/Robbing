@@ -3,9 +3,14 @@ package com.frahhs.robbing.feature.rob.model;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.feature.rob.provider.RobProvider;
+import com.frahhs.robbing.item.ItemManager;
+import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Model class representing a robbery event.
@@ -140,6 +145,67 @@ public class Rob extends Model {
      */
     public static void setCooldown(Player handcuffer) {
         ConfigProvider config = Robbing.getInstance().getConfigProvider();
-        setCooldown(handcuffer, config.getInt("rob.steal_cooldown"));
+        setCooldown(handcuffer, config.getInt("rob.cooldown"));
+    }
+
+    public static boolean itemIsRobbable(ItemStack item) {
+        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+
+        ItemManager itemManager = Robbing.getInstance().getItemsManager();
+
+        boolean whitelisted = false;
+        boolean blacklisted = false;
+
+        // Whitelist check
+        if(config.getBoolean("rob.whitelist.enabled")) {
+            for (String el : config.getStringList("rob.whitelist.items")) {
+                // Robbing item check
+                if(itemManager.isRegistered(item) ) {
+                    if(el.startsWith("robbing:")) {
+                        RobbingItem rbItem = itemManager.getByItemStack(item);
+                        if(rbItem.getItemName().equalsIgnoreCase(el.replace("robbing:", ""))) {
+                            whitelisted = true;
+                        }
+
+                    }
+                }
+                // Standard items
+                else if(item.getType().equals(Material.getMaterial(el))) {
+                    whitelisted = true;
+                }
+            }
+        }
+
+        // Blacklist check
+        if(config.getBoolean("rob.blacklist.enabled")) {
+            for (String el : config.getStringList("rob.blacklist.items")) {
+                // Robbing item check
+                if(itemManager.isRegistered(item) ) {
+                    if(el.startsWith("robbing:")) {
+                        RobbingItem rbItem = itemManager.getByItemStack(item);
+                        if(rbItem.getItemName().equalsIgnoreCase(el.replace("robbing:", ""))) {
+                            blacklisted = true;
+                        }
+
+                    }
+                }
+                // Standard items
+                if(item.getType().equals(Material.matchMaterial(el))) {
+                    blacklisted = true;
+                }
+            }
+        }
+
+        // Whitelist constraint
+        if(config.getBoolean("rob.whitelist.enabled"))
+            if(!whitelisted)
+                return false;
+
+        // Blacklist constraint
+        if(config.getBoolean("rob.blacklist.enabled"))
+            if(blacklisted)
+                return false;
+
+        return true;
     }
 }

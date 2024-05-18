@@ -41,7 +41,7 @@ public class Handcuffs extends RobbingItem {
 
     @Override
     public boolean isCraftable() {
-        return configProvider.getBoolean("handcuffing.enable_crafting");
+        return configProvider.getBoolean("handcuffing.enable-crafting.handcuffs");
     }
 
     @Override

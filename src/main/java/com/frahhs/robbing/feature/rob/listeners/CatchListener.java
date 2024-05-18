@@ -22,7 +22,7 @@ public class CatchListener extends RBListener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         // Check if functionality is enabled
-        if(!config.getBoolean("rob.caught_robber.enabled"))
+        if(!config.getBoolean("rob.catch-robber.enabled"))
             return;
 
         // Check if entities are Players
@@ -55,7 +55,7 @@ public class CatchListener extends RBListener {
             return;
 
         // If player Y location incremented cancel event
-        if(!config.getBoolean("rob.caught_robber.can_jump")) {
+        if(!config.getBoolean("rob.catch-robber.can-jump")) {
             if (e.getFrom().getY() < e.getTo().getY()) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage(Robbing.getInstance().getMessagesProvider().getMessage("robbing.cannot_jump_if_caught"));

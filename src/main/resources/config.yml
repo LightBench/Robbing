@@ -1,85 +1,195 @@
-# Robbing dev by FrahHS.
-# Check documentation on the official website: https://robbingrp.gitbook.io/robbing/.
-# Spigot page: https://www.spigotmc.org/resources/robbing-%E2%AD%95-custom-items-%E2%AD%90-robbery-rp-experience.105443/.
-# If you need help or have any problem with the plugin join my discord: https://discord.gg/Hh9zMQnWvW.
-#
-# Have fun with Robbing :D
+############################################################
+# +------------------------------------------------------+ #
+# |                         Intro                        | #
+# +------------------------------------------------------+ #
+############################################################
 
-general:
-  enabled: true
-  # send on join message to operators if new version of the plugin will be available
-  update_checker: true
-  # You can contribute to the translation of the texts here: https://www.robbingrp.com/.
-  language: "en"
-  prefix: "§3[§6Robbing§3] §f"
+# This is the config file for Robbing, developed by FrahHS.
+
+# If you have a configuration file, be sure to recreate it before asking for help.
+
+# If you need help, you can join the community Discord: https://discord.gg/Hh9zMQnWvW.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        General                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+
+# Enable or disable the plugin.
+enabled: true
+
+# Automatically check for updates.
+update-check: true
+
+# Set the language of the plugin.
+language: "en"
+
+# Prefix for plugin messages.
+prefix: "§3[§6Robbing§3] §f"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Database                       | #
+# +------------------------------------------------------+ #
+############################################################
 
 database:
-  # "SQLite" and "MySQL" supported, if you select MySQL you should have your own hosted database
+
+  # Type of database you chose to use.
+  # Supported tags are "SQLite" and "MySQL" only.
+  # NOTE: If you select "MySQL", you should have your own hosted database.
   type: "SQLite"
-  database_name: "RobbingDB"
-  # Data in case of MySQL, not necessary if SQLite is selected
+
+  # Database name; you can leave this as default except in particular cases.
+  database-name: "RobbingDB"
+
+  # MySQL access data.
+  # Ignored if MySQL is not selected.
   mysql:
-    address: "localhost"
-    port: "3306"
-    username: ""
-    password: ""
+    address: "localhost"    # MySQL server address.
+    port: "3306"            # MySQL server port.
+    username: ""            # Username for MySQL access.
+    password: ""            # Password for MySQL access.
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                          Rob                         | #
+# +------------------------------------------------------+ #
+############################################################
 
 rob:
+
+  # Whether the rob feature should be enabled or not.
   enabled: true
-  # enable alert to send to the robbed target, write {thief} to use thief Display Name
+
+  # Enable alert to send to the robbed target.
   alert: true
-  # down here list of all items not stealable,
-  # only names, no id
-  denied_items:
-    - "DIAMOND"
-    - "DIAMOND_BLOCK"
-  whitelist_enabled: false
-  whitelist_items:
-    - "GOLD_INGOT"
-  # max distance in block during robbing after that target inventory close
-  max_distance: 5
-  # cooldown setting (put timeout to 0 to disable)
-  steal_cooldown: 120
-  # sneaky right-click to steal if enabled, just right click if disabled
-  sneak_to_rob: true
-  # after a steal target will be blinded
-  blindness_after_robbing: false
-  # blindness duration in seconds (in enabled)
-  blindness_duration: 5
-  NPC_robbing: false
-  # slowdown a thief shift left-clicking on him while he is robbing you.
-  caught_robber:
+
+  # Whitelist and blacklist notes:
+  # blacklist or/and the whitelist lists can be filled with the item name like in the
+  # suggested examples, you can find easily item names online, suggested website: https://minecraftitemids.com/.
+  # If you want to add a robbing custom item just add it as "robbing:" and the
+  # custom item name, for example:
+  #   items:
+  #     - "robbing:handcuffs"
+  #     - "robbing:safe"
+
+  # Blacklist, if enabled all the items in the list will not be robbable.
+  blacklist:
+    enabled: false
+    items:
+      - diamond
+      - diamond_block
+
+  # Whitelist, if enabled only the items in the list will be robbable.
+  whitelist:
+    enabled: false
+    items:
+      - gold_ingot
+
+  # Max distance in blocks during robbing between the robber and the robbed.
+  # Beyond this distance, the robbed player's inventory will be closed.
+  max-distance: 5
+
+  # Cooldown setting (set timeout to 0 to disable).
+  cooldown: 120
+
+  # If enabled, sneak right-click to rob, otherwise just right-click.
+  sneak-to-rob: true
+
+  # After a robbery, the target will be blinded.
+  # This option simulates a physical aggression to enhance realism.
+  blindness-after-robbing:
+    enabled: false
+    # Blindness duration in seconds.
+    duration: 5
+
+  # Whether players can rob NPCs or not.
+  NPC-rob: false
+
+  # Catching a robber while robbing.
+  # If enabled, this feature will slow down the robber if the robbed player shift left-clicks on them.
+  catch-robber:
     enabled: true
-    can_jump: false
-    slow_power: 5
-    # how much time get slowed (in seconds)
-    time: 20
+    # Deny jumping after being caught.
+    can-jump: false
+    # Slow effect power after being caught.
+    slow-power: 5
+    # Duration of the caught effects (in seconds).
+    duration: 20
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Handcuffing                     | #
+# +------------------------------------------------------+ #
+############################################################
 
 handcuffing:
+
+  # Whether the handcuffing feature should be enabled or not.
   enabled: true
-  # enable right click handcuffed player to make he follows you
-  following: true
-  # put a cooldown to use handcuffs (in seconds)
+
+  # Set a cooldown before using handcuffs again (in seconds).
   cooldown: 5
-  enable_crafting: false
-  # make possible escape from handcuffing
+
+  # Crafting of custom items related to the current feature.
+  enable-crafting:
+    handcuffs: true
+
+  # Make it possible to escape from handcuffing.
+  # Handcuffed players have the "duration" time to escape from the handcuffer within the "distance" block.
+  # to avoid being handcuffed.
   escape:
     enabled: false
-    # delay handcuffing after clicking (in seconds).
-    delayed_handcuffing: 2
-    # min distance to escape handcuffing
+    # Delay handcuffing action after clicking (in seconds).
+    # This option gives the player the possibility to escape.
+    delay-handcuffing: 2
+    # Minimum distance to escape handcuffing.
     distance: 3
-  # permitted commands while handcuffed
-  permitted_commands:
+
+  # Permitted commands while handcuffed.
+  permitted-commands:
     - login
     - register
-lockpick:
-  enable_crafting: false
 
-# Emergency call
-# when a player use /911 every other players with robbing.emergency.alert will receive a notification
-emergencycall:
+  # Enable right-clicking on a handcuffed player to make them follow the sender.
+  kidnap:
+    enabled: true
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Lock Picking                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+lockpicking:
+
+  # Whether the lock picking feature should be enabled or not.
   enabled: true
+
+  # Crafting of custom items related to the current feature.
+  enable-crafting:
+    lockpick: true
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Emergency Call                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+# When a player uses /911, every other player with robbing.emergency.alert will receive a notification.
+emergencycall:
+
+  # Whether the emergency call feature should be enabled or not.
+  enabled: true
+
   message: "{player} called 911 from {coordinates}, for: {reason}."
-  # cooldown for /911 (in seconds), put 0 to disable
+
+  # Cooldown for /911 (in seconds), set to 0 to disable.
   cooldown: 10

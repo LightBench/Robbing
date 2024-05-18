@@ -62,6 +62,6 @@ public class Caught {
      */
     public static void setCooldown(Player robber) {
         ConfigProvider config = Robbing.getInstance().getConfigProvider();
-        setCooldown(robber, config.getInt("rob.caught_robber.time"));
+        setCooldown(robber, config.getInt("rob.catch-robber.duration"));
     }
 }

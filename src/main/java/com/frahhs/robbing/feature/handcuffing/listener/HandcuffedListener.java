@@ -62,7 +62,7 @@ public class HandcuffedListener extends RBListener {
 
         // If command is in permitted commands return
         List<String> curCommand = Arrays.asList(e.getMessage().substring(1).split(" "));
-        for(String permittedCommand : config.getStringList("handcuffing.permitted_commands")) {
+        for(String permittedCommand : config.getStringList("handcuffing.permitted-commands")) {
             boolean equals = true;
             List<String> curPermittedCommand = Arrays.asList(permittedCommand.split(" "));
 

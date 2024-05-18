@@ -30,8 +30,8 @@ public class MessagesProvider {
      */
     public MessagesProvider(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.lang = Robbing.getInstance().getConfigProvider().getString("general.language");
-        this.prefix = Robbing.getInstance().getConfigProvider().getString("general.prefix");
+        this.lang = Robbing.getInstance().getConfigProvider().getString("language");
+        this.prefix = Robbing.getInstance().getConfigProvider().getString("prefix");
         this.languageConfigs = new HashMap<>();
 
         loadLanguageFiles();
@@ -45,8 +45,8 @@ public class MessagesProvider {
      * Reloads the MessagesProvider, updating language settings and reloading language files.
      */
     public void reload() {
-        this.lang = Robbing.getInstance().getConfigProvider().getString("general.language");
-        this.prefix = Robbing.getInstance().getConfigProvider().getString("general.prefix");
+        this.lang = Robbing.getInstance().getConfigProvider().getString("language");
+        this.prefix = Robbing.getInstance().getConfigProvider().getString("prefix");
         this.languageConfigs = new HashMap<>();
 
         loadLanguageFiles();

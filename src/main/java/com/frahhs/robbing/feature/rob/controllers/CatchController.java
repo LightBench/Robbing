@@ -22,12 +22,12 @@ public class CatchController extends Controller {
         RobController robController = new RobController();
         robController.stopRobbing(robber);
 
-        int caught_robber_time = config.getInt("rob.caught_robber.time");
-        int caught_robber_slow_power = config.getInt("rob.caught_robber.slow_power");
-        robber.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * caught_robber_time, caught_robber_slow_power));
+        int catchTime = config.getInt("rob.catch-robber.duration");
+        int catchSlowPower = config.getInt("rob.catch-robber.slow-power");
+        robber.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * catchTime, catchSlowPower));
 
         // Send message
-        robber.sendMessage(messages.getMessage("robbing.caught_robber").replace("{player}", robbed.getDisplayName()));
+        robber.sendMessage(messages.getMessage("robbing.catch-robber").replace("{player}", robbed.getDisplayName()));
         robbed.sendMessage(messages.getMessage("robbing.to_catcher").replace("{player}", robber.getDisplayName()));
 
         // Set cooldown

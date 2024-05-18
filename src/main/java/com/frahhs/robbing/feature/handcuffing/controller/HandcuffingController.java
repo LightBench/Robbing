@@ -151,7 +151,7 @@ public class HandcuffingController extends Controller {
      * @param handcuffed The player who is handcuffed.
      */
     public void escape(Player handcuffer, Player handcuffed) {
-        int delay = config.getInt("handcuffing.escape.delayed_handcuffing");
+        int delay = config.getInt("handcuffing.escape.delay-handcuffing");
         int distance = config.getInt("handcuffing.escape.distance");
         int handcuffs_cd = config.getInt("handcuffing.cooldown");
 

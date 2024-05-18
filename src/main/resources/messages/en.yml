@@ -10,7 +10,7 @@ robbing:
   cant_steal: "You can't steal it!"
   escaped: "{target} escaped!"
   deny_rob_region: "You cannot rob here!"
-  caught_robber: "{player} caught you!"
+  catch-robber: "{player} caught you!"
   to_catcher: "You caught {player}!"
   cannot_jump_if_caught: "You have been caught, you cannot jump"
 
