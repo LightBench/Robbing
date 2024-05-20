@@ -1,4 +1,4 @@
-package com.frahhs.robbing.feature.rob.provider;
+package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.rob.bag.CaughtBag;
@@ -8,13 +8,13 @@ import org.bukkit.entity.Player;
 /**
  * Provider class for managing caught cooldowns.
  */
-public class CaughtProvider extends Provider {
+class CaughtProvider extends Provider {
     private final CaughtBag caughtBag;
 
     /**
      * Constructs a CaughtProvider object.
      */
-    public CaughtProvider() {
+    protected CaughtProvider() {
         caughtBag = (CaughtBag) bagManager.getBag("CaughtBag");
     }
 
@@ -24,7 +24,7 @@ public class CaughtProvider extends Provider {
      * @param caught The player to check.
      * @return True if the player is under cooldown, otherwise false.
      */
-    public boolean haveCooldown(Player caught) {
+    protected boolean haveCooldown(Player caught) {
         return caughtBag.getData().containsKey(caught);
     }
 
@@ -34,7 +34,7 @@ public class CaughtProvider extends Provider {
      * @param caught The player to check.
      * @return The timestamp when the caught action occurred.
      */
-    public Cooldown getCooldown(Player caught) {
+    protected Cooldown getCooldown(Player caught) {
         return caughtBag.getData().get(caught);
     }
 
@@ -44,7 +44,7 @@ public class CaughtProvider extends Provider {
      * @param caught   The player to set the cooldown for.
      * @param cooldown The cooldown duration.
      */
-    public void saveCooldown(Player caught, Cooldown cooldown) {
+    protected void saveCooldown(Player caught, Cooldown cooldown) {
         caughtBag.getData().put(caught, cooldown);
     }
 
@@ -53,7 +53,7 @@ public class CaughtProvider extends Provider {
      *
      * @param caught The player to remove the cooldown for.
      */
-    public void removeCooldown(Player caught) {
+    protected void removeCooldown(Player caught) {
         caughtBag.getData().remove(caught);
     }
 }

@@ -1,7 +1,7 @@
-package com.frahhs.robbing.feature.rob.controllers;
+package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.rob.model.Rob;
+import com.frahhs.robbing.feature.rob.mcp.Rob;
 import org.bukkit.entity.Player;
 
 /**

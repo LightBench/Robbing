@@ -2,11 +2,11 @@ package com.frahhs.robbing.feature.kidnapping.listeners;
 
 import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.handcuffing.controller.HandcuffingController;
-import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
-import com.frahhs.robbing.feature.kidnapping.models.LocationPath;
-import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
-import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
+import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
+import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
+import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
+import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,7 +44,7 @@ public class KidnappingListener extends RBListener {
             return;
 
         // Check if kidnapper is using handcuffs key
-        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS_KEY).getItemStack()))
+        if(e.getPlayer().getInventory().getItemInMainHand().isSimilar(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS_KEY).getItemStack()))
             return;
 
         // Check if kidnapper have follow permissions
@@ -66,13 +66,12 @@ public class KidnappingListener extends RBListener {
         }
 
         // Add (or remove) kidnapped and kidnapper to follow List
-        if(!Kidnapping.isKidnapper(kidnapper)){
+        if(!Kidnapping.isKidnapper(kidnapper)) {
             kidnappingController.kidnap(kidnapper, kidnapped);
             String message = messages.getMessage("follow.make_follow_cuffed");
             message = message.replace("{target}", kidnapped.getDisplayName());
             kidnapper.sendMessage(message);
-        }
-        else{
+        } else {
             kidnappingController.free(kidnapped);
             String message = messages.getMessage("follow.make_unfollow_cuffed");
             message = message.replace("{target}", kidnapped.getDisplayName());

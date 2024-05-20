@@ -1,4 +1,4 @@
-package com.frahhs.robbing.feature.rob.provider;
+package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
@@ -9,14 +9,14 @@ import org.bukkit.entity.Player;
 /**
  * Provider class for managing robbery actions.
  */
-public class RobProvider extends Provider {
+class RobProvider extends Provider {
     private final RobbingNowBag robbingNowBag;
     private final RobbingCooldownBag robbingCooldownBag;
 
     /**
      * Constructs a RobProvider object.
      */
-    public RobProvider() {
+    protected RobProvider() {
         robbingNowBag = (RobbingNowBag) bagManager.getBag("RobbingNowBag");
         robbingCooldownBag = (RobbingCooldownBag) bagManager.getBag("RobbingCooldownBag");
     }
@@ -27,7 +27,7 @@ public class RobProvider extends Provider {
      * @param robber The player to check.
      * @return True if the player is initiating a robbery, otherwise false.
      */
-    public boolean isRobbingNow(Player robber) {
+    protected boolean isRobbingNow(Player robber) {
         return robbingNowBag.getData().containsKey(robber);
     }
 
@@ -37,7 +37,7 @@ public class RobProvider extends Provider {
      * @param robbed The player to check.
      * @return True if the player is being robbed, otherwise false.
      */
-    public boolean isRobbedNow(Player robbed) {
+    protected boolean isRobbedNow(Player robbed) {
         return robbingNowBag.getData().containsValue(robbed);
     }
 
@@ -47,7 +47,7 @@ public class RobProvider extends Provider {
      * @param robber The player initiating the robbery.
      * @param robbed The player being robbed.
      */
-    public void saveRobbingNow(Player robber, Player robbed) {
+    protected void saveRobbingNow(Player robber, Player robbed) {
         robbingNowBag.getData().put(robber, robbed);
     }
 
@@ -56,7 +56,7 @@ public class RobProvider extends Provider {
      *
      * @param robber The player ending the robbery.
      */
-    public void removeRobbingNow(Player robber) {
+    protected void removeRobbingNow(Player robber) {
         robbingNowBag.getData().remove(robber);
     }
 
@@ -66,7 +66,7 @@ public class RobProvider extends Provider {
      * @param robber The player to check.
      * @return True if the player is under cooldown, otherwise false.
      */
-    public boolean haveCooldown(Player robber) {
+    protected boolean haveCooldown(Player robber) {
         return robbingCooldownBag.getData().containsKey(robber);
     }
 
@@ -76,7 +76,7 @@ public class RobProvider extends Provider {
      * @param robber The player to check.
      * @return The timestamp when the robbery action occurred.
      */
-    public Cooldown getCooldown(Player robber) {
+    protected Cooldown getCooldown(Player robber) {
         return robbingCooldownBag.getData().get(robber);
     }
 
@@ -86,7 +86,7 @@ public class RobProvider extends Provider {
      * @param robber   The player to set the cooldown for.
      * @param cooldown The cooldown duration.
      */
-    public void saveCooldown(Player robber, Cooldown cooldown) {
+    protected void saveCooldown(Player robber, Cooldown cooldown) {
         robbingCooldownBag.getData().put(robber, cooldown);
     }
 
@@ -95,7 +95,7 @@ public class RobProvider extends Provider {
      *
      * @param robber The player to remove the cooldown for.
      */
-    public void removeCooldown(Player robber) {
+    protected void removeCooldown(Player robber) {
         robbingCooldownBag.getData().remove(robber);
     }
 }

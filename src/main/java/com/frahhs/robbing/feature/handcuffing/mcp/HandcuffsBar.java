@@ -1,8 +1,7 @@
-package com.frahhs.robbing.feature.handcuffing.model;
+package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.handcuffing.provider.HandcuffsBarProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -23,9 +22,9 @@ public class HandcuffsBar extends Model {
     /**
      * Constructs a HandcuffsBar instance.
      *
-     * @param player The player associated with the health bar.
+     * @param player The player associated with the handcuffs bar.
      */
-    public HandcuffsBar(Player player) {
+    protected HandcuffsBar(Player player) {
         this.provider = new HandcuffsBarProvider();
         this.player = player;
 
@@ -38,10 +37,10 @@ public class HandcuffsBar extends Model {
     /**
      * Constructs a HandcuffsBar instance from an existing bar.
      *
-     * @param player The player associated with the health bar.
+     * @param player The player associated with the handcuffs bar.
      * @param bar    The existing boss bar.
      */
-    public HandcuffsBar(Player player, BossBar bar) {
+    protected HandcuffsBar(Player player, BossBar bar) {
         this.provider = new HandcuffsBarProvider();
         this.player = player;
         this.bar = bar;
@@ -68,7 +67,7 @@ public class HandcuffsBar extends Model {
     /**
      * Adds the handcuffs bar to a player.
      */
-    public void putHandcuffsBar() {
+    protected void putHandcuffsBar() {
         if (!Bukkit.getOnlinePlayers().contains(player))
             return;
 
@@ -79,7 +78,7 @@ public class HandcuffsBar extends Model {
     /**
      * Removes the handcuffs bar from a player.
      */
-    public void removeHandcuffsBar() {
+    protected void removeHandcuffsBar() {
         if (!Bukkit.getOnlinePlayers().contains(player))
             return;
 
@@ -93,7 +92,7 @@ public class HandcuffsBar extends Model {
      *
      * @return True if the health bar is broken, false otherwise.
      */
-    public boolean hit() {
+    protected boolean hit() {
         if (bar.getProgress() - 0.005 <= 0.005)
             return true;
 
@@ -130,6 +129,9 @@ public class HandcuffsBar extends Model {
      * @return The handcuffs bar associated with the player, or null if not found.
      */
     public static HandcuffsBar getBarFromPlayer(Player player) {
+        if(!haveBar(player))
+            return null;
+
         HandcuffsBarProvider provider = new HandcuffsBarProvider();
         BossBar bar = provider.getHandcuffsBar(player).getBossBar();
         return new HandcuffsBar(player, bar);

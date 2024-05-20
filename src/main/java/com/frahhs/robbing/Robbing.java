@@ -5,6 +5,7 @@ import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
 import com.frahhs.robbing.item.items.HandcuffsKey;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;

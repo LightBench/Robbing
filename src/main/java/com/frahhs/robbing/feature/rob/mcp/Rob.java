@@ -1,13 +1,11 @@
-package com.frahhs.robbing.feature.rob.model;
+package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.rob.provider.RobProvider;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +24,7 @@ public class Rob extends Model {
      * @param robber The player who is the robber.
      * @param robbed The player who is robbed.
      */
-    public Rob(Player robber, Player robbed) {
+    protected Rob(Player robber, Player robbed) {
         this.robber = robber;
         this.robbed = robbed;
         this.provider = new RobProvider();

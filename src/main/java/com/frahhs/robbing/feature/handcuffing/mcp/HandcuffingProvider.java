@@ -1,8 +1,7 @@
-package com.frahhs.robbing.feature.handcuffing.provider;
+package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
-import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,13 +15,13 @@ import java.util.UUID;
 /**
  * Provider class for managing handcuffing-related data and database operations.
  */
-public class HandcuffingProvider extends Provider {
+class HandcuffingProvider extends Provider {
     private final HandcuffingCooldownBag handcuffingCooldownBag;
 
     /**
      * Constructs a HandcuffingProvider instance.
      */
-    public HandcuffingProvider() {
+    protected HandcuffingProvider() {
         handcuffingCooldownBag = (HandcuffingCooldownBag) bagManager.getBag("HandcuffingCooldownBag");
     }
 
@@ -32,7 +31,7 @@ public class HandcuffingProvider extends Provider {
      * @param handcuffed The player to check.
      * @return True if the player is handcuffed, false otherwise.
      */
-    public boolean isHandcuffed(Player handcuffed) {
+    protected boolean isHandcuffed(Player handcuffed) {
         try {
             Statement stmt = dbConnection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Handcuffing");
@@ -53,7 +52,7 @@ public class HandcuffingProvider extends Provider {
     /**
      * Saves the handcuffing event to the database.
      */
-    public void saveHandcuffing(Player handcuffer, Player handcuffed) {
+    protected void saveHandcuffing(Player handcuffer, Player handcuffed) {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
         String handcufferUUID = handcuffer.getUniqueId().toString();
 
@@ -73,7 +72,7 @@ public class HandcuffingProvider extends Provider {
     /**
      * Removes the handcuffing event from the database.
      */
-    public void deleteHandcuffing(Player handcuffed) {
+    protected void deleteHandcuffing(Player handcuffed) {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
 
         try {
@@ -94,7 +93,7 @@ public class HandcuffingProvider extends Provider {
      * @param handcuffed The handcuffed player.
      * @return The HandcuffingModel instance, or null if not found.
      */
-    public Handcuffing getHandcuffing(Player handcuffed) {
+    protected Handcuffing getHandcuffing(Player handcuffed) {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
 
         try {
@@ -126,7 +125,7 @@ public class HandcuffingProvider extends Provider {
      * @param handcuffed The player who was handcuffed.
      * @return The timestamp of the handcuffing event.
      */
-    public Timestamp getTimestamp(Player handcuffed) {
+    protected Timestamp getTimestamp(Player handcuffed) {
         String handcuffedUUID = handcuffed.getUniqueId().toString();
 
         try {
@@ -152,7 +151,7 @@ public class HandcuffingProvider extends Provider {
      * @param handcuffer The player to check.
      * @return True if the player is under cooldown, otherwise false.
      */
-    public boolean haveCooldown(Player handcuffer) {
+    protected boolean haveCooldown(Player handcuffer) {
         return handcuffingCooldownBag.getData().containsKey(handcuffer);
     }
 
@@ -162,7 +161,7 @@ public class HandcuffingProvider extends Provider {
      * @param handcuffer The player to check.
      * @return The timestamp when the handcuffing action occurred.
      */
-    public Cooldown getCooldown(Player handcuffer) {
+    protected Cooldown getCooldown(Player handcuffer) {
         return handcuffingCooldownBag.getData().get(handcuffer);
     }
 
@@ -172,7 +171,7 @@ public class HandcuffingProvider extends Provider {
      * @param handcuffer The player to set the cooldown for.
      * @param cooldown   The cooldown duration.
      */
-    public void saveCooldown(Player handcuffer, Cooldown cooldown) {
+    protected void saveCooldown(Player handcuffer, Cooldown cooldown) {
         handcuffingCooldownBag.getData().put(handcuffer, cooldown);
     }
 
@@ -181,7 +180,7 @@ public class HandcuffingProvider extends Provider {
      *
      * @param handcuffer The player to remove the cooldown from.
      */
-    public void removeCooldown(Player handcuffer) {
+    protected void removeCooldown(Player handcuffer) {
         handcuffingCooldownBag.getData().remove(handcuffer);
     }
 }

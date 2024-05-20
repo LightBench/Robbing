@@ -1,8 +1,7 @@
-package com.frahhs.robbing.feature.handcuffing.controller;
+package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.feature.Controller;
-import com.frahhs.robbing.feature.handcuffing.model.HandcuffsBar;
-import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
+import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import org.bukkit.entity.Player;
 
 /**
@@ -10,7 +9,7 @@ import org.bukkit.entity.Player;
  */
 public class HandcuffsBarController extends Controller {
     /**
-     * Puts the handcuffs bar on a player.
+     * Puts the handcuffs bar on a player, if he doesn't have it.
      *
      * @param player The player to put the handcuffs bar on.
      */
@@ -23,7 +22,7 @@ public class HandcuffsBarController extends Controller {
     }
 
     /**
-     * Removes the handcuffs bar from a player.
+     * Removes the handcuffs bar from a player, if he has it.
      *
      * @param player The player to remove the handcuffs bar from.
      */
@@ -32,20 +31,20 @@ public class HandcuffsBarController extends Controller {
             return;
 
         HandcuffsBar handcuffsBar = HandcuffsBar.getBarFromPlayer(player);
+        assert handcuffsBar != null;
         handcuffsBar.removeHandcuffsBar();
     }
 
     /**
-     * Iterates the cracking of the handcuffs bar.
+     * Iterates one time the cracking of the handcuffs bar.
      *
      * @param player The player whose handcuffs bar is being iterated.
-     * @return True if the health bar is broken, false otherwise.
+     * @return True if the health bar has got broken, false otherwise.
      * @throws RuntimeException if the player does not have a handcuffs bar.
      */
     public boolean hit(Player player) {
         if (!HandcuffsBar.haveBar(player)) {
-            logger.unexpectedError("N16TOV");
-            throw new RuntimeException();
+            throw new RuntimeException(String.format("Handcuffs bar not found for player %s.", player.getName()));
         }
 
         HandcuffsBar handcuffsBar = HandcuffsBar.getBarFromPlayer(player);

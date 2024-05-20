@@ -2,8 +2,8 @@ package com.frahhs.robbing.feature.rob.listeners;
 
 import com.frahhs.robbing.RBListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.rob.controllers.CatchController;
-import com.frahhs.robbing.feature.rob.model.Caught;
+import com.frahhs.robbing.feature.rob.mcp.CaughtController;
+import com.frahhs.robbing.feature.rob.mcp.Caught;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -13,10 +13,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
  * Listener class for catching robbers during robbery actions.
  */
 public class CatchListener extends RBListener {
-    private final CatchController catchController;
+    private final CaughtController caughtController;
 
     public CatchListener() {
-        catchController = new CatchController();
+        caughtController = new CaughtController();
     }
 
     @EventHandler
@@ -40,7 +40,7 @@ public class CatchListener extends RBListener {
             return;
 
         // Do catching things
-        catchController.catchRobber(damaged, damager);
+        caughtController.catchRobber(damaged, damager);
         e.setCancelled(true);
     }
 

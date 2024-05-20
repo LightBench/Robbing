@@ -7,8 +7,9 @@ import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffedListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffingListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HitHandcuffsListener;
-import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
-import com.frahhs.robbing.feature.handcuffing.model.HandcuffsBar;
+import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -25,26 +26,27 @@ public class HandcuffingFeature extends Feature {
     @Override
     protected void onEnable() {
         // Handle Handcuffs bars
+        HandcuffsBarController handcuffsBarController = new HandcuffsBarController();
         List<Player> allHandcuffed = new ArrayList<>();
 
-        for (Player cur : Bukkit.getOnlinePlayers())
+        for(Player cur : Bukkit.getOnlinePlayers())
             if (Handcuffing.isHandcuffed(cur))
                 allHandcuffed.add(cur);
 
-        for (Player cur : allHandcuffed) {
-            HandcuffsBar curHealthBar = new HandcuffsBar(cur);
-            curHealthBar.putHandcuffsBar();
-        }
+        for(Player cur : allHandcuffed)
+            handcuffsBarController.put(cur);
     }
 
     @Override
     protected void onDisable() {
         // Handle Handcuffs bars
+        HandcuffsBarController handcuffsBarController = new HandcuffsBarController();
         List<HandcuffsBar> bars = HandcuffsBar.getAll();
 
-        for (HandcuffsBar cur : bars)
-            if(cur != null)
-                cur.removeHandcuffsBar();
+        for(HandcuffsBar curBar : bars)
+            if(curBar != null)
+                for (Player curPlayer : curBar.getBossBar().getPlayers())
+                    handcuffsBarController.remove(curPlayer);
     }
 
     @Override

@@ -1,20 +1,20 @@
-package com.frahhs.robbing.feature.kidnapping.provider;
+package com.frahhs.robbing.feature.kidnapping.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
-import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
+import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import org.bukkit.entity.Player;
 
 /**
  * Provider class for managing kidnapping data.
  */
-public class KidnappingProvider extends Provider {
+class KidnappingProvider extends Provider {
     private final KidnappingBag kidnappingBag;
 
     /**
      * Constructs a new KidnappingProvider.
      */
-    public KidnappingProvider() {
+    protected KidnappingProvider() {
         kidnappingBag = (KidnappingBag)bagManager.getBag("KidnappingBag");
     }
 
@@ -24,7 +24,7 @@ public class KidnappingProvider extends Provider {
      * @param kidnapper The player to check.
      * @return True if the player is a kidnapper, otherwise false.
      */
-    public boolean isKidnapper(Player kidnapper) {
+    protected boolean isKidnapper(Player kidnapper) {
         return kidnappingBag.getData().containsKey(kidnapper);
     }
 
@@ -34,7 +34,7 @@ public class KidnappingProvider extends Provider {
      * @param kidnapped The player to check.
      * @return True if the player is kidnapped, otherwise false.
      */
-    public boolean isKidnapped(Player kidnapped) {
+    protected boolean isKidnapped(Player kidnapped) {
         return kidnappingBag.getData().containsValue(kidnapped);
     }
 
@@ -44,7 +44,7 @@ public class KidnappingProvider extends Provider {
      * @param kidnapper The kidnapper player.
      * @param kidnapped The kidnapped player.
      */
-    public void saveKidnapping(Player kidnapper, Player kidnapped) {
+    protected void saveKidnapping(Player kidnapper, Player kidnapped) {
         kidnappingBag.getData().put(kidnapper, kidnapped);
     }
 
@@ -53,7 +53,7 @@ public class KidnappingProvider extends Provider {
      *
      * @param kidnapper The kidnapper player.
      */
-    public void removeKidnapping(Player kidnapper) {
+    protected void removeKidnapping(Player kidnapper) {
         kidnappingBag.getData().remove(kidnapper);
     }
 
@@ -63,7 +63,7 @@ public class KidnappingProvider extends Provider {
      * @param kidnapper The kidnapper player.
      * @return The Kidnapping object, or null if not found.
      */
-    public Kidnapping getFromKidnapper(Player kidnapper) {
+    protected Kidnapping getFromKidnapper(Player kidnapper) {
         if (!isKidnapper(kidnapper))
             return null;
 
@@ -76,7 +76,7 @@ public class KidnappingProvider extends Provider {
      * @param kidnapped The kidnapped player.
      * @return The Kidnapping object, or null if not found.
      */
-    public Kidnapping getFromKidnapped(Player kidnapped) {
+    protected Kidnapping getFromKidnapped(Player kidnapped) {
         if (!isKidnapped(kidnapped))
             return null;
 

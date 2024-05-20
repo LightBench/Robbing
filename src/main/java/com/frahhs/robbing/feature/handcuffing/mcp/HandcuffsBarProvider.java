@@ -1,8 +1,8 @@
-package com.frahhs.robbing.feature.handcuffing.provider;
+package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
-import com.frahhs.robbing.feature.handcuffing.model.HandcuffsBar;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Provider class for managing handcuffs bar-related data and operations.
  */
-public class HandcuffsBarProvider extends Provider {
+class HandcuffsBarProvider extends Provider {
     private final HandcuffsBarBag handcuffsBarBag;
 
     /**
      * Constructs a HandcuffsBarProvider instance.
      */
-    public HandcuffsBarProvider() {
+    protected HandcuffsBarProvider() {
         handcuffsBarBag = (HandcuffsBarBag) bagManager.getBag("HandcuffsBarBag");
     }
 
@@ -29,7 +29,7 @@ public class HandcuffsBarProvider extends Provider {
      * @param player The player to check.
      * @return True if the player has an active health bar, otherwise false.
      */
-    public boolean haveHandcuffsBar(Player player) {
+    protected boolean haveHandcuffsBar(Player player) {
         return handcuffsBarBag.getData().containsKey(player);
     }
 
@@ -39,7 +39,7 @@ public class HandcuffsBarProvider extends Provider {
      * @param player The player.
      * @return The health bar associated with the player, or null if not found.
      */
-    public HandcuffsBar getHandcuffsBar(Player player) {
+    protected HandcuffsBar getHandcuffsBar(Player player) {
         BossBar bar = handcuffsBarBag.getData().get(player);
         if (bar != null) {
             return new HandcuffsBar(player, bar);
@@ -53,7 +53,7 @@ public class HandcuffsBarProvider extends Provider {
      * @param player The player to add the health bar to.
      * @param bar    The health bar to add.
      */
-    public void saveHandcuffsBar(Player player, BossBar bar) {
+    protected void saveHandcuffsBar(Player player, BossBar bar) {
         handcuffsBarBag.getData().put(player, bar);
     }
 
@@ -62,7 +62,7 @@ public class HandcuffsBarProvider extends Provider {
      *
      * @param player The player to remove the health bar from.
      */
-    public void removeHandcuffsBar(Player player) {
+    protected void removeHandcuffsBar(Player player) {
         handcuffsBarBag.getData().remove(player);
     }
 
@@ -72,7 +72,7 @@ public class HandcuffsBarProvider extends Provider {
      * @param bar The BossBar instance to check.
      * @return True if the BossBar is associated with a handcuffs bar, otherwise false.
      */
-    public boolean isHandcuffsBar(BossBar bar) {
+    protected boolean isHandcuffsBar(BossBar bar) {
         return handcuffsBarBag.getData().containsValue(bar);
     }
 
@@ -81,7 +81,7 @@ public class HandcuffsBarProvider extends Provider {
      *
      * @return A list of HandcuffsBar instances representing all active handcuffs bars.
      */
-    public List<HandcuffsBar> getAllHandcuffsBar() {
+    protected List<HandcuffsBar> getAllHandcuffsBar() {
         List<HandcuffsBar> bars = new ArrayList<>();
         for (Player player : handcuffsBarBag.getData().keySet()) {
             if (Bukkit.getOnlinePlayers().contains(player)) {

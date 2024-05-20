@@ -1,7 +1,6 @@
-package com.frahhs.robbing.feature.rob.model;
+package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.rob.provider.CaughtProvider;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
@@ -10,7 +9,7 @@ import org.bukkit.entity.Player;
  * Model class representing the caught action.
  */
 public class Caught {
-    private Caught() {}
+    protected Caught() {}
 
     /**
      * Checks if a player is currently under a caught cooldown.

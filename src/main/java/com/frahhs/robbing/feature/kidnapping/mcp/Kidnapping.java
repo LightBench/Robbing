@@ -1,7 +1,6 @@
-package com.frahhs.robbing.feature.kidnapping.models;
+package com.frahhs.robbing.feature.kidnapping.mcp;
 
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.kidnapping.provider.KidnappingProvider;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +18,7 @@ public class Kidnapping extends Model {
      * @param kidnapper The player who is the kidnapper.
      * @param kidnapped The player who is kidnapped.
      */
-    public Kidnapping(Player kidnapper, Player kidnapped) {
+    protected Kidnapping(Player kidnapper, Player kidnapped) {
         this.kidnapper = kidnapper;
         this.kidnapped = kidnapped;
 
@@ -47,14 +46,14 @@ public class Kidnapping extends Model {
     /**
      * Records the kidnapping event.
      */
-    public void setKidnap() {
+    protected void setKidnap() {
         provider.saveKidnapping(kidnapper, kidnapped);
     }
 
     /**
      * Frees the kidnapped player.
      */
-    public void removeKidnap() {
+    protected void removeKidnap() {
         provider.removeKidnapping(kidnapper);
     }
 

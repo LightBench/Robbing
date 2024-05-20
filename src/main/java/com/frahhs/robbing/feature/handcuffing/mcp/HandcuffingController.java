@@ -1,11 +1,10 @@
-package com.frahhs.robbing.feature.handcuffing.controller;
+package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
-import com.frahhs.robbing.feature.handcuffing.model.Handcuffing;
-import com.frahhs.robbing.feature.kidnapping.controllers.KidnappingController;
-import com.frahhs.robbing.feature.kidnapping.models.Kidnapping;
+import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
+import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.item.RobbingMaterial;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -21,7 +20,8 @@ public class HandcuffingController extends Controller {
     /**
      * Default constructor for HandcuffingController.
      */
-    public HandcuffingController() {}
+    public HandcuffingController() {
+    }
 
     /**
      * Puts handcuffs on a player.
@@ -33,6 +33,7 @@ public class HandcuffingController extends Controller {
      */
     public Handcuffing putHandcuffs(Player handcuffer, Player handcuffed, boolean silent) {
         Handcuffing handcuffing = new Handcuffing(handcuffer, handcuffed);
+        handcuffing.save();
 
         // Call toggle handcuffed event in server main thread
         Bukkit.getScheduler().runTask(Robbing.getPlugin(Robbing.class), () -> {
@@ -135,13 +136,8 @@ public class HandcuffingController extends Controller {
      * @return True if the player is using handcuffs, otherwise false.
      */
     public boolean handcuffsInHand(Player player) {
-        // Handle if player have more than 1 handcuffs in hand
-        int amount = player.getInventory().getItemInMainHand().getAmount();
-
         ItemStack handcuffsItemStack = Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS).getItemStack();
-        handcuffsItemStack.setAmount(amount);
-
-        return player.getInventory().getItemInMainHand().equals(handcuffsItemStack);
+        return player.getInventory().getItemInMainHand().isSimilar(handcuffsItemStack);
     }
 
     /**

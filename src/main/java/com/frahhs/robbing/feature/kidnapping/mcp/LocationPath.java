@@ -1,4 +1,4 @@
-package com.frahhs.robbing.feature.kidnapping.models;
+package com.frahhs.robbing.feature.kidnapping.mcp;
 
 import com.frahhs.robbing.RBObject;
 import org.bukkit.Location;
@@ -14,7 +14,7 @@ import java.util.Map;
  * Model class representing the path for kidnapping.
  */
 public class LocationPath extends RBObject {
-    public static Map<Player, List<Location>> paths = new HashMap<>();
+    protected static Map<Player, List<Location>> paths = new HashMap<>();
 
     /**
      * Retrieves a location from the path based on the index.
@@ -75,7 +75,7 @@ public class LocationPath extends RBObject {
         }
     }
 
-    public void removePlayerPath(Player player) {
+    protected void removePlayerPath(Player player) {
         paths.remove(player);
     }
 }

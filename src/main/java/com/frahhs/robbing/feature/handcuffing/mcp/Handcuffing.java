@@ -1,8 +1,7 @@
-package com.frahhs.robbing.feature.handcuffing.model;
+package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.handcuffing.provider.HandcuffingProvider;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
@@ -24,7 +23,7 @@ public class Handcuffing extends Model {
      * @param handcuffer The player who handcuffed.
      * @param handcuffed The player who is handcuffed.
      */
-    public Handcuffing(Player handcuffer, Player handcuffed) {
+    protected Handcuffing(Player handcuffer, Player handcuffed) {
         this.handcuffed = handcuffed;
         this.handcuffer = handcuffer;
         this.provider = new HandcuffingProvider();
@@ -60,14 +59,14 @@ public class Handcuffing extends Model {
     /**
      * Saves the handcuffing event to the database.
      */
-    public void save() {
+    protected void save() {
         provider.saveHandcuffing(handcuffer, handcuffed);
     }
 
     /**
      * Removes the handcuffing event from the database.
      */
-    public void remove() {
+    protected void remove() {
         provider.deleteHandcuffing(handcuffed);
     }
 
