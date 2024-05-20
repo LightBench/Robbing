@@ -5,12 +5,14 @@ package com.frahhs.robbing.item;
  */
 public enum RobbingMaterial {
     HANDCUFFS,
+    HANDCUFFS_KEY,
     LOCKPICK,
     SAFE;
 
     public boolean isItem() {
         switch (this) {
             case HANDCUFFS:
+            case HANDCUFFS_KEY:
             case LOCKPICK:
                 return true;
             default:

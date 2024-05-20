@@ -139,6 +139,7 @@ handcuffing:
   # Crafting of custom items related to the current feature.
   enable-crafting:
     handcuffs: true
+    handcuffs_key: true
 
   # Make it possible to escape from handcuffing.
   # Handcuffed players have the "duration" time to escape from the handcuffer within the "distance" block.

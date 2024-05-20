@@ -46,6 +46,10 @@ handcuffs:
   name: "Handcuffs"
   lore: "Right click on a player to handcuff him."
 
+handcuffs_key:
+  name: "Handcuffs Key"
+  lore: "Right click on a player with handcuff to uncuff him."
+
 lockpick:
   name: "Lockpick"
   lore: "Right click on a safe to try to unlock it. \nYou have the 3 attempts \nto\

@@ -5,6 +5,7 @@ import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RBDatabase;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
+import com.frahhs.robbing.item.items.HandcuffsKey;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
@@ -143,6 +144,7 @@ public final class Robbing extends JavaPlugin {
 
     private void registerItems() {
         itemManager.registerItem(new Handcuffs(this));
+        itemManager.registerItem(new HandcuffsKey(this));
         itemManager.registerItem(new Lockpick(this));
         itemManager.registerItem(new Safe(this));
     }

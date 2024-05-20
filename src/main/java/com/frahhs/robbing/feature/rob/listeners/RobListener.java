@@ -134,9 +134,15 @@ public class RobListener extends RBListener {
         Player robber = (Player) e.getWhoClicked();
         Player robbed = null;
 
+        // Retrieve robbed
         for(Player curPlayer : Bukkit.getOnlinePlayers())
             if(curPlayer.getInventory().equals(e.getInventory()))
                 robbed = curPlayer;
+
+        // Check if it is a robbing action
+        if(!(Rob.isRobbingNow(robber) && Rob.isRobbedNow(robbed)))
+            return;
+        assert robbed != null;
 
         // Check rob whitelist and blacklist
         if(!Rob.itemIsRobbable(item)) {

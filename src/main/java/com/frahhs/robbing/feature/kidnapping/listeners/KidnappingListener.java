@@ -43,8 +43,8 @@ public class KidnappingListener extends RBListener {
         if(!Handcuffing.isHandcuffed((Player)e.getRightClicked()))
             return;
 
-        // Check if kidnapper is using cuffs
-        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS).getItemStack()))
+        // Check if kidnapper is using handcuffs key
+        if(e.getPlayer().getInventory().getItemInMainHand().equals(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS_KEY).getItemStack()))
             return;
 
         // Check if kidnapper have follow permissions
