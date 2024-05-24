@@ -1,18 +1,19 @@
 package com.frahhs.robbing.item;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class for managing custom items related to robbing mechanics.
  */
 public class ItemManager {
     private final JavaPlugin plugin;
-    private Map<String, RobbingItem> rbItems;
+    private final Map<String, RobbingItem> rbItems;
 
     /**
      * Constructor for ItemManager.
@@ -28,16 +29,16 @@ public class ItemManager {
     }
 
     /**
-     * Registers a custom RBItem.
+     * Registers a custom RobbingItem.
      *
-     * @param rbItem The RBItem to register.
+     * @param rbItem The RobbingItem to register.
      */
-    public void registerItem(RobbingItem rbItem) {
-        if (rbItems.containsKey(rbItem.getItemName())) {
-            throw new RuntimeException(String.format("Item name [%s] already exists.", rbItem.getItemName()));
+    public void registerItems(RobbingItem rbItem) {
+        if (rbItems.containsKey(rbItem.getName())) {
+            throw new RuntimeException(String.format("Item name [%s] already exists.", rbItem.getName()));
         }
 
-        rbItems.put(rbItem.getItemName(), rbItem);
+        rbItems.put(rbItem.getName(), rbItem);
         if (rbItem.isCraftable()) {
             plugin.getServer().addRecipe(rbItem.getShapedRecipe());
         }
@@ -56,29 +57,14 @@ public class ItemManager {
     }
 
     /**
-     * Retrieves an ItemStack based on RBMaterial.
+     * Retrieves an ItemStack based on RobbingMaterial.
      *
-     * @param robbingMaterial The RBMaterial to retrieve.
-     * @return The corresponding RobbingItem, or null if no matching RBItem is found.
+     * @param robbingMaterial The RobbingMaterial to retrieve.
+     * @return The corresponding RobbingItem, or null if no matching RobbingItem is found.
      */
     public RobbingItem get(RobbingMaterial robbingMaterial) {
         for (RobbingItem item : rbItems.values()) {
-            if (item.getRBMaterial().equals(robbingMaterial)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Retrieves an ItemStack based on item name.
-     *
-     * @param itemName The name of the item to retrieve.
-     * @return The corresponding RobbingItem, or null if no matching RBItem is found.
-     */
-    public RobbingItem getByName(String itemName) {
-        for (RobbingItem item : rbItems.values()) {
-            if (item.getItemName().equalsIgnoreCase(itemName)) {
+            if (item.getRobbingMaterial().equals(robbingMaterial)) {
                 return item;
             }
         }
@@ -89,24 +75,26 @@ public class ItemManager {
      * Retrieves a RobbingItem based on the provided ItemStack.
      *
      * @param itemStack The ItemStack to match.
-     * @return The corresponding RobbingItem, or null if no matching RBItem is found.
+     * @return The corresponding RobbingItem, or null if no matching RobbingItem is found.
      */
-    public RobbingItem getByItemStack(ItemStack itemStack) {
-        for (RobbingItem item : rbItems.values()) {
-            if (item.getItemStack().isSimilar(itemStack)) {
-                return item;
+    public RobbingItem get(ItemStack itemStack) {
+        ItemStack item = clean(itemStack);
+
+        for (RobbingItem curItem : rbItems.values()) {
+            if (curItem.getItemStack().isSimilar(item)) {
+                return curItem;
             }
         }
         return null;
     }
 
     /**
-     * Retrieves all registered RBItems.
+     * Retrieves all registered RobbingItem.
      *
-     * @return A collection of all registered RBItems.
+     * @return A collection of all registered RobbingItem.
      */
-    public Collection<RobbingItem> getRegisteredItems() {
-        return rbItems.values();
+    public Set<RobbingItem> getRegisteredItems() {
+        return new HashSet<>(rbItems.values());
     }
 
     /**
@@ -116,11 +104,28 @@ public class ItemManager {
      * @return True if the ItemStack is registered, otherwise false.
      */
     public boolean isRegistered(ItemStack itemStack) {
-        for (RobbingItem item : rbItems.values()) {
-            if (item.getItemStack().isSimilar(itemStack)) {
+        ItemStack item = clean(itemStack);
+
+        for (RobbingItem curItem : rbItems.values()) {
+            if (curItem.getItemStack().isSimilar(item)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private ItemStack clean(ItemStack itemStack) {
+        ItemStack item = itemStack.clone();
+
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+
+        // Remove PersistentDataContainer keys from the ItemStack
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        for(NamespacedKey key : container.getKeys())
+            container.remove(key);
+
+        item.setItemMeta(meta);
+        return item;
     }
 }

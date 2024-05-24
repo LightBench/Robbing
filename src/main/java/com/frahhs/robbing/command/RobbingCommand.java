@@ -7,9 +7,13 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
+import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.provider.MessagesProvider;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.common.value.qual.IntRange;
 
@@ -30,6 +34,20 @@ public class RobbingCommand extends BaseCommand {
         help.showHelp();
     }
 
+    @Subcommand("gui")
+    public void onGui(Player player) {
+        // https://www.spigotmc.org/threads/negative-space-font-resource-pack.440952/
+        Inventory inventory = Bukkit.createInventory(null, 6*9, "\uF001§f\uD83D\uDE97");
+        player.openInventory(inventory);
+    }
+
+    @Subcommand("guis")
+    public void onGuis(CommandSender sender, String title) {
+        // https://www.spigotmc.org/threads/negative-space-font-resource-pack.440952/
+        Inventory inventory = Bukkit.createInventory(null, 6*9, title);
+        ((Player)sender).openInventory(inventory);
+    }
+
     @Subcommand("reload")
     @CommandPermission("robbing.reload")
     @Description("Reload the configuration of Robbing.")
@@ -41,14 +59,14 @@ public class RobbingCommand extends BaseCommand {
 
     @Subcommand("give")
     @CommandPermission("robbing.give")
-    @CommandCompletion("* @RBItems 1|64")
+    @CommandCompletion("* @RobbingItems 1|64")
     public void onGive(CommandSender sender, OnlinePlayer player, @Single String item_name, @IntRange(from=1, to=64) @Default("1") int amount) {
         ItemManager itemManager = plugin.getItemsManager();
 
         String message;
         RobbingItem robbingItem;
 
-        robbingItem = itemManager.getByName(item_name);
+        robbingItem = itemManager.get(RobbingMaterial.matchMaterial(item_name));
 
         item_name = item_name.substring(0, 1).toUpperCase() + item_name.substring(1).toLowerCase();
         if(robbingItem == null) {
@@ -58,8 +76,7 @@ public class RobbingCommand extends BaseCommand {
             return;
         }
 
-        ItemStack item;
-        item = itemManager.getByName(item_name).getItemStack();
+        ItemStack item = robbingItem.getItemStack();
         item.setAmount(amount);
         player.getPlayer().getInventory().addItem(item);
 

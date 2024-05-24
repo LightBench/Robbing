@@ -3,7 +3,7 @@ package com.frahhs.robbing.feature.kidnapping;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
-import com.frahhs.robbing.feature.kidnapping.listeners.KidnappingListener;
+import com.frahhs.robbing.feature.kidnapping.listener.KidnappingListener;
 
 public class KidnappingFeature extends Feature {
     private final Robbing plugin;

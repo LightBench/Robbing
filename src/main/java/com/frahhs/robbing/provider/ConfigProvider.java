@@ -107,7 +107,7 @@ public class ConfigProvider {
      */
     public Boolean getBoolean(String path) {
         if (!pathExist(path))
-            plugin.getRBLogger().error(String.format("The config path '%s' does not exist.", path));
+            plugin.getRobbingLogger().error(String.format("The config path '%s' does not exist.", path));
 
         Object value = config.get(path);
         if (!(value instanceof Boolean))
@@ -124,7 +124,7 @@ public class ConfigProvider {
      */
     public int getInt(String path) {
         if (!pathExist(path))
-            plugin.getRBLogger().error(String.format("The config path '%s' does not exist.", path));
+            plugin.getRobbingLogger().error(String.format("The config path '%s' does not exist.", path));
 
         Object value = config.get(path);
         if (!(value instanceof Integer))
@@ -141,7 +141,7 @@ public class ConfigProvider {
      */
     public String getString(String path) {
         if (!pathExist(path))
-            plugin.getRBLogger().error(String.format("The config path '%s' does not exist.", path));
+            plugin.getRobbingLogger().error(String.format("The config path '%s' does not exist.", path));
 
         Object value = config.get(path);
         if (!(value instanceof String))
@@ -158,7 +158,7 @@ public class ConfigProvider {
      */
     public List<String> getStringList(String path) {
         if (!pathExist(path))
-            plugin.getRBLogger().error(String.format("The config path '%s' does not exist.", path));
+            plugin.getRobbingLogger().error(String.format("The config path '%s' does not exist.", path));
 
         Object value = config.get(path);
         if (!(value instanceof List))

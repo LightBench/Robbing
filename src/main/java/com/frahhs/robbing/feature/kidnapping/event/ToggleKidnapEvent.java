@@ -1,4 +1,4 @@
-package com.frahhs.robbing.feature.kidnapping.events;
+package com.frahhs.robbing.feature.kidnapping.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

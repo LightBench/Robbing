@@ -56,7 +56,7 @@ public class RobbingBlockPlaceEvent extends RobbingBlockEvent implements Cancell
      * Clarity method for getting the Robbing placed block. Not really needed except
      * for reasons of clarity.
      *
-     * @return The RBBlock that was placed
+     * @return The RobbingBlock that was placed
      */
     @NotNull
     public RobbingBlock getBlockPlaced() {

@@ -3,25 +3,26 @@ package com.frahhs.robbing;
 import co.aikar.commands.PaperCommandManager;
 import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
-import com.frahhs.robbing.database.RBDatabase;
+import com.frahhs.robbing.database.RobbingDatabase;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
-import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
-import com.frahhs.robbing.item.items.HandcuffsKey;
+import com.frahhs.robbing.feature.safe.SafeFeature;
+import com.frahhs.robbing.item.items.*;
+import com.frahhs.robbing.util.StringUtil;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
 import com.frahhs.robbing.feature.rob.RobbingFeature;
 import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.items.Handcuffs;
-import com.frahhs.robbing.item.items.Lockpick;
-import com.frahhs.robbing.item.items.Safe;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.RobbingLogger;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.flywaydb.core.internal.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public final class Robbing extends JavaPlugin {
     private FeatureManager featureManager;
 
     // Database
-    private RBDatabase rbDatabase;
+    private RobbingDatabase robbingDatabase;
 
     // Utils
     private RobbingLogger robbingLogger;
@@ -64,7 +65,7 @@ public final class Robbing extends JavaPlugin {
         featureManager = new FeatureManager(this);
 
         // Setup Database connection
-        rbDatabase = new RBDatabase(this);
+        robbingDatabase = new RobbingDatabase(this);
 
         // Register stuff
         registerCommands();
@@ -80,7 +81,7 @@ public final class Robbing extends JavaPlugin {
     @Override
     public void onDisable() {
         // Disable database
-        rbDatabase.disable();
+        robbingDatabase.disable();
 
         // Disable features
         featureManager.disableFeatures();
@@ -130,9 +131,9 @@ public final class Robbing extends JavaPlugin {
         commandManager.registerCommand(new RobbingCommand(this));
 
         // Command completions
-        commandManager.getCommandCompletions().registerCompletion("RBItems", c -> {
+        commandManager.getCommandCompletions().registerCompletion("RobbingItems", c -> {
             List<String> rbItems = new ArrayList<>();
-            itemManager.getRegisteredItems().forEach(item -> rbItems.add(item.getItemName()));
+            itemManager.getRegisteredItems().forEach(item -> rbItems.add(item.getName()));
             return ImmutableList.copyOf(rbItems);
         });
     }
@@ -141,21 +142,32 @@ public final class Robbing extends JavaPlugin {
         featureManager.registerFeatures(new RobbingFeature(this));
         featureManager.registerFeatures(new HandcuffingFeature(this));
         featureManager.registerFeatures(new KidnappingFeature(this));
+        featureManager.registerFeatures(new SafeFeature(this));
     }
 
     private void registerItems() {
-        itemManager.registerItem(new Handcuffs(this));
-        itemManager.registerItem(new HandcuffsKey(this));
-        itemManager.registerItem(new Lockpick(this));
-        itemManager.registerItem(new Safe(this));
+        itemManager.registerItems(new Handcuffs(this));
+        itemManager.registerItems(new HandcuffsKey(this));
+        itemManager.registerItems(new Lockpick(this));
+        itemManager.registerItems(new Safe(this));
+        itemManager.registerItems(new PanelNumber0(this));
+        itemManager.registerItems(new PanelNumber1(this));
+        itemManager.registerItems(new PanelNumber2(this));
+        itemManager.registerItems(new PanelNumber3(this));
+        itemManager.registerItems(new PanelNumber4(this));
+        itemManager.registerItems(new PanelNumber5(this));
+        itemManager.registerItems(new PanelNumber6(this));
+        itemManager.registerItems(new PanelNumber7(this));
+        itemManager.registerItems(new PanelNumber8(this));
+        itemManager.registerItems(new PanelNumber9(this));
     }
 
-    public RobbingLogger getRBLogger() {
+    public RobbingLogger getRobbingLogger() {
         return robbingLogger;
     }
 
-    public RBDatabase getRBDatabase() {
-        return rbDatabase;
+    public RobbingDatabase getRobbingDatabase() {
+        return robbingDatabase;
     }
 
     public ConfigProvider getConfigProvider() {

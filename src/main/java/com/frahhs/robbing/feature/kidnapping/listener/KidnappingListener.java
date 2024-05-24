@@ -1,6 +1,6 @@
-package com.frahhs.robbing.feature.kidnapping.listeners;
+package com.frahhs.robbing.feature.kidnapping.listener;
 
-import com.frahhs.robbing.RBListener;
+import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class KidnappingListener extends RBListener {
+public class KidnappingListener extends RobbingListener {
     private final LocationPath locationPath;
     private final KidnappingController kidnappingController;
     private final HandcuffingController handcuffingController;

@@ -25,7 +25,7 @@ public abstract class RobbingItem {
     protected ItemStack item;
 
     /**
-     * Constructor for RBItem.
+     * Constructor for RobbingItem.
      */
     protected RobbingItem(Robbing plugin) {
         this.plugin = plugin;
@@ -39,9 +39,9 @@ public abstract class RobbingItem {
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName(ChatColor.WHITE + messagesProvider.getMessage(getItemName() + ".name", false));
+        meta.setDisplayName(ChatColor.WHITE + messagesProvider.getMessage(getName() + ".name", false));
         List<String> lore = new ArrayList<>();
-        String[] loreStrings = messagesProvider.getMessage(getItemName() + ".lore", false).split("\n");
+        String[] loreStrings = messagesProvider.getMessage(getName() + ".lore", false).split("\n");
 
         for(String cur : loreStrings)
             lore.add(ChatColor.GRAY + cur);
@@ -61,6 +61,14 @@ public abstract class RobbingItem {
     }
 
     /**
+     * Abstract method to get the name of the custom robbing item.
+     * The name must be unique.
+     */
+    public String getName() {
+        return getRobbingMaterial().toString().toLowerCase();
+    }
+
+    /**
      * Retrieves the shaped recipe of the custom robbing item.
      *
      * @return The shaped recipe of the custom robbing item.
@@ -76,18 +84,10 @@ public abstract class RobbingItem {
     public abstract NamespacedKey getNamespacedKey();
 
     /**
-     * Abstract method to get the name of the custom robbing item.
-     * The name must be unique.
-     * // TODO: Unnecessary, Material is enough
+     * Abstract method to get the RobbingMaterial of the custom robbing item.
      */
     @NotNull
-    public abstract String getItemName();
-
-    /**
-     * Abstract method to get the RBMaterial of the custom robbing item.
-     */
-    @NotNull
-    public abstract RobbingMaterial getRBMaterial();
+    public abstract RobbingMaterial getRobbingMaterial();
 
     /**
      * Abstract method to determine if the custom robbing item is craftable.

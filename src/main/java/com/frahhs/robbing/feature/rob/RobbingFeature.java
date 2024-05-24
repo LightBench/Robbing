@@ -5,8 +5,8 @@ import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.rob.bag.CaughtBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingNowBag;
-import com.frahhs.robbing.feature.rob.listeners.CatchListener;
-import com.frahhs.robbing.feature.rob.listeners.RobListener;
+import com.frahhs.robbing.feature.rob.listener.CatchListener;
+import com.frahhs.robbing.feature.rob.listener.RobListener;
 
 public class RobbingFeature extends Feature {
     private final Robbing plugin;

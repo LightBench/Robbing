@@ -30,12 +30,7 @@ public class Handcuffs extends RobbingItem {
     }
 
     @Override
-    public @NotNull String getItemName() {
-        return "handcuffs";
-    }
-
-    @Override
-    public @NotNull RobbingMaterial getRBMaterial() {
+    public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.HANDCUFFS;
     }
 

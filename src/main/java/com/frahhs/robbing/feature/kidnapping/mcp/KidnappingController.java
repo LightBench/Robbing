@@ -1,9 +1,7 @@
 package com.frahhs.robbing.feature.kidnapping.mcp;
 
 import com.frahhs.robbing.feature.Controller;
-import com.frahhs.robbing.feature.kidnapping.events.ToggleKidnapEvent;
-import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
-import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
+import com.frahhs.robbing.feature.kidnapping.event.ToggleKidnapEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

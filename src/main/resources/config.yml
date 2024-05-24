@@ -142,14 +142,16 @@ handcuffing:
     handcuffs_key: true
 
   # Make it possible to escape from handcuffing.
-  # Handcuffed players have the "duration" time to escape from the handcuffer within the "distance" block.
+  # Handcuffed players have the "delay-handcuffing" time to escape from the handcuffer within the "distance" block.
   # to avoid being handcuffed.
   escape:
     enabled: false
+
     # Delay handcuffing action after clicking (in seconds).
     # This option gives the player the possibility to escape.
     delay-handcuffing: 2
-    # Minimum distance to escape handcuffing.
+
+    # Distance to reach from the handcuffer to escape handcuffing.
     distance: 3
 
   # Permitted commands while handcuffed.
@@ -164,7 +166,7 @@ handcuffing:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                     Lock Picking                     | #
+# |                     Lock picking                     | #
 # +------------------------------------------------------+ #
 ############################################################
 
@@ -180,7 +182,7 @@ lockpicking:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                    Emergency Call                    | #
+# |                    Emergency call                    | #
 # +------------------------------------------------------+ #
 ############################################################
 

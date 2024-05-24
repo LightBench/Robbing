@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * Class for managing the connection to the robbing database.
  */
-public class RBDatabase {
+public class RobbingDatabase {
     private final Robbing plugin;
     private final String sqlite_path;
     private final String mysql_address;
@@ -34,11 +34,11 @@ public class RBDatabase {
     }
 
     /**
-     * Constructor for RBDatabase.
+     * Constructor for RobbingDatabase.
      *
      * @param plugin The main JavaPlugin instance.
      */
-    public RBDatabase(Robbing plugin) {
+    public RobbingDatabase(Robbing plugin) {
         this.plugin = plugin;
         configProvider = plugin.getConfigProvider();
 
@@ -57,7 +57,7 @@ public class RBDatabase {
             File data_folder = new File(Robbing.getPlugin(Robbing.class).getDataFolder().getAbsolutePath() + "/data");
             if (!data_folder.exists())
                 if (data_folder.mkdir())
-                    plugin.getRBLogger().info("Database folder created!");
+                    plugin.getRobbingLogger().info("Database folder created!");
 
             // Create SQLite connection
             createConnection(DBType.SQLITE);
@@ -65,7 +65,7 @@ public class RBDatabase {
             // Create MySQL connection
             createConnection(DBType.MYSQL);
         } else {
-            plugin.getRBLogger().error("Database type %s selected in the config is not valid, you must choose SQLite or MySQL", db_type);
+            plugin.getRobbingLogger().error("Database type %s selected in the config is not valid, you must choose SQLite or MySQL", db_type);
             this.plugin.getPluginLoader().disablePlugin(plugin);
         }
 
@@ -119,7 +119,7 @@ public class RBDatabase {
 
             dbConnection.close();
         } catch (SQLException e) {
-            plugin.getRBLogger().error(e.toString());
+            plugin.getRobbingLogger().error(e.toString());
         }
     }
 

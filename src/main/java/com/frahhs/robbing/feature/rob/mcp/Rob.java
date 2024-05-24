@@ -160,8 +160,8 @@ public class Rob extends Model {
                 // Robbing item check
                 if(itemManager.isRegistered(item) ) {
                     if(el.startsWith("robbing:")) {
-                        RobbingItem rbItem = itemManager.getByItemStack(item);
-                        if(rbItem.getItemName().equalsIgnoreCase(el.replace("robbing:", ""))) {
+                        RobbingItem rbItem = itemManager.get(item);
+                        if(rbItem.getName().equalsIgnoreCase(el.replace("robbing:", ""))) {
                             whitelisted = true;
                         }
 
@@ -180,8 +180,8 @@ public class Rob extends Model {
                 // Robbing item check
                 if(itemManager.isRegistered(item) ) {
                     if(el.startsWith("robbing:")) {
-                        RobbingItem rbItem = itemManager.getByItemStack(item);
-                        if(rbItem.getItemName().equalsIgnoreCase(el.replace("robbing:", ""))) {
+                        RobbingItem rbItem = itemManager.get(item);
+                        if(rbItem.getName().equalsIgnoreCase(el.replace("robbing:", ""))) {
                             blacklisted = true;
                         }
 

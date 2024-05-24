@@ -8,35 +8,29 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class Lockpick extends RobbingItem {
-    public Lockpick(Robbing plugin) {
+public class PanelNumber3 extends RobbingItem {
+    public PanelNumber3(Robbing plugin) {
         super(plugin);
     }
 
     @Override
     public ShapedRecipe getShapedRecipe() {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
-
-        shapedRecipe.shape(" I ", " S ", " I ");
-        shapedRecipe.setIngredient('I', Material.IRON_INGOT);
-        shapedRecipe.setIngredient('S', Material.STICK);
-
-        return shapedRecipe;
+        return null;
     }
 
     @Override
     public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "Lockpick");
+        return new NamespacedKey(plugin, "PanelNumber3");
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
-        return RobbingMaterial.LOCKPICK;
+        return RobbingMaterial.PANEL_NUMBER_3;
     }
 
     @Override
     public boolean isCraftable() {
-        return configProvider.getBoolean("lockpicking.enable-crafting.lockpick");
+        return false;
     }
 
     @Override
@@ -46,6 +40,6 @@ public class Lockpick extends RobbingItem {
 
     @Override
     public int getCustomModelData() {
-        return 5457;
+        return 5463;
     }
 }

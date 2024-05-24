@@ -16,7 +16,7 @@ public class RobbingLogger {
     private String prefix = "[Robbing] ";
 
     /**
-     * Constructs a new RBLogger instance.
+     * Constructs a new RobbingLogger instance.
      *
      * @param plugin The JavaPlugin instance associated with this logger.
      */

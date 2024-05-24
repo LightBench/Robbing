@@ -1,6 +1,6 @@
-package com.frahhs.robbing.feature.rob.listeners;
+package com.frahhs.robbing.feature.rob.listener;
 
-import com.frahhs.robbing.RBListener;
+import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.rob.mcp.CaughtController;
 import com.frahhs.robbing.feature.rob.mcp.Caught;
@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 /**
  * Listener class for catching robbers during robbery actions.
  */
-public class CatchListener extends RBListener {
+public class CatchListener extends RobbingListener {
     private final CaughtController caughtController;
 
     public CatchListener() {

@@ -73,7 +73,7 @@ public class RobbingBlock extends Provider {
      * @return The robbing material.
      */
     public RobbingMaterial getRobbingMaterial() {
-        return item.getRBMaterial();
+        return item.getRobbingMaterial();
     }
 
     /**
@@ -168,7 +168,7 @@ public class RobbingBlock extends Provider {
         try {
             PreparedStatement ps;
             ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (material, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?);");
-            ps.setString(1, item.getRBMaterial().toString());
+            ps.setString(1, item.getRobbingMaterial().toString());
             ps.setString(2, armorStand.getUniqueId().toString());
             ps.setString(3, location.getWorld().getName());
             ps.setInt(4, location.getBlockX());
@@ -178,7 +178,7 @@ public class RobbingBlock extends Provider {
             dbConnection.commit();
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -196,7 +196,7 @@ public class RobbingBlock extends Provider {
             PreparedStatement ps;
             ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (placer, material, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, placer.getUniqueId().toString());
-            ps.setString(2, item.getRBMaterial().toString());
+            ps.setString(2, item.getRobbingMaterial().toString());
             ps.setString(3, armorStand.getUniqueId().toString());
             ps.setString(4, location.getWorld().getName());
             ps.setInt(5, location.getBlockX());
@@ -206,7 +206,7 @@ public class RobbingBlock extends Provider {
             dbConnection.commit();
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -225,7 +225,7 @@ public class RobbingBlock extends Provider {
             dbConnection.commit();
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -235,8 +235,8 @@ public class RobbingBlock extends Provider {
      * @param block The block to check.
      * @return True if the block is a RobbingBlock, false otherwise.
      */
-    public static boolean isRBBlock(Block block) {
-        Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
+    public static boolean isRobbingBlock(Block block) {
+        Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {
             PreparedStatement ps;
@@ -252,7 +252,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -263,8 +263,8 @@ public class RobbingBlock extends Provider {
      * @param location The location to check.
      * @return True if the location corresponds to a RobbingBlock, false otherwise.
      */
-    public static boolean isRBBlock(Location location) {
-        Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
+    public static boolean isRobbingBlock(Location location) {
+        Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {
             PreparedStatement ps;
@@ -280,7 +280,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -291,8 +291,8 @@ public class RobbingBlock extends Provider {
      * @param armorStand The armor stand to check.
      * @return True if the armor stand corresponds to a RobbingBlock, false otherwise.
      */
-    public static boolean isRBBlock(Entity armorStand) {
-        Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
+    public static boolean isRobbingBlock(Entity armorStand) {
+        Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {
             PreparedStatement ps;
@@ -305,7 +305,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -317,9 +317,9 @@ public class RobbingBlock extends Provider {
      * @return The RobbingBlock at the specified location, or null if none is found.
      */
     public static RobbingBlock getFromLocation(Location location) {
-        Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
+        Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
-        if (!isRBBlock(location)) {
+        if (!isRobbingBlock(location)) {
             return null;
         }
 
@@ -354,7 +354,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return null;
     }
@@ -366,7 +366,7 @@ public class RobbingBlock extends Provider {
      * @return The RobbingBlock associated with the armor stand, or null if none is found.
      */
     public static RobbingBlock getFromArmorStandUUID(UUID entityUUID) {
-        Connection dbConnection = Robbing.getInstance().getRBDatabase().getConnection();
+        Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {
             PreparedStatement ps;
@@ -402,7 +402,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRBLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return null;
     }

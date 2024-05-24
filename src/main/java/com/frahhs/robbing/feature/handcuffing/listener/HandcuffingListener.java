@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
-import com.frahhs.robbing.RBListener;
+import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
-public class HandcuffingListener extends RBListener {
+public class HandcuffingListener extends RobbingListener {
     private final HandcuffingController handcuffingController = new HandcuffingController();
 
     @EventHandler

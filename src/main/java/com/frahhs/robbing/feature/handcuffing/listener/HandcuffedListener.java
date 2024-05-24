@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
-import com.frahhs.robbing.RBListener;
+import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.util.Arrays;
 import java.util.List;
 
-public class HandcuffedListener extends RBListener {
+public class HandcuffedListener extends RobbingListener {
     @EventHandler
     public void cannotIfHandcuffed(PlayerMoveEvent e) {
         Player player = e.getPlayer();

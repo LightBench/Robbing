@@ -59,6 +59,46 @@ safe:
   name: "Safe"
   lore: "Take care of your items."
 
+panel_number_0:
+  name: "0"
+  lore: ""
+
+panel_number_1:
+  name: "1"
+  lore: ""
+
+panel_number_2:
+  name: "2"
+  lore: ""
+
+panel_number_3:
+  name: "3"
+  lore: ""
+
+panel_number_4:
+  name: "4"
+  lore: ""
+
+panel_number_5:
+  name: "5"
+  lore: ""
+
+panel_number_6:
+  name: "6"
+  lore: ""
+
+panel_number_7:
+  name: "7"
+  lore: ""
+
+panel_number_8:
+  name: "8"
+  lore: ""
+
+panel_number_9:
+  name: "9"
+  lore: ""
+
 commands:
   reload: "&2Robbing reloaded!"
   given: "{amount} of {item} given to {player}!"
