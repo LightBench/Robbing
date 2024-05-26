@@ -1,12 +1,12 @@
 package com.frahhs.robbing.feature.kidnapping.listener;
 
-import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
+import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
-import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
-import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
+import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
+import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

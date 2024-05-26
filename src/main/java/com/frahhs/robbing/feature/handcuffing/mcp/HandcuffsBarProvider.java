@@ -2,7 +2,6 @@ package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
-import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;

@@ -1,7 +1,5 @@
 package com.frahhs.robbing.util;
 
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;

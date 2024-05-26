@@ -1,9 +1,9 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
 import com.frahhs.robbing.RobbingListener;
-import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

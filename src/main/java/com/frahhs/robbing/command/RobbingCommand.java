@@ -10,7 +10,6 @@ import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.provider.MessagesProvider;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -37,8 +36,9 @@ public class RobbingCommand extends BaseCommand {
     @Subcommand("gui")
     public void onGui(Player player) {
         // https://www.spigotmc.org/threads/negative-space-font-resource-pack.440952/
-        Inventory inventory = Bukkit.createInventory(null, 6*9, "\uF001§f\uD83D\uDE97");
-        player.openInventory(inventory);
+        //Inventory inventory = Bukkit.createInventory(null, 6*9, "\uF001§f\uD83D\uDE97");
+        //SafeUnlockGUI gui = new SafeUnlockGUI();
+        //player.openInventory(gui.getInventory());
     }
 
     @Subcommand("guis")

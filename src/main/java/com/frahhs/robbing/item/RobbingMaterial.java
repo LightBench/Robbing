@@ -1,10 +1,7 @@
 package com.frahhs.robbing.item;
 
-import com.google.common.base.Preconditions;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Enum representing the custom Robbing materials.
@@ -23,7 +20,9 @@ public enum RobbingMaterial {
     PANEL_NUMBER_6,
     PANEL_NUMBER_7,
     PANEL_NUMBER_8,
-    PANEL_NUMBER_9;
+    PANEL_NUMBER_9,
+    PANEL_NUMBER_CANCEL,
+    PANEL_NUMBER_CHECK;
 
     public boolean isItem() {
         switch (this) {

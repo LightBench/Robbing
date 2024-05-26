@@ -1,9 +1,9 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
-import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
+import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.util.Cooldown;

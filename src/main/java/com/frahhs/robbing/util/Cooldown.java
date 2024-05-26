@@ -1,7 +1,5 @@
 package com.frahhs.robbing.util;
 
-import com.frahhs.robbing.feature.Model;
-
 /**
  * Model class representing a cooldown for an action.
  */

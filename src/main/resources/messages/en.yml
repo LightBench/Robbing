@@ -44,60 +44,51 @@ actionbar:
 
 handcuffs:
   name: "Handcuffs"
-  lore: "Right click on a player to handcuff him."
 
 handcuffs_key:
   name: "Handcuffs Key"
-  lore: "Right click on a player with handcuff to uncuff him."
 
 lockpick:
   name: "Lockpick"
-  lore: "Right click on a safe to try to unlock it. \nYou have the 3 attempts \nto\
-    \ find the right cylinder"
 
 safe:
   name: "Safe"
-  lore: "Take care of your items."
 
 panel_number_0:
   name: "0"
-  lore: ""
 
 panel_number_1:
   name: "1"
-  lore: ""
 
 panel_number_2:
   name: "2"
-  lore: ""
 
 panel_number_3:
   name: "3"
-  lore: ""
 
 panel_number_4:
   name: "4"
-  lore: ""
 
 panel_number_5:
   name: "5"
-  lore: ""
 
 panel_number_6:
   name: "6"
-  lore: ""
 
 panel_number_7:
   name: "7"
-  lore: ""
 
 panel_number_8:
   name: "8"
-  lore: ""
 
 panel_number_9:
   name: "9"
-  lore: ""
+
+panel_number_cancel:
+  name: "Cancel"
+
+panel_number_check:
+  name: "Check"
 
 commands:
   reload: "&2Robbing reloaded!"

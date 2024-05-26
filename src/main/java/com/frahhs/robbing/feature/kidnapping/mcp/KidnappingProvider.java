@@ -2,7 +2,6 @@ package com.frahhs.robbing.feature.kidnapping.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
-import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import org.bukkit.entity.Player;
 
 /**

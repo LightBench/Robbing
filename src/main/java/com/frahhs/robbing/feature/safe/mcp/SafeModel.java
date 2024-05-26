@@ -3,27 +3,32 @@ package com.frahhs.robbing.feature.safe.mcp;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.inventory.SafeInventory;
+import com.frahhs.robbing.feature.safe.SafeInventory;
+import com.frahhs.robbing.feature.safe.SafePin;
+import com.frahhs.robbing.feature.safe.SafeUnlockGUI;
 import com.frahhs.robbing.util.ItemUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Random;
-
 public class SafeModel extends Model {
-    private final String pin;
+    private final SafePin pin;
+    private final SafeUnlockGUI safeUnlockGUI;
     private final SafeInventory safeInventory;
 
-    private SafeModel(String pin, SafeInventory safeInventory) {
+    private SafeModel(SafePin pin, SafeUnlockGUI safeUnlockGUI, SafeInventory safeInventory) {
         this.pin = pin;
+        this.safeUnlockGUI = safeUnlockGUI;
         this.safeInventory = safeInventory;
     }
 
-    public String getPin() {
+    public SafePin getPin() {
         return pin;
+    }
+
+    public SafeUnlockGUI getSafeUnlockGUI() {
+        return safeUnlockGUI;
     }
 
     public SafeInventory getSafeInventory() {
@@ -41,30 +46,14 @@ public class SafeModel extends Model {
     }
 
     public static SafeModel getFromSafe(RobbingBlock safe) {
-        PersistentDataContainer container = safe.getArmorStand().getPersistentDataContainer();
-
-        NamespacedKey inventoryKey = new NamespacedKey(Robbing.getInstance(), "inventory");
-        NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
-
         SafeInventory inventory = new SafeInventory(safe);
-        if(container.has(inventoryKey, PersistentDataType.STRING)) {
-            ItemStack[] content = ItemUtil.fromBase64(container.get(inventoryKey, PersistentDataType.STRING));
-            inventory.getInventory().setContents(content);
-        }
+        SafePin pin = new SafePin(safe);
+        SafeUnlockGUI gui = new SafeUnlockGUI(pin.getDigits(), safe);
 
-        String pin;
-        if(container.has(pinKey, PersistentDataType.STRING))
-            pin = container.get(pinKey, PersistentDataType.STRING);
-        else {
-            Random random = new Random();
-            pin = String.format("%04d", random.nextInt(10000));
-            container.set(pinKey, PersistentDataType.STRING, pin);
-        }
-
-        return new SafeModel(pin, inventory);
+        return new SafeModel(pin, gui, inventory);
     }
 
-    protected static boolean isInit(RobbingBlock safe) {
+    protected static boolean isLocked(RobbingBlock safe) {
         PersistentDataContainer container = safe.getArmorStand().getPersistentDataContainer();
         NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
 

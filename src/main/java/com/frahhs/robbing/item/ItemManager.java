@@ -6,7 +6,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Class for managing custom items related to robbing mechanics.
@@ -81,7 +84,8 @@ public class ItemManager {
         ItemStack item = clean(itemStack);
 
         for (RobbingItem curItem : rbItems.values()) {
-            if (curItem.getItemStack().isSimilar(item)) {
+            ItemStack item2 = clean(curItem.getItemStack());
+            if (item2.isSimilar(item)) {
                 return curItem;
             }
         }
@@ -107,7 +111,8 @@ public class ItemManager {
         ItemStack item = clean(itemStack);
 
         for (RobbingItem curItem : rbItems.values()) {
-            if (curItem.getItemStack().isSimilar(item)) {
+            ItemStack item2 = clean(curItem.getItemStack());
+            if (item2.isSimilar(item)) {
                 return true;
             }
         }
@@ -124,6 +129,9 @@ public class ItemManager {
         PersistentDataContainer container = meta.getPersistentDataContainer();
         for(NamespacedKey key : container.getKeys())
             container.remove(key);
+
+        // Remove Lore the ItemStack
+        meta.setLore(null);
 
         item.setItemMeta(meta);
         return item;

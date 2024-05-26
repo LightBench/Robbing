@@ -1,7 +1,6 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.rob.mcp.Rob;
 import org.bukkit.entity.Player;
 
 /**

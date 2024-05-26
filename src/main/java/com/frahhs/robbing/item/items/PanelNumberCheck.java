@@ -3,17 +3,13 @@ package com.frahhs.robbing.item.items;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Safe extends RobbingItem {
-    public Safe(Robbing plugin) {
+public class PanelNumberCheck extends RobbingItem {
+    public PanelNumberCheck(Robbing plugin) {
         super(plugin);
     }
 
@@ -24,12 +20,12 @@ public class Safe extends RobbingItem {
 
     @Override
     public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "Safe");
+        return new NamespacedKey(plugin, "PanelNumberCheck");
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
-        return RobbingMaterial.SAFE;
+        return RobbingMaterial.PANEL_NUMBER_CHECK;
     }
 
     @Override
@@ -39,19 +35,11 @@ public class Safe extends RobbingItem {
 
     @Override
     public @NotNull Material getVanillaMaterial() {
-        return Material.IRON_BLOCK;
+        return Material.STICK;
     }
 
     @Override
     public int getCustomModelData() {
-        return 5458;
-    }
-
-    @Override
-    public List<String> getLore() {
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "Status: " + ChatColor.DARK_GREEN + "Free");
-
-        return lore;
+        return 5471;
     }
 }

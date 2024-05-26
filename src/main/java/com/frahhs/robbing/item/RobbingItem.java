@@ -11,7 +11,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,15 +38,18 @@ public abstract class RobbingItem {
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
+
+        // Display name
         meta.setDisplayName(ChatColor.WHITE + messagesProvider.getMessage(getName() + ".name", false));
-        List<String> lore = new ArrayList<>();
-        String[] loreStrings = messagesProvider.getMessage(getName() + ".lore", false).split("\n");
 
-        for(String cur : loreStrings)
-            lore.add(ChatColor.GRAY + cur);
+        // Lore
+        if(getLore() != null) {
+            meta.setLore(getLore());
+        }
 
-        meta.setLore(lore);
+        // Custom model data
         meta.setCustomModelData(getCustomModelData());
+
         item.setItemMeta(meta);
     }
 
@@ -66,6 +68,15 @@ public abstract class RobbingItem {
      */
     public String getName() {
         return getRobbingMaterial().toString().toLowerCase();
+    }
+
+    /**
+     * Retrieves the Lore of the custom robbing item.
+     *
+     * @return The List<String> of the Lore of the custom robbing item, null if it has no lore.
+     */
+    public List<String> getLore() {
+        return null;
     }
 
     /**

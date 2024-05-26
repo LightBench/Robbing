@@ -5,24 +5,21 @@ import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RobbingDatabase;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
-import com.frahhs.robbing.feature.safe.SafeFeature;
-import com.frahhs.robbing.item.items.*;
-import com.frahhs.robbing.util.StringUtil;
-import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
 import com.frahhs.robbing.feature.rob.RobbingFeature;
+import com.frahhs.robbing.feature.safe.SafeFeature;
+import com.frahhs.robbing.gui.GUIListener;
 import com.frahhs.robbing.item.ItemManager;
+import com.frahhs.robbing.item.items.*;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.RobbingLogger;
+import com.frahhs.robbing.util.bag.BagManager;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Item;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.flywaydb.core.internal.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +46,6 @@ public final class Robbing extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // TODO: alarm system
         instance = this;
 
         // Setup utils
@@ -121,6 +117,7 @@ public final class Robbing extends JavaPlugin {
 
     private void registerEvents() {
         getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
+        getServer().getPluginManager().registerEvents(new GUIListener(),this);
     }
 
     private void registerCommands() {
@@ -160,6 +157,9 @@ public final class Robbing extends JavaPlugin {
         itemManager.registerItems(new PanelNumber7(this));
         itemManager.registerItems(new PanelNumber8(this));
         itemManager.registerItems(new PanelNumber9(this));
+        itemManager.registerItems(new PanelNumberCancel(this));
+        itemManager.registerItems(new PanelNumberCheck(this));
+
     }
 
     public RobbingLogger getRobbingLogger() {

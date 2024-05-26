@@ -2,6 +2,7 @@ package com.frahhs.robbing.feature.safe;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
+import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
 import com.frahhs.robbing.feature.safe.listener.SafeListener;
 
 public class SafeFeature extends Feature {
@@ -28,7 +29,7 @@ public class SafeFeature extends Feature {
 
     @Override
     protected void registerBags() {
-
+        plugin.getBagManager().registerBags(new SafeInventoryBag());
     }
 
     @Override
