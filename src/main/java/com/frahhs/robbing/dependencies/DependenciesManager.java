@@ -7,8 +7,9 @@ import org.bukkit.Bukkit;
 
 public class DependenciesManager {
     public void init() {
-        if(haveDependency(Dependency.WORLDGUARD))
-            WorldGuardFlag.registerStealFlag();
+        if(haveDependency(Dependency.WORLDGUARD)) {
+            WorldGuardManager.registerFlags();
+        }
     }
 
     public static boolean haveDependency(Dependency dependency) {

@@ -2,6 +2,9 @@ package com.frahhs.robbing.feature.handcuffing.listener;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
+import com.frahhs.robbing.dependencies.DependenciesManager;
+import com.frahhs.robbing.dependencies.Dependency;
+import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.item.ItemManager;
@@ -48,6 +51,15 @@ public class HandcuffingListener extends RobbingListener {
             message = messages.getMessage("general.no_permission_item");
             handcuffer.sendMessage(message);
             return;
+        }
+
+        // Check if worldguard flag is deny
+        if(DependenciesManager.haveDependency(Dependency.WORLDGUARD)) {
+            if (WorldGuardFlag.checkHandcuffingFlag(handcuffer)) {
+                message = messages.getMessage("robbing.deny_region");
+                handcuffer.sendMessage(message);
+                return;
+            }
         }
 
         // Check if target have permissions to not get handcuffed

@@ -4,12 +4,12 @@ general:
   no_permission_item: "&eYou do not have permission to use this item"
   no_permission_command: "&eYou do not have permission to perform this command"
   command_wrong_usage: "correct usage is {usage}."
+  deny_region: "You cannot do that here!"
 
 robbing:
   alert: "{thief} is robbing you!"
   cant_steal: "You can't steal it!"
   escaped: "{target} escaped!"
-  deny_rob_region: "You cannot rob here!"
   catch-robber: "{player} caught you!"
   to_catcher: "You caught {player}!"
   cannot_jump_if_caught: "You have been caught, you cannot jump"
