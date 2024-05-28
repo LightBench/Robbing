@@ -81,4 +81,10 @@ public class SafeListener extends RobbingListener {
         if(e.getPlayer().getOpenInventory().getTopInventory().getHolder() instanceof SafeInventory)
             e.setCancelled(true);
     }
+
+    @EventHandler
+    public void onOtherPlace(RobbingBlockPlaceEvent e) {
+        if(e.getPlayer().getOpenInventory().getTopInventory().getHolder() instanceof SafeInventory)
+            e.setCancelled(true);
+    }
 }

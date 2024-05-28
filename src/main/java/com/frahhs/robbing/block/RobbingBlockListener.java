@@ -38,10 +38,6 @@ public class RobbingBlockListener extends RobbingListener {
         // Instance of the Robbing block.
         RobbingBlock block = new RobbingBlock(rbItem, e.getBlock().getLocation());
 
-        // If the BlockPlaceEvent event is cancelled, cancel the RobbingBlockPlaceEvent.
-        if(e.isCancelled())
-            return;
-
         // Do the place action.
         block.place(e.getPlayer());
 
