@@ -41,9 +41,8 @@ public class HandcuffingFeature extends Feature {
     protected void onDisable() {
         // Handle Handcuffs bars
         HandcuffsBarController handcuffsBarController = new HandcuffsBarController();
-        List<HandcuffsBar> bars = HandcuffsBar.getAll();
 
-        for(HandcuffsBar curBar : bars)
+        for(HandcuffsBar curBar : HandcuffsBar.getAll())
             if(curBar != null)
                 for (Player curPlayer : curBar.getBossBar().getPlayers())
                     handcuffsBarController.remove(curPlayer);

@@ -48,8 +48,12 @@ public class FeatureManager {
      * Enables all registered features.
      */
     public void enableFeatures() {
-        for (Feature feature : features.values()) {
-            feature.onEnable();
+        try {
+            for (Feature feature : features.values()) {
+                feature.onEnable();
+            }
+        } catch (Error e) {
+            Robbing.getInstance().getRobbingLogger().debug(e.getMessage());
         }
     }
 
@@ -57,8 +61,12 @@ public class FeatureManager {
      * Disables all registered features.
      */
     public void disableFeatures() {
-        for (Feature feature : features.values()) {
-            feature.onDisable();
+        try {
+            for (Feature feature : features.values()) {
+                feature.onDisable();
+            }
+        } catch (Exception e) {
+            Robbing.getInstance().getRobbingLogger().debug(e.getMessage());
         }
     }
 }
