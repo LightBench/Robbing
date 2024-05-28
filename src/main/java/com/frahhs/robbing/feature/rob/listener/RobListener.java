@@ -2,6 +2,7 @@ package com.frahhs.robbing.feature.rob.listener;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
+import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.rob.event.ItemRobbedEvent;
@@ -74,7 +75,7 @@ public class RobListener extends RobbingListener {
 
         // Check if robbing worldguard flag is deny
         if(Robbing.getInstance().getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-            if (WorldGuardManager.checkStealFlag(robbed)) {
+            if (WorldGuardFlag.checkStealFlag(robbed)) {
                 String message = messages.getMessage("robbing.deny_rob_region");
                 robber.sendMessage(message);
                 return;

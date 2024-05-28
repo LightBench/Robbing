@@ -33,6 +33,7 @@ public abstract class WorldGuardFlag {
             } else {
                 // types don't match - this is bad news! some other plugin conflicts with you
                 // hopefully this never actually happens
+                throw new RuntimeException("Steal flag conflict!");
             }
         }
     }
@@ -44,9 +45,6 @@ public abstract class WorldGuardFlag {
         RegionQuery query = container.createQuery();
         ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(loc));
         LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
-        if (!set.testState(localPlayer, WorldGuardFlag.ROBBING_STEAL)) {
-            return true;
-        }
-        return false;
+        return !set.testState(localPlayer, WorldGuardFlag.ROBBING_STEAL);
     }
 }
