@@ -10,7 +10,5 @@ public interface GUI extends InventoryHolder {
     @Override
     public Inventory getInventory();
 
-    public void onInventoryClick(InventoryClickEvent e);
-
     public GUIType getType();
 }

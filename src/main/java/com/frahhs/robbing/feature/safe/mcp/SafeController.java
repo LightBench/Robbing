@@ -3,8 +3,6 @@ package com.frahhs.robbing.feature.safe.mcp;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.Controller;
-import com.frahhs.robbing.feature.safe.SafeInventory;
-import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.util.ItemUtil;
 import org.bukkit.ChatColor;
@@ -20,54 +18,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SafeController extends Controller {
+
+    public void open(RobbingBlock safe, Player player) {
+        if(SafeModel.isLocked(safe))
+            openGUI(safe, player);
+        else
+            openInventory(safe, player);
+    }
+
+
     public void openGUI(RobbingBlock safe, Player player) {
-        SafeModel safeModel;
-        if(SafeModel.isLocked(safe)) {
-            safeModel = SafeModel.getFromSafe(safe);
-        } else {
-            safeModel = SafeModel.getFromSafe(safe);
-            player.sendMessage(safeModel.getPin().toString());
-        }
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         player.openInventory(safeModel.getSafeUnlockGUI().getInventory());
     }
 
     public void openInventory(RobbingBlock safe, Player player) {
-        SafeModel safeModel;
-        if(SafeModel.isLocked(safe)) {
-            safeModel = SafeModel.getFromSafe(safe);
-        } else {
-            safeModel = SafeModel.getFromSafe(safe);
-            player.sendMessage(safeModel.getPin().toString());
-        }
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
 
-        // TODO: not to be here, but in a provider.
-        SafeInventoryBag safeInventoryBag = (SafeInventoryBag) Robbing.getInstance().getBagManager().getBag("SafeInventoryBag");
-        safeInventoryBag.getData().put(safe.getArmorStand().getUniqueId(), safeModel.getSafeInventory());
-
-        player.openInventory(safeModel.getSafeInventory().getInventory());
+        player.openInventory(safeModel.getInventory());
     }
 
     public void update(RobbingBlock safe, Inventory inventory) {
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
-        safeModel.saveInventory(inventory, safeModel.getPin().toString());
+        safeModel.saveInventory(inventory);
     }
 
     public void placeBlock(RobbingBlock safe, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        PersistentDataContainer container = meta.getPersistentDataContainer();
 
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
         NamespacedKey inventoryKey = new NamespacedKey(Robbing.getInstance(), "inventory");
-        NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
+        NamespacedKey pinKey = new NamespacedKey(plugin, "pin");
+
+        if(container.has(inventoryKey, PersistentDataType.STRING)) {
+            SafeInventory safeInventory = new SafeInventory(safe);
+            String base64Inventory = container.get(inventoryKey, PersistentDataType.STRING);
+            safeInventory.getInventory().setContents(ItemUtil.fromBase64(base64Inventory));
+            safeModel.saveInventory(safeInventory.getInventory());
+        }
 
         if(container.has(pinKey, PersistentDataType.STRING)) {
-            SafeInventory inventory = new SafeInventory(safe);
-            inventory.getInventory().setContents(ItemUtil.fromBase64(container.get(inventoryKey, PersistentDataType.STRING)));
             String pin = container.get(pinKey, PersistentDataType.STRING);
-            SafeModel safeModel = SafeModel.getFromSafe(safe);
-            safeModel.saveInventory(inventory.getInventory(), pin);
+            safeModel.savePin(pin);
         }
     }
 
@@ -83,17 +80,40 @@ public class SafeController extends Controller {
         NamespacedKey inventoryKey = new NamespacedKey(Robbing.getInstance(), "inventory");
         NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
 
-        container.set(inventoryKey, PersistentDataType.STRING, ItemUtil.toBase64(safeModel.getSafeInventory().getInventory().getContents()));
-        container.set(pinKey, PersistentDataType.STRING, safeModel.getPin().toString());
+        if(safeModel.haveInventory())
+            container.set(inventoryKey, PersistentDataType.STRING, ItemUtil.toBase64(safeModel.getInventory().getContents()));
+        if(safeModel.havePin())
+            container.set(pinKey, PersistentDataType.STRING, safeModel.getPin().toString());
 
+        List<String> lore = new ArrayList<>();
         if(SafeModel.isLocked(safe)) {
-            List<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + "Status: " + ChatColor.RED + "Locked");
+            meta.setLore(lore);
+        } else {
+            lore.add(ChatColor.GRAY + "Status: " + ChatColor.DARK_GREEN + "Free");
             meta.setLore(lore);
         }
 
         item.setItemMeta(meta);
-
+        safeModel.removeInventory();
         player.getWorld().dropItemNaturally(safe.getLocation(), item);
+    }
+
+    public void lock(RobbingBlock safe, String pin) {
+        // If it is already locked, return
+        if(SafeModel.isLocked(safe))
+            return;
+
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
+        safeModel.savePin(pin);
+    }
+
+    public void unlock(RobbingBlock safe) {
+        // If it is already unlocked, return
+        if(!SafeModel.isLocked(safe))
+            return;
+
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
+        safeModel.removePin();
     }
 }

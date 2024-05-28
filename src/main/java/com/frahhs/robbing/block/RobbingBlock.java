@@ -15,6 +15,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,7 +46,7 @@ public class RobbingBlock extends Provider {
      *
      * @param location The new location of the block.
      */
-    public void setLocation(Location location) {
+    protected void setLocation(Location location) {
         this.location = location;
     }
 
@@ -54,7 +55,7 @@ public class RobbingBlock extends Provider {
      *
      * @return The armor stand entity.
      */
-    public Entity getArmorStand() {
+    protected Entity getArmorStand() {
         return armorStand;
     }
 
@@ -63,7 +64,7 @@ public class RobbingBlock extends Provider {
      *
      * @param armorStand The armor stand entity.
      */
-    public void setArmorStand(Entity armorStand) {
+    protected void setArmorStand(Entity armorStand) {
         this.armorStand = armorStand;
     }
 
@@ -74,6 +75,14 @@ public class RobbingBlock extends Provider {
      */
     public RobbingMaterial getRobbingMaterial() {
         return item.getRobbingMaterial();
+    }
+
+    public PersistentDataContainer getPersistentDataContainer() {
+        return armorStand.getPersistentDataContainer();
+    }
+
+    public UUID getUniqueId() {
+        return armorStand.getUniqueId();
     }
 
     /**
@@ -155,31 +164,6 @@ public class RobbingBlock extends Provider {
      */
     public Location getLocation() {
         return location;
-    }
-
-    /**
-     * Saves the block's state to the database.
-     */
-    private void save() {
-        if (armorStand == null) {
-            throw new RuntimeException("Tried to save a not placed Robbing block!");
-        }
-
-        try {
-            PreparedStatement ps;
-            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (material, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?);");
-            ps.setString(1, item.getRobbingMaterial().toString());
-            ps.setString(2, armorStand.getUniqueId().toString());
-            ps.setString(3, location.getWorld().getName());
-            ps.setInt(4, location.getBlockX());
-            ps.setInt(5, location.getBlockY());
-            ps.setInt(6, location.getBlockZ());
-            ps.executeUpdate();
-            dbConnection.commit();
-            ps.close();
-        } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
-        }
     }
 
     /**
@@ -360,12 +344,12 @@ public class RobbingBlock extends Provider {
     }
 
     /**
-     * Retrieves a RobbingBlock from an armor stand UUID.
+     * Retrieves a RobbingBlock from a UUID.
      *
      * @param entityUUID The UUID of the armor stand.
      * @return The RobbingBlock associated with the armor stand, or null if none is found.
      */
-    public static RobbingBlock getFromArmorStandUUID(UUID entityUUID) {
+    public static RobbingBlock getFromUUID(UUID entityUUID) {
         Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {

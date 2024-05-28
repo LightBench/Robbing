@@ -5,14 +5,17 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.robbing.feature.safe.mcp.SafePin;
+import com.frahhs.robbing.feature.safe.mcp.SafeController;
+import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.provider.MessagesProvider;
-import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.common.value.qual.IntRange;
 
@@ -33,19 +36,86 @@ public class RobbingCommand extends BaseCommand {
         help.showHelp();
     }
 
-    @Subcommand("gui")
-    public void onGui(Player player) {
-        // https://www.spigotmc.org/threads/negative-space-font-resource-pack.440952/
-        //Inventory inventory = Bukkit.createInventory(null, 6*9, "\uF001§f\uD83D\uDE97");
-        //SafeUnlockGUI gui = new SafeUnlockGUI();
-        //player.openInventory(gui.getInventory());
+    @Subcommand("lock")
+    @CommandPermission("robbing.lock")
+    public void onLock(CommandSender sender, String pin) {
+        if(!(sender instanceof Player))
+            return;
+
+        Block target = ((Player) sender).getTargetBlockExact(5);
+
+        if(target == null)
+            return;
+
+        if(!RobbingBlock.isRobbingBlock(target)) {
+            //TODO: add to messages
+            sender.sendMessage("You have to look a safe to use this command");
+            return;
+        }
+
+        RobbingBlock safe = RobbingBlock.getFromLocation(target.getLocation());
+        SafeController safeController = new SafeController();
+
+        if(SafeModel.isLocked(safe)) {
+            //TODO: add to messages
+            sender.sendMessage("Safe already locked");
+            return;
+        }
+
+        if(!pin.matches("^[1-9]\\d{3}$")) {
+            //TODO: add to messages
+            sender.sendMessage("Invalid pin, the pin must be a 4 length digits");
+            return;
+        }
+
+        //TODO: add to messages
+        sender.sendMessage("Safe successfully locked");
+        safeController.lock(safe, pin);
     }
 
-    @Subcommand("guis")
-    public void onGuis(CommandSender sender, String title) {
-        // https://www.spigotmc.org/threads/negative-space-font-resource-pack.440952/
-        Inventory inventory = Bukkit.createInventory(null, 6*9, title);
-        ((Player)sender).openInventory(inventory);
+    @Subcommand("unlock")
+    @CommandPermission("robbing.unlock")
+    public void onUnlock(CommandSender sender, String pin) {
+        if(!(sender instanceof Player))
+            return;
+
+        Block target = ((Player) sender).getTargetBlockExact(5);
+
+        if(target == null)
+            return;
+
+        if(!RobbingBlock.isRobbingBlock(target)) {
+            //TODO: add to messages
+            sender.sendMessage("You have to look a safe to use this command");
+            return;
+        }
+
+        RobbingBlock safe = RobbingBlock.getFromLocation(target.getLocation());
+
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
+        SafeController safeController = new SafeController();
+
+        if(!SafeModel.isLocked(safe)) {
+            //TODO: add to messages
+            sender.sendMessage("Safe already unlocked");
+            return;
+        }
+
+        if(!pin.matches("^[1-9]\\d{3}$")) {
+            //TODO: add to messages
+            sender.sendMessage("Invalid pin, the pin must be a 4 length digits");
+            return;
+        }
+
+        if(safeModel.getPin().equals(new SafePin(pin))) {
+            //TODO: add to messages
+            sender.sendMessage("Safe successfully unlocked");
+            safeController.unlock(safe);
+        }
+        else {
+            //TODO: add to messages
+            sender.sendMessage("Wrong pin");
+        }
     }
 
     @Subcommand("reload")

@@ -1,12 +1,10 @@
 package com.frahhs.robbing.feature.safe.listener;
 
-import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
 import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
 import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;
-import com.frahhs.robbing.feature.safe.SafeInventory;
-import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
+import com.frahhs.robbing.feature.safe.mcp.SafeInventory;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.GameMode;
@@ -39,7 +37,7 @@ public class SafeListener extends RobbingListener {
         if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
             return;
 
-        safeController.openGUI(e.getBlock(), e.getPlayer());
+        safeController.open(e.getBlock(), e.getPlayer());
     }
 
     @EventHandler
@@ -67,10 +65,6 @@ public class SafeListener extends RobbingListener {
         // Drop option
         if(!e.isCancelled() && e.isDropItems() && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.setDropItems(false);
-
-            // TODO: not to be here, but in a provider.
-            SafeInventoryBag safeInventoryBag = (SafeInventoryBag) Robbing.getInstance().getBagManager().getBag("SafeInventoryBag");
-            safeInventoryBag.getData().remove(e.getBlock().getArmorStand().getUniqueId());
 
             safeController.dropBlock(e.getBlock(), e.getPlayer());
         }

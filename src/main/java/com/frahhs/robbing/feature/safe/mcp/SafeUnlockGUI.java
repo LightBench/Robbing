@@ -1,8 +1,7 @@
-package com.frahhs.robbing.feature.safe;
+package com.frahhs.robbing.feature.safe.mcp;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.gui.GUI;
 import com.frahhs.robbing.gui.GUIType;
 import com.frahhs.robbing.item.RobbingMaterial;
@@ -18,31 +17,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SafeUnlockGUI implements GUI {
-    private final Inventory inventory;
-    private final List<Integer> pin = new ArrayList<>();
-
     private final RobbingBlock safe;
-    private final List<Integer> correctPin;
+    private final SafePin correctPin;
+    private final Inventory inventory;
 
-    private final int SLOT_PANEL_0 = 38;
-    private final int SLOT_PANEL_1 = 10;
-    private final int SLOT_PANEL_2 = 11;
-    private final int SLOT_PANEL_3 = 12;
-    private final int SLOT_PANEL_4 = 19;
-    private final int SLOT_PANEL_5 = 20;
-    private final int SLOT_PANEL_6 = 21;
-    private final int SLOT_PANEL_7 = 28;
-    private final int SLOT_PANEL_8 = 29;
-    private final int SLOT_PANEL_9 = 30;
-    private final int SLOT_PANEL_CHECK = 39;
-    private final int SLOT_PANEL_CANCEL = 37;
+    private final List<Integer> insertDigits = new ArrayList<>();
 
-    private final int SLOT_PIN_1 = 14;
-    private final int SLOT_PIN_2 = 15;
-    private final int SLOT_PIN_3 = 16;
-    private final int SLOT_PIN_4 = 17;
+    public static final int SLOT_PANEL_0 = 38;
+    public static final int SLOT_PANEL_1 = 10;
+    public static final int SLOT_PANEL_2 = 11;
+    public static final int SLOT_PANEL_3 = 12;
+    public static final int SLOT_PANEL_4 = 19;
+    public static final int SLOT_PANEL_5 = 20;
+    public static final int SLOT_PANEL_6 = 21;
+    public static final int SLOT_PANEL_7 = 28;
+    public static final int SLOT_PANEL_8 = 29;
+    public static final int SLOT_PANEL_9 = 30;
+    public static final int SLOT_PANEL_CHECK = 39;
+    public static final int SLOT_PANEL_CANCEL = 37;
 
-    public SafeUnlockGUI(List<Integer> pin, RobbingBlock safe) {
+    public static final int SLOT_PIN_1 = 14;
+    public static final int SLOT_PIN_2 = 15;
+    public static final int SLOT_PIN_3 = 16;
+    public static final int SLOT_PIN_4 = 17;
+
+    public SafeUnlockGUI(SafePin pin, RobbingBlock safe) {
+        if(pin == null)
+            throw new RuntimeException("Pin is not nullable");
+
         this.correctPin = pin;
         this.safe = safe;
         this.inventory = Bukkit.createInventory(this, 6*9, "\uF001§f\uD83D\uDE97");
@@ -69,59 +71,43 @@ public class SafeUnlockGUI implements GUI {
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e) {
-        switch(e.getSlot()) {
-            case SLOT_PANEL_CHECK:
-                checkPin((Player) e.getWhoClicked());
-                break;
-            case SLOT_PANEL_CANCEL:
-                cancelPin();
-                break;
-            default:
-                insertPinDigit(e.getSlot());
-                break;
-        }
-    }
-
-    @Override
     public GUIType getType() {
         return GUIType.SAFE_UNLOCK;
     }
 
-    private void checkPin(Player player) {
-        if(pin.equals(correctPin)) {
-            SafeController safeController = new SafeController();
-            safeController.openInventory(safe, player);
-        } else {
-            player.closeInventory();
-            player.sendMessage("Wrong pin"); // TODO: add to messages
-        }
+    public RobbingBlock getSafe() {
+        return safe;
     }
 
-    private void cancelPin() {
-        pin.clear();
+    public boolean checkPin() {
+        SafePin pin = new SafePin(insertDigits);
+        return pin.equals(correctPin);
+    }
+
+    public void cancelPin() {
+        insertDigits.clear();
         this.inventory.setItem(SLOT_PIN_1, new ItemStack(Material.AIR));
         this.inventory.setItem(SLOT_PIN_2, new ItemStack(Material.AIR));
         this.inventory.setItem(SLOT_PIN_3, new ItemStack(Material.AIR));
         this.inventory.setItem(SLOT_PIN_4, new ItemStack(Material.AIR));
     }
 
-    private void insertPinDigit(int digitSlot) {
-        switch (pin.size()) {
+    public void insertPinDigit(int digitSlot) {
+        switch (insertDigits.size()) {
             case 0:
-                pin.add(getValueFromPanelSlot(digitSlot));
+                insertDigits.add(getValueFromPanelSlot(digitSlot));
                 this.inventory.setItem(SLOT_PIN_1, getItemFromSlot(digitSlot));
                 break;
             case 1:
-                pin.add(getValueFromPanelSlot(digitSlot));
+                insertDigits.add(getValueFromPanelSlot(digitSlot));
                 this.inventory.setItem(SLOT_PIN_2, getItemFromSlot(digitSlot));
                 break;
             case 2:
-                pin.add(getValueFromPanelSlot(digitSlot));
+                insertDigits.add(getValueFromPanelSlot(digitSlot));
                 this.inventory.setItem(SLOT_PIN_3, getItemFromSlot(digitSlot));
                 break;
             case 3:
-                pin.add(getValueFromPanelSlot(digitSlot));
+                insertDigits.add(getValueFromPanelSlot(digitSlot));
                 this.inventory.setItem(SLOT_PIN_4, getItemFromSlot(digitSlot));
                 break;
         }

@@ -4,6 +4,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
 import com.frahhs.robbing.feature.safe.listener.SafeListener;
+import com.frahhs.robbing.feature.safe.listener.SafeUnlockGUIListener;
 
 public class SafeFeature extends Feature {
     private final Robbing plugin;
@@ -25,6 +26,7 @@ public class SafeFeature extends Feature {
     @Override
     protected void registerEvents() {
         plugin.getServer().getPluginManager().registerEvents(new SafeListener(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new SafeUnlockGUIListener(), plugin);
     }
 
     @Override
