@@ -6,6 +6,7 @@ import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
 import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;
 import com.frahhs.robbing.feature.safe.mcp.SafeInventory;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
+import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -65,6 +66,10 @@ public class SafeListener extends RobbingListener {
         // Drop option
         if(!e.isCancelled() && e.isDropItems() && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.setDropItems(false);
+
+            // If the safe is not locked drop all the content.
+            if(!SafeModel.isLocked(e.getBlock()))
+                safeController.dropInventory(e.getBlock(), e.getPlayer());
 
             safeController.dropBlock(e.getBlock(), e.getPlayer());
         }

@@ -5,7 +5,9 @@ import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.util.ItemUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -97,6 +99,21 @@ public class SafeController extends Controller {
         item.setItemMeta(meta);
         safeModel.removeInventory();
         player.getWorld().dropItemNaturally(safe.getLocation(), item);
+    }
+
+    public void dropInventory(RobbingBlock safe, Player player) {
+        SafeModel safeModel = SafeModel.getFromSafe(safe);
+
+        ItemStack[] content = safeModel.getInventory().getContents();
+
+        for (ItemStack itemStack : content) {
+            if(itemStack != null) {
+                player.getWorld().dropItemNaturally(safe.getLocation(), itemStack);
+                itemStack.setType(Material.AIR);
+            }
+        }
+
+        safeModel.getInventory().setContents(content);
     }
 
     public void lock(RobbingBlock safe, String pin) {
