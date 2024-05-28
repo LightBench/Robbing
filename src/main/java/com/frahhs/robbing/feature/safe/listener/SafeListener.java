@@ -55,7 +55,8 @@ public class SafeListener extends RobbingListener {
         if(!e.getBlock().getRobbingMaterial().equals(RobbingMaterial.SAFE))
             return;
 
-        safeController.placeBlock(e.getBlock(), e.getItemInHand());
+        if(!e.isCancelled())
+            safeController.placeBlock(e.getBlock(), e.getItemInHand());
     }
 
     @EventHandler

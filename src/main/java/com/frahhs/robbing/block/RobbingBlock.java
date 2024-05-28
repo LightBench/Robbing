@@ -16,11 +16,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Represents a block used in the robbing feature.
@@ -29,6 +30,8 @@ public class RobbingBlock extends Provider {
     private final RobbingItem item;
     private Entity armorStand;
     private Location location;
+
+    private static final Map<Location, Integer> activeTasks  = new HashMap<>();
 
     /**
      * Constructs a new RobbingBlock.
@@ -75,6 +78,10 @@ public class RobbingBlock extends Provider {
      */
     public RobbingMaterial getRobbingMaterial() {
         return item.getRobbingMaterial();
+    }
+
+    public Material getVanillaMaterial() {
+        return item.getVanillaMaterial();
     }
 
     public PersistentDataContainer getPersistentDataContainer() {
@@ -130,12 +137,12 @@ public class RobbingBlock extends Provider {
 
         save(placer);
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Robbing.getInstance(), new Runnable() {
-            public void run() {
-                // Run after waiting for things to settle
-                finalLocation.getBlock().setType(Material.IRON_BLOCK);
-            }
+        int taskId = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Robbing.getInstance(), () -> {
+            // Run after waiting for things to settle
+            finalLocation.getBlock().setType(Material.IRON_BLOCK);
+            activeTasks.remove(location);
         }, 10);
+        activeTasks.put(location, taskId);
     }
 
     /**
@@ -152,7 +159,13 @@ public class RobbingBlock extends Provider {
             block.getArmorStand().remove();
         }
 
-        block.getLocation().getBlock().setType(Material.AIR);
+        // Set AIR Material
+        if(activeTasks.containsKey(location))
+            for(BukkitTask cur : Bukkit.getScheduler().getPendingTasks())
+                if(cur.getTaskId() == activeTasks.get(location))
+                    cur.cancel();
+        else
+            block.getLocation().getBlock().setType(Material.AIR);
 
         remove();
     }

@@ -19,43 +19,42 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class RobbingBlockListener extends RobbingListener {
-
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
         ItemManager itemManager = Robbing.getInstance().getItemsManager();
         ItemStack item = e.getItemInHand();
 
-        // Check if is a Robbing item
+        // Check if is a Robbing item.
         if(!itemManager.isRegistered(item))
             return;
 
-        // Instance of the Robbing item
+        // Instance of the Robbing item.
         RobbingItem rbItem = itemManager.get(item);
 
-        // Check if is a Robbing block
+        // Check if is a Robbing block.
         if(!rbItem.getRobbingMaterial().isBlock())
             return;
 
-        // Instance of the Robbing block
+        // Instance of the Robbing block.
         RobbingBlock block = new RobbingBlock(rbItem, e.getBlock().getLocation());
 
-        // Call the RobbingBlockPlaceEvent event
+        // If the BlockPlaceEvent event is cancelled, cancel the RobbingBlockPlaceEvent.
+        if(e.isCancelled())
+            return;
+
+        // Do the place action.
+        block.place(e.getPlayer());
+
+        // RobbingBlockPlaceEvent event.
         RobbingBlockPlaceEvent robbingBlockPlaceEvent = new RobbingBlockPlaceEvent(block, e);
 
-        // If the RobbingBlockPlaceEvent event is cancelled, cancel the action
-        if(robbingBlockPlaceEvent.isCancelled()) {
-            e.setCancelled(true);
-            return;
-        }
-
-        // Can build option
+        // Can build option.
         robbingBlockPlaceEvent.setBuild(e.canBuild());
 
-        // Place the Robbing block
-        if(!e.isCancelled()) {
-            block.place(e.getPlayer());
-            Bukkit.getPluginManager().callEvent(robbingBlockPlaceEvent);
-        }
+        // call RobbingBlockPlaceEvent event.
+        Bukkit.getPluginManager().callEvent(robbingBlockPlaceEvent);
+        if(robbingBlockPlaceEvent.isCancelled())
+            block.destroy();
     }
 
     @EventHandler
