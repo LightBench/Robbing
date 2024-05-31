@@ -53,7 +53,7 @@ public class FeatureManager {
                 feature.onEnable();
             }
         } catch (Error e) {
-            Robbing.getInstance().getRobbingLogger().debug(e.getMessage());
+            Robbing.getInstance().getRobbingLogger().error("Error while enabling a feature.\nStackTrace: \n%s", e.getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ public class FeatureManager {
                 feature.onDisable();
             }
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().debug(e.getMessage());
+            Robbing.getInstance().getRobbingLogger().warning("Error while disabling a feature.\nStackTrace: \n%s", e.getMessage());
         }
     }
 }

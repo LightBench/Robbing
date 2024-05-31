@@ -2,7 +2,7 @@ package com.frahhs.robbing;
 
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
-import com.frahhs.robbing.util.RobbingLogger;
+import com.frahhs.robbing.util.logging.RobbingLogger;
 
 /**
  * Abstract base class for features in the plugin.

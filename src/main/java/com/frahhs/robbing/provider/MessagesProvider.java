@@ -36,7 +36,7 @@ public class MessagesProvider {
 
         loadLanguageFiles();
         if (!languageConfigs.containsKey(lang)) {
-            Robbing.getInstance().getRobbingLogger().warning(String.format("Language %s not found! English automatically selected.", lang));
+            Robbing.getInstance().getRobbingLogger().warning("Language \"%s\" not found! English automatically selected.", lang);
             lang = "en";
         }
     }
@@ -51,7 +51,7 @@ public class MessagesProvider {
 
         loadLanguageFiles();
         if (!languageConfigs.containsKey(lang)) {
-            Robbing.getInstance().getRobbingLogger().warning(String.format("Language %s not found! English automatically selected.", lang));
+            Robbing.getInstance().getRobbingLogger().warning("Language \"%s\" not found! English automatically selected.", lang);
             lang = "en";
         }
     }

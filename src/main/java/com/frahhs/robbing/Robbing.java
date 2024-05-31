@@ -5,7 +5,6 @@ import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RobbingDatabase;
 import com.frahhs.robbing.dependencies.DependenciesManager;
-import com.frahhs.robbing.dependencies.worldguard.WorldGuardManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
@@ -16,10 +15,11 @@ import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.items.*;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
-import com.frahhs.robbing.util.RobbingLogger;
+import com.frahhs.robbing.util.logging.FatalCode;
+import com.frahhs.robbing.util.logging.RobbingLogger;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.google.common.collect.ImmutableList;
-import org.bukkit.Bukkit;
+import jdk.jfr.internal.LogLevel;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -50,11 +50,11 @@ public final class Robbing extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // Setup utils
+        // Enable logger
         robbingLogger = new RobbingLogger(this);
-        robbingLogger.setLevel(Level.ALL);
+        robbingLogger.setLevel(Level.FINEST);
 
-        // Setup managers
+        // Enable managers
         configProvider = new ConfigProvider(this);
         messagesProvider = new MessagesProvider(this);
         itemManager = new ItemManager(this);
@@ -62,7 +62,7 @@ public final class Robbing extends JavaPlugin {
         bagManager = new BagManager();
         featureManager = new FeatureManager(this);
 
-        // Setup Database connection
+        // Enable Database connection
         robbingDatabase = new RobbingDatabase(this);
 
         // Register stuff
@@ -86,10 +86,14 @@ public final class Robbing extends JavaPlugin {
 
         // Disable bags
         bagManager.disableBags();
+
+        // Close logger
+        robbingLogger.close();
     }
 
     @Override
     public void onLoad() {
+        // Load dependencies
         dependenciesManager = new DependenciesManager();
         dependenciesManager.init();
     }
