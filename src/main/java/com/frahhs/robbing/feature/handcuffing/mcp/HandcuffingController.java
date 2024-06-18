@@ -32,6 +32,8 @@ public class HandcuffingController extends Controller {
      * @return The Handcuffing instance representing the handcuffing action.
      */
     public Handcuffing putHandcuffs(Player handcuffer, Player handcuffed, boolean silent) {
+        logger.fine("%s putting handcuffs on %s", handcuffer.getName(), handcuffed.getName());
+
         Handcuffing handcuffing = new Handcuffing(handcuffer, handcuffed);
         handcuffing.save();
 
@@ -83,6 +85,7 @@ public class HandcuffingController extends Controller {
      * @param silent Indicates whether to send messages or not.
      */
     public void removeHandcuffs(Player handcuffed, boolean silent) {
+        logger.fine("removing handcuffs on %s", handcuffed.getName());
         Handcuffing handcuffing = Handcuffing.getFromHandcuffed(handcuffed);
         final Player handcuffer = handcuffing.getHandcuffer();
 

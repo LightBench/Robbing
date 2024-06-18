@@ -26,15 +26,15 @@ class ConsoleFormatter extends Formatter {
         } else if(Level.FINE.equals(level)) {
             builder .append(ConsoleColor.BLUE)
                     .append("[Robbing] ")
-                    .append("[TRACE] ");
+                    .append("[FINE] ");
         } else if(Level.FINER.equals(level)) {
             builder .append(ConsoleColor.BLUE)
                     .append("[Robbing] ")
-                    .append("[TRACER] ");
+                    .append("[FINER] ");
         } else if(Level.FINEST.equals(level)) {
             builder .append(ConsoleColor.BLUE)
                     .append("[Robbing] ")
-                    .append("[TRACEST] ");
+                    .append("[FINEST] ");
         } else {
             builder .append("[Robbing] ");
         }

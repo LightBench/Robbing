@@ -1,5 +1,8 @@
 package com.frahhs.robbing.util.bag;
 
+import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.util.bag.exception.BagAlreadyDefinedException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +25,11 @@ public class BagManager {
      * @param bag The bag to register.
      */
     public void registerBags(Bag bag) {
+        if(bags.containsKey(bag.getID())) {
+            Robbing.getRobbingLogger().error("Duplicate bag id: %s", bag.getID());
+            throw new BagAlreadyDefinedException();
+        }
+
         bags.put(bag.getID(), bag);
         bag.onEnable();
     }

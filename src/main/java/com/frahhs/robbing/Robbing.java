@@ -28,6 +28,7 @@ import java.util.logging.Level;
 
 public final class Robbing extends JavaPlugin {
     private static Robbing instance;
+    private static RobbingLogger robbingLogger;
 
     // Providers
     private ConfigProvider configProvider;
@@ -42,9 +43,6 @@ public final class Robbing extends JavaPlugin {
 
     // Database
     private RobbingDatabase robbingDatabase;
-
-    // Utils
-    private RobbingLogger robbingLogger;
 
     @Override
     public void onEnable() {
@@ -167,7 +165,7 @@ public final class Robbing extends JavaPlugin {
 
     }
 
-    public RobbingLogger getRobbingLogger() {
+    public static RobbingLogger getRobbingLogger() {
         return robbingLogger;
     }
 

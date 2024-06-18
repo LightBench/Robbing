@@ -17,6 +17,7 @@ public class CaughtController extends Controller {
      * @param robbed The player who caught the robber.
      */
     public void catchRobber(Player robber, Player robbed) {
+        logger.fine("%s has been caught by %s", robber.getName(), robbed.getName());
         RobController robController = new RobController();
         robController.stopRobbing(robber);
 

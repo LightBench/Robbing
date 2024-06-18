@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.logging.*;
 import java.util.stream.Collectors;
 
@@ -17,11 +18,8 @@ import java.util.stream.Collectors;
 /**
  * Provides logging functionalities for the plugin.
  */
-public class RobbingLogger {
+public class RobbingLogger extends Logger {
     private final JavaPlugin plugin;
-    private final Logger logger;
-
-    private String prefix = "[Robbing] ";
 
     private File logDirectory;
     private FileHandler fileHandler;
@@ -35,9 +33,9 @@ public class RobbingLogger {
      * @param plugin The JavaPlugin instance associated with this logger.
      */
     public RobbingLogger(JavaPlugin plugin) {
+        super("RobbingLogger", null);
         this.plugin = plugin;
-        this.logger = Logger.getLogger("RobbingLogger");
-        this.logger.setLevel(Level.ALL);
+        super.setLevel(Level.ALL);
 
         // Setup log files
         createDirectory();
@@ -49,33 +47,24 @@ public class RobbingLogger {
         this.forwardLogHandler = getForwardLogHandler();
 
         // Logger Settings
-        logger.setUseParentHandlers(false);
+        setUseParentHandlers(false);
 
         // Remove lck files
         removeLck();
 
         // Add handlers
-        logger.addHandler(fileHandler);
-        logger.addHandler(forwardLogHandler);
+        addHandler(fileHandler);
+        addHandler(forwardLogHandler);
     }
 
     public void close() {
         fileHandler.close();
-        logger.removeHandler(fileHandler);
+        removeHandler(fileHandler);
         fileHandler = null;
         forwardLogHandler.close();
-        logger.removeHandler(forwardLogHandler);
+        removeHandler(forwardLogHandler);
         forwardLogHandler = null;
         removeLck();
-    }
-
-    /**
-     * Retrieves the logging level.
-     *
-     * @return The logging level.
-     */
-    public Level getLevel() {
-        return logger.getLevel();
     }
 
     /**
@@ -83,41 +72,45 @@ public class RobbingLogger {
      *
      * @param level The logging level to set.
      */
+    @Override
     public void setLevel(Level level) {
         forwardLogHandler.setLevel(level);
         fileHandler.setLevel(Level.ALL);
     }
 
-    /**
-     * Retrieves the prefix for log messages.
-     *
-     * @return The log message prefix.
-     */
-    public String getPrefix() {
-        return prefix;
-    }
-
-    /**
-     * Sets the prefix for log messages.
-     *
-     * @param prefix The prefix to set.
-     */
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    private void log(Level level, String msg) {
-        logger.log(level, msg);
+    @Override
+    public void log(Level level, String msg) {
+        super.log(level, msg);
         removeLck();
     }
 
-    private void log(Level level, String msg, Object param) {
-        logger.log(level, msg, param);
+    @Override
+    public void log(Level level, Supplier<String> msgSupplier) {
+        super.log(level, msgSupplier);
         removeLck();
     }
 
-    private void log(Level level, String msg, Object[] params) {
-        logger.log(level, msg, params);
+    @Override
+    public void log(Level level, String msg, Object param) {
+        super.log(level, msg, param);
+        removeLck();
+    }
+
+    @Override
+    public void log(Level level, String msg, Object[] params) {
+        super.log(level, msg, params);
+        removeLck();
+    }
+
+    @Override
+    public void log(Level level, String msg, Throwable thrown) {
+        super.log(level, msg, thrown);
+        removeLck();
+    }
+
+    @Override
+    public void log(Level level, Throwable thrown, Supplier<String> msgSupplier) {
+        super.log(level, thrown, msgSupplier);
         removeLck();
     }
 
@@ -131,16 +124,59 @@ public class RobbingLogger {
     }
 
     /**
-     * Logs an info message if the logging level is set to ALL or INFO.
+     * Logs an info message.
+     *
+     * @param message The info message to log.
+     */
+    @Override
+    public void info(String message) {
+        log(Level.INFO, message);
+    }
+
+    /**
+     * You should use error() method.
+     *
+     * @param msgSupplier The info message supplier to log.
+     */
+    @Deprecated
+    @Override
+    public void info(Supplier<String> msgSupplier) {
+        super.info(msgSupplier);
+        removeLck();
+    }
+
+    /**
+     * Logs an info message.
      *
      * @param message The info message to log.
      */
     public void info(String message, Object ...args) {
-        logger.info(String.format(message, args));
+        log(Level.INFO, String.format(message, args));
     }
 
     /**
-     * Logs a warning message if the logging level is set to ALL, INFO, or WARNING.
+     * Logs a warning message.
+     *
+     * @param message The warning message to log.
+     */
+    @Override
+    public void warning(String message) {
+        log(Level.WARNING, message);
+    }
+
+    /**
+     * You should use warning(String message, Object ...args) method.
+     *
+     * @param msgSupplier The warning message supplier to log.
+     */
+    @Deprecated
+    @Override
+    public void warning(Supplier<String> msgSupplier) {
+        super.warning(msgSupplier);
+    }
+
+    /**
+     * Logs a warning message.
      *
      * @param message The warning message to log.
      */
@@ -149,12 +185,39 @@ public class RobbingLogger {
     }
 
     /**
-     * Logs an error message if the logging level is set to SEVERE.
+     * You should use error(String message, Object ...args) method.
+     *
+     * @param msgSupplier The error message supplier to log.
+     */
+    @Deprecated
+    @Override
+    public void severe(Supplier<String> msgSupplier) {
+        log(Level.SEVERE, msgSupplier);
+    }
+
+    /**
+     * You should use error(String message, Object ...args) method.
+     *
+     * @param message The error message to log.
+     */
+    @Deprecated
+    @Override
+    public void severe(String message) {
+        log(Level.SEVERE, message);
+    }
+
+    /**
+     * Logs an error message.
      *
      * @param message The error message to log.
      */
     public void error(String message, Object ...args) {
         log(Level.SEVERE, String.format(message, args));
+    }
+
+    @Override
+    public void fine(String message) {
+        log(Level.FINE, String.format(message));
     }
 
     /**
@@ -179,8 +242,13 @@ public class RobbingLogger {
      *
      * @param message The debug message to log.
      */
-    public void trace(String message, Object ...args) {
+    public void fine(String message, Object ...args) {
         log(Level.FINE, String.format(message, args));
+    }
+
+    @Override
+    public void finer(String message) {
+        log(Level.FINER, String.format(message));
     }
 
     /**
@@ -192,8 +260,18 @@ public class RobbingLogger {
      *
      * @param message The debug message to log.
      */
-    public void tracer(String message, Object ...args) {
+    public void finer(String message, Object ...args) {
         log(Level.FINER, String.format(message, args));
+    }
+
+    /**
+     * You should use tracest(String message, Object ...args) method.
+     *
+     * @param message The error message to log.
+     */
+    @Override
+    public void finest(String message) {
+        log(Level.FINEST, String.format(message));
     }
 
     /**
@@ -203,7 +281,7 @@ public class RobbingLogger {
      * This level is initialized to <CODE>300</CODE>.
      * @param message The debug message to log.
      */
-    public void tracest(String message, Object ...args) {
+    public void finest(String message, Object ...args) {
         log(Level.FINEST, String.format(message, args));
     }
 
@@ -213,7 +291,7 @@ public class RobbingLogger {
      * @param code The randomly assigned error code.
      */
     public void fatal(FatalCode code) {
-        log(Level.SEVERE, "", code);
+        log(Level.SEVERE, null, code);
     }
 
     private ForwardLogHandler getForwardLogHandler() {
@@ -332,11 +410,6 @@ public class RobbingLogger {
                     int number2 = Integer.parseInt(parts2[3].split("\\.")[0]);
                     return Integer.compare(number1, number2);
                 }).collect(Collectors.toList());
-
-        // Print the sorted list of files
-        for (File file : filteredFiles) {
-            System.out.println(file.getName());
-        }
 
         while (filteredFiles.size() > MAXIMUM_LOGS_STORED) {
             filteredFiles.get(0).delete();

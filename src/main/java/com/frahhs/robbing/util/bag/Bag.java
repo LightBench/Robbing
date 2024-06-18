@@ -1,7 +1,7 @@
 package com.frahhs.robbing.util.bag;
 
 /**
- * Abstract class representing a bag for storing plugin data.
+ * Abstract class representing a bag for storing plugin NOT persistent data.
  */
 abstract public class Bag {
     /**

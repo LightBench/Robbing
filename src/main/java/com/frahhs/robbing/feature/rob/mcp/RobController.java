@@ -19,6 +19,7 @@ public class RobController extends Model {
      * @param victim The player being robbed.
      */
     public void startRobbing(Player robber, Player victim) {
+        logger.fine("%s is robbing %s", robber.getName(), victim.getName());
         Rob.setRobbingNow(robber, victim);
         robber.openInventory(victim.getInventory());
     }
@@ -29,6 +30,7 @@ public class RobController extends Model {
      * @param robber The player ending the robbery.
      */
     public void stopRobbing(Player robber) {
+        logger.fine("%s robbing has been stopped", robber.getName());
         if (Rob.isRobbingNow(robber)) {
             Rob.removeRobbingNow(robber);
             robber.closeInventory();
@@ -41,6 +43,7 @@ public class RobController extends Model {
      * @param robber The player who successfully performed the robbery.
      */
     public void robbed(Player robber) {
+        logger.fine("setting robbing cooldown on %s", robber.getName());
         Rob.setCooldown(robber);
     }
 }

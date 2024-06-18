@@ -36,7 +36,7 @@ public class MessagesProvider {
 
         loadLanguageFiles();
         if (!languageConfigs.containsKey(lang)) {
-            Robbing.getInstance().getRobbingLogger().warning("Language \"%s\" not found! English automatically selected.", lang);
+            Robbing.getRobbingLogger().warning("Language \"%s\" not found! English automatically selected.", lang);
             lang = "en";
         }
     }
@@ -51,7 +51,7 @@ public class MessagesProvider {
 
         loadLanguageFiles();
         if (!languageConfigs.containsKey(lang)) {
-            Robbing.getInstance().getRobbingLogger().warning("Language \"%s\" not found! English automatically selected.", lang);
+            Robbing.getRobbingLogger().warning("Language \"%s\" not found! English automatically selected.", lang);
             lang = "en";
         }
     }
@@ -65,12 +65,12 @@ public class MessagesProvider {
     public String getMessage(String key) {
         FileConfiguration config = languageConfigs.get(lang);
         if (config == null) {
-            Robbing.getInstance().getRobbingLogger().warning("Language files '%s' not found.", lang);
+            Robbing.getRobbingLogger().warning("Language files '%s' not found.", lang);
             return null;
         }
 
         if(!config.contains(key))
-            Robbing.getInstance().getRobbingLogger().error("The message path '%s' does not exist.", key);
+            Robbing.getRobbingLogger().error("The message path '%s' does not exist.", key);
 
         String value = config.getString(key);
         return String.format("%s%s", prefix, value).replace("&", "§");
@@ -86,12 +86,12 @@ public class MessagesProvider {
     public String getMessage(String key, boolean usePrefix) {
         FileConfiguration config = languageConfigs.get(lang);
         if (config == null) {
-            Robbing.getInstance().getRobbingLogger().warning("Language files '%s' not found.", lang);
+            Robbing.getRobbingLogger().warning("Language files '%s' not found.", lang);
             return null;
         }
 
         if(!config.contains(key))
-            Robbing.getInstance().getRobbingLogger().error("The message path '%s' does not exist.", key);
+            Robbing.getRobbingLogger().error("The message path '%s' does not exist.", key);
 
         String value = config.getString(key);
         if(usePrefix)

@@ -203,7 +203,7 @@ public class RobbingBlock extends Provider {
             dbConnection.commit();
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -222,7 +222,7 @@ public class RobbingBlock extends Provider {
             dbConnection.commit();
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
     }
 
@@ -249,7 +249,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -277,7 +277,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -302,7 +302,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return false;
     }
@@ -351,7 +351,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return null;
     }
@@ -399,7 +399,7 @@ public class RobbingBlock extends Provider {
             }
             ps.close();
         } catch (Exception e) {
-            Robbing.getInstance().getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
+            Robbing.getRobbingLogger().error("%s: %s", e.getClass().getName(), e.getMessage());
         }
         return null;
     }

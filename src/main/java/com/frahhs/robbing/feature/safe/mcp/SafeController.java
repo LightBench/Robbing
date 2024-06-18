@@ -30,12 +30,14 @@ public class SafeController extends Controller {
 
 
     public void openGUI(RobbingBlock safe, Player player) {
+        logger.fine("%s opened gui of the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         player.openInventory(safeModel.getSafeUnlockGUI().getInventory());
     }
 
     public void openInventory(RobbingBlock safe, Player player) {
+        logger.fine("%s opened inventory of the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         player.openInventory(safeModel.getInventory());
@@ -48,6 +50,7 @@ public class SafeController extends Controller {
     }
 
     public void placeBlock(RobbingBlock safe, ItemStack item) {
+        logger.fine("Placing safe: %s", safe.getUniqueId().toString());
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
@@ -71,6 +74,7 @@ public class SafeController extends Controller {
     }
 
     public void dropBlock(RobbingBlock safe, Player player) {
+        logger.fine("%s dropped the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         ItemStack item = plugin.getItemsManager().get(RobbingMaterial.SAFE).getItemStack();
@@ -102,6 +106,7 @@ public class SafeController extends Controller {
     }
 
     public void dropInventory(RobbingBlock safe, Player player) {
+        logger.fine("%s dropped the inventory of the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         ItemStack[] content = safeModel.getInventory().getContents();
@@ -117,6 +122,7 @@ public class SafeController extends Controller {
     }
 
     public void lock(RobbingBlock safe, String pin) {
+        logger.fine("safe %s locked, pin: %s", safe.getUniqueId().toString(), pin);
         // If it is already locked, return
         if(SafeModel.isLocked(safe))
             return;
@@ -126,6 +132,7 @@ public class SafeController extends Controller {
     }
 
     public void unlock(RobbingBlock safe) {
+        logger.fine("safe %s unlocked", safe.getUniqueId().toString());
         // If it is already unlocked, return
         if(!SafeModel.isLocked(safe))
             return;

@@ -16,6 +16,7 @@ public class KidnappingController extends Controller {
      * @param kidnapped The player who is kidnapped.
      */
     public void kidnap(Player kidnapper, Player kidnapped) {
+        logger.fine("%s kidnapped %s", kidnapper.getName(), kidnapped.getName());
         ToggleKidnapEvent toggleKidnapEvent = new ToggleKidnapEvent(kidnapper, kidnapped, true);
         Bukkit.getPluginManager().callEvent(toggleKidnapEvent);
 
@@ -32,6 +33,7 @@ public class KidnappingController extends Controller {
      * @param kidnapped The player who is kidnapped.
      */
     public void free(Player kidnapped) {
+        logger.fine("%s has been free from kidnapping", kidnapped.getName());
         LocationPath locationPath = new LocationPath();
         if (Kidnapping.isKidnapped(kidnapped)) {
             ToggleKidnapEvent toggleKidnapEvent = new ToggleKidnapEvent(Kidnapping.getFromKidnapped(kidnapped).getKidnapper(), kidnapped, true);

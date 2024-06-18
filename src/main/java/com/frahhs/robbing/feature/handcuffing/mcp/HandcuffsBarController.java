@@ -14,6 +14,7 @@ public class HandcuffsBarController extends Controller {
      * @param player The player to put the handcuffs bar on.
      */
     public void put(Player player) {
+        logger.fine("%s handcuffs put", player.getName());
         if (HandcuffsBar.haveBar(player))
             return;
 
@@ -27,6 +28,7 @@ public class HandcuffsBarController extends Controller {
      * @param player The player to remove the handcuffs bar from.
      */
     public void remove(Player player) {
+        logger.fine("%s handcuffs removed", player.getName());
         if (!HandcuffsBar.haveBar(player))
             return;
 
@@ -43,6 +45,7 @@ public class HandcuffsBarController extends Controller {
      * @throws RuntimeException if the player does not have a handcuffs bar.
      */
     public boolean hit(Player player) {
+        logger.fine("%s is hitting handcuffs", player.getName());
         if (!HandcuffsBar.haveBar(player)) {
             throw new RuntimeException(String.format("Handcuffs bar not found for player %s.", player.getName()));
         }
@@ -61,8 +64,10 @@ public class HandcuffsBarController extends Controller {
             // Remove bar
             remove(player);
 
+            logger.fine("%s has broken the handcuffs", player.getName());
             return true;
         }
+        logger.fine("%s hit handcuffs", player.getName());
         return false;
     }
 }

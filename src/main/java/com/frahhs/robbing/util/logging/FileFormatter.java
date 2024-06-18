@@ -20,11 +20,11 @@ class FileFormatter extends Formatter {
          if(Level.SEVERE.equals(level)) {
             levelStr = "ERROR";
         } else if(Level.FINE.equals(level)) {
-            levelStr = "TRACE";
+            levelStr = "FINE";
         } else if(Level.FINER.equals(level)) {
-            levelStr = "TRACER";
+            levelStr = "FINER";
         } else if(Level.FINEST.equals(level)) {
-            levelStr = "TRACEST";
+            levelStr = "FINEST";
         }
 
          String message = formatMessage(record);
