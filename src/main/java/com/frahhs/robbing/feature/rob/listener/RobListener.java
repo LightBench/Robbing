@@ -78,7 +78,7 @@ public class RobListener extends RobbingListener {
         // Check if worldguard flag is deny
         if(DependenciesManager.haveDependency(Dependency.WORLDGUARD)) {
             if (WorldGuardFlag.checkStealFlag(robbed)) {
-                String message = messages.getMessage("robbing.deny_region");
+                String message = messages.getMessage("general.deny_region");
                 robber.sendMessage(message);
                 return;
             }

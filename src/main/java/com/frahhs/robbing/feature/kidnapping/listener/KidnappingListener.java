@@ -71,7 +71,7 @@ public class KidnappingListener extends RobbingListener {
         // Check if worldguard flag is deny
         if(DependenciesManager.haveDependency(Dependency.WORLDGUARD)) {
             if (WorldGuardFlag.checkKidnapFlag(kidnapper)) {
-                String message = messages.getMessage("robbing.deny_region");
+                String message = messages.getMessage("general.deny_region");
                 kidnapper.sendMessage(message);
                 return;
             }

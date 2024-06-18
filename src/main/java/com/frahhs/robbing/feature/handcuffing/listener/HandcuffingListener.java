@@ -56,7 +56,7 @@ public class HandcuffingListener extends RobbingListener {
         // Check if worldguard flag is deny
         if(DependenciesManager.haveDependency(Dependency.WORLDGUARD)) {
             if (WorldGuardFlag.checkHandcuffingFlag(handcuffer)) {
-                message = messages.getMessage("robbing.deny_region");
+                message = messages.getMessage("general.deny_region");
                 handcuffer.sendMessage(message);
                 return;
             }
@@ -114,15 +114,15 @@ public class HandcuffingListener extends RobbingListener {
         if(!config.getBoolean("handcuffing.enabled"))
             return;
 
-        // Check if player have permissions
-        if(! handcuffer.hasPermission("robbing.uncuff") ) {
-            message = messages.getMessage("general.no_permission_item");
-            handcuffer.sendMessage(message);
+        // Check if the target is handcuffed
+        if(!Handcuffing.isHandcuffed(handcuffed)) {
             return;
         }
 
-        // Check if the target is handcuffed
-        if(!Handcuffing.isHandcuffed(handcuffed)) {
+        // Check if player have permissions
+        if(! handcuffer.hasPermission("robbing.uncuff") ) {
+            message = messages.getMessage("general.no_permissions");
+            handcuffer.sendMessage(message);
             return;
         }
 
