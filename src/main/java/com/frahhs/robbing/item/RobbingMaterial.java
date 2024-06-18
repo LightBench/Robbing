@@ -22,13 +22,31 @@ public enum RobbingMaterial {
     PANEL_NUMBER_8,
     PANEL_NUMBER_9,
     PANEL_NUMBER_CANCEL,
-    PANEL_NUMBER_CHECK;
+    PANEL_NUMBER_CHECK,
+    CYLINDER,
+    CYLINDER_WRONG,
+    CYLINDER_CORRECT;
 
     public boolean isItem() {
         switch (this) {
             case HANDCUFFS:
             case HANDCUFFS_KEY:
             case LOCKPICK:
+            case PANEL_NUMBER_0:
+            case PANEL_NUMBER_1:
+            case PANEL_NUMBER_2:
+            case PANEL_NUMBER_3:
+            case PANEL_NUMBER_4:
+            case PANEL_NUMBER_5:
+            case PANEL_NUMBER_6:
+            case PANEL_NUMBER_7:
+            case PANEL_NUMBER_8:
+            case PANEL_NUMBER_9:
+            case PANEL_NUMBER_CANCEL:
+            case PANEL_NUMBER_CHECK:
+            case CYLINDER:
+            case CYLINDER_WRONG:
+            case CYLINDER_CORRECT:
                 return true;
             default:
                 return false;

@@ -39,7 +39,9 @@ public class SafeUnlockGUIListener extends RobbingListener {
                     safeController.openInventory(safeUnlockGUI.getSafe(), clicker);
                 } else {
                     clicker.closeInventory();
-                    clicker.sendMessage("Wrong pin"); // TODO: add to messages
+
+                    String message = messages.getMessage("safes.wrong_pin");
+                    clicker.sendMessage(message);
                 }
                 break;
             case SLOT_PANEL_CANCEL:

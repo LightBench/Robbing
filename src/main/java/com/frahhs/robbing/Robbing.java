@@ -8,6 +8,7 @@ import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.feature.FeatureManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
+import com.frahhs.robbing.feature.lockpicking.LockpickingFeature;
 import com.frahhs.robbing.feature.rob.RobbingFeature;
 import com.frahhs.robbing.feature.safe.SafeFeature;
 import com.frahhs.robbing.gui.GUIListener;
@@ -15,11 +16,9 @@ import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.items.*;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
-import com.frahhs.robbing.util.logging.FatalCode;
 import com.frahhs.robbing.util.logging.RobbingLogger;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.google.common.collect.ImmutableList;
-import jdk.jfr.internal.LogLevel;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -147,6 +146,7 @@ public final class Robbing extends JavaPlugin {
         featureManager.registerFeatures(new HandcuffingFeature(this));
         featureManager.registerFeatures(new KidnappingFeature(this));
         featureManager.registerFeatures(new SafeFeature(this));
+        featureManager.registerFeatures(new LockpickingFeature(this));
     }
 
     private void registerItems() {
@@ -166,7 +166,9 @@ public final class Robbing extends JavaPlugin {
         itemManager.registerItems(new PanelNumber9(this));
         itemManager.registerItems(new PanelNumberCancel(this));
         itemManager.registerItems(new PanelNumberCheck(this));
-
+        itemManager.registerItems(new Cylinder(this));
+        itemManager.registerItems(new CylinderWrong(this));
+        itemManager.registerItems(new CylinderCorrect(this));
     }
 
     public static RobbingLogger getRobbingLogger() {

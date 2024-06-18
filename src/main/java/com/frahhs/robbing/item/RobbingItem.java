@@ -31,7 +31,8 @@ public abstract class RobbingItem {
         this.configProvider = plugin.getConfigProvider();
         this.messagesProvider = plugin.getMessagesProvider();
 
-        if(getVanillaMaterial().isBlock())
+        // TODO: Check if leave barrier here
+        if(getRobbingMaterial().isBlock())
             item = new ItemStack(Material.BARRIER, 1);
         else
             item = new ItemStack(getVanillaMaterial(), 1);

@@ -48,11 +48,7 @@ public class SafeUnlockGUI implements GUI {
         this.correctPin = pin;
         this.safe = safe;
         this.inventory = Bukkit.createInventory(this, 6*9, "\uF001§f\uD83D\uDE97");
-    }
 
-    @Override
-    @NotNull
-    public Inventory getInventory() {
         this.inventory.setItem(SLOT_PANEL_0 ,getItemFromSlot(SLOT_PANEL_0));
         this.inventory.setItem(SLOT_PANEL_1 ,getItemFromSlot(SLOT_PANEL_1));
         this.inventory.setItem(SLOT_PANEL_2 ,getItemFromSlot(SLOT_PANEL_2));
@@ -66,7 +62,11 @@ public class SafeUnlockGUI implements GUI {
 
         this.inventory.setItem(SLOT_PANEL_CANCEL ,getItemFromSlot(SLOT_PANEL_CANCEL));
         this.inventory.setItem(SLOT_PANEL_CHECK ,getItemFromSlot(SLOT_PANEL_CHECK));
+    }
 
+    @Override
+    @NotNull
+    public Inventory getInventory() {
         return inventory;
     }
 

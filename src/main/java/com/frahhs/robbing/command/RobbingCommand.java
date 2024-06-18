@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafePin;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;

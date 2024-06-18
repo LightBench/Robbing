@@ -1,5 +1,6 @@
 package com.frahhs.robbing.feature.safe.listener;
 
+import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
 import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
@@ -7,6 +8,7 @@ import com.frahhs.robbing.block.events.RobbingBlockPlaceEvent;
 import com.frahhs.robbing.feature.safe.mcp.SafeInventory;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
+import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingMaterial;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -15,12 +17,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 public class SafeListener extends RobbingListener {
     private final SafeController safeController;
+    private final ItemManager itemManager;
 
     public SafeListener() {
         safeController = new SafeController();
+        itemManager = Robbing.getInstance().getItemsManager();
     }
 
     @EventHandler
@@ -36,6 +41,11 @@ public class SafeListener extends RobbingListener {
             return;
 
         if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+            return;
+
+        ItemStack itemInMainHand = e.getPlayer().getInventory().getItemInMainHand();
+        ItemStack lockpickItem = itemManager.get(RobbingMaterial.LOCKPICK).getItemStack();
+        if(SafeModel.isLocked(e.getBlock()) && itemInMainHand.isSimilar(lockpickItem))
             return;
 
         safeController.open(e.getBlock(), e.getPlayer());

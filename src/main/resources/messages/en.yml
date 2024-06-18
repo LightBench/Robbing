@@ -33,6 +33,7 @@ follow:
 safes:
   need_lockpick: "You need a lockpick"
   crack_fail: "Cracking attempt failed"
+  wrong_pin: "Wrong pin."
   crack_success: "Safe successfully cracked"
 
 actionbar:
@@ -41,6 +42,10 @@ actionbar:
   escaped: "Escaped!"
   handcuffing_failed: "Handcuffing failed!"
   handcuffed: "Handcuffed"
+
+lockpicking:
+  failed: "You failed to lockpick that safe."
+  success: "Safe successfully lockpicked."
 
 handcuffs:
   name: "Handcuffs"
@@ -89,6 +94,15 @@ panel_number_cancel:
 
 panel_number_check:
   name: "Check"
+
+cylinder:
+  name: "Cylinder"
+
+cylinder_wrong:
+  name: "Wrong cylinder"
+
+cylinder_correct:
+  name: "Correct cylinder"
 
 commands:
   reload: "&2Robbing reloaded!"
