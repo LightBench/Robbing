@@ -139,7 +139,7 @@ public class RobbingCommand extends BaseCommand {
         robbingItem = itemManager.get(RobbingMaterial.matchMaterial(item_name));
 
         item_name = item_name.substring(0, 1).toUpperCase() + item_name.substring(1).toLowerCase();
-        if(robbingItem == null) {
+        if(robbingItem == null || !robbingItem.isGivable()) {
             message = messagesProvider.getMessage("commands.item_not_found");
             message = message.replace("{item}", item_name);
             sender.sendMessage(message);

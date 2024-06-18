@@ -107,6 +107,11 @@ public abstract class RobbingItem {
     public abstract boolean isCraftable();
 
     /**
+     * Abstract method to determine if the custom robbing item can be given.
+     */
+    public abstract boolean isGivable();
+
+    /**
      * Abstract method to get the name of the custom robbing item.
      * The name must be unique.
      */

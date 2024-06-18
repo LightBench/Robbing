@@ -133,7 +133,11 @@ public final class Robbing extends JavaPlugin {
         // Command completions
         commandManager.getCommandCompletions().registerCompletion("RobbingItems", c -> {
             List<String> rbItems = new ArrayList<>();
-            itemManager.getRegisteredItems().forEach(item -> rbItems.add(item.getName()));
+            itemManager.getRegisteredItems().forEach((item) -> {
+                if(item.isGivable()) {
+                    rbItems.add(item.getName());
+                }
+            });
             return ImmutableList.copyOf(rbItems);
         });
     }

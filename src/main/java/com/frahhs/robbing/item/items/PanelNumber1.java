@@ -34,6 +34,11 @@ public class PanelNumber1 extends RobbingItem {
     }
 
     @Override
+    public boolean isGivable() {
+        return false;
+    }
+
+    @Override
     public @NotNull Material getVanillaMaterial() {
         return Material.STICK;
     }

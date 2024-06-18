@@ -39,6 +39,11 @@ public class HandcuffsKey extends RobbingItem {
     }
 
     @Override
+    public boolean isGivable() {
+        return true;
+    }
+
+    @Override
     public @NotNull Material getVanillaMaterial() {
         return Material.STICK;
     }
