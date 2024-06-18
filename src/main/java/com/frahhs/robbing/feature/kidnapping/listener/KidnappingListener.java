@@ -54,12 +54,15 @@ public class KidnappingListener extends RobbingListener {
         if(!e.getPlayer().hasPermission("robbing.follow"))
             return;
 
-        // Check if kidnapper is using handcuffs
-        if(handcuffingController.handcuffsInHand(e.getPlayer()))
-            return;
-
         Player kidnapper = e.getPlayer();
         Player kidnapped = (Player) e.getRightClicked();
+
+        // Check if the player is just handcuffed, if true set to false
+        // Without this check, the player will be handcuffed and kidnapped at same time
+        if(Handcuffing.isJustHandcuff(kidnapped)) {
+            Handcuffing.setJustHandcuff(kidnapped, false);
+            return;
+        }
 
         // Check if kidnapped is already following someone
         if(Kidnapping.isKidnapped(kidnapped) && kidnappingController.getKidnapper(kidnapped) != kidnapper) {

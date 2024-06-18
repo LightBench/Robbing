@@ -4,6 +4,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
+import com.frahhs.robbing.feature.handcuffing.bag.JustHandcuffBag;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffedListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffingListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HitHandcuffsListener;
@@ -59,6 +60,7 @@ public class HandcuffingFeature extends Feature {
     protected void registerBags() {
         plugin.getBagManager().registerBags(new HandcuffingCooldownBag());
         plugin.getBagManager().registerBags(new HandcuffsBarBag());
+        plugin.getBagManager().registerBags(new JustHandcuffBag());
     }
 
     @Override

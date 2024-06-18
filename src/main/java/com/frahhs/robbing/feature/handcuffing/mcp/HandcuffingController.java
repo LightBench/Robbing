@@ -64,6 +64,8 @@ public class HandcuffingController extends Controller {
             Handcuffing.setCooldown(handcuffer);
         });
 
+        Handcuffing.setJustHandcuff(handcuffed, true);
+
         return handcuffing;
     }
 
@@ -121,6 +123,8 @@ public class HandcuffingController extends Controller {
                 }
             }
         });
+
+        Handcuffing.setJustHandcuff(handcuffed, false);
     }
 
     /**

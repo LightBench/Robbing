@@ -144,4 +144,14 @@ public class Handcuffing extends Model {
         ConfigProvider config = Robbing.getInstance().getConfigProvider();
         setCooldown(handcuffer, config.getInt("handcuffing.cooldown"));
     }
+
+    public static void setJustHandcuff(Player player, boolean value) {
+        HandcuffingProvider provider = new HandcuffingProvider();
+        provider.setJustHandcuff(player, value);
+    }
+
+    public static boolean isJustHandcuff(Player player) {
+        HandcuffingProvider provider = new HandcuffingProvider();
+        return provider.isJustHandcuff(player);
+    }
 }

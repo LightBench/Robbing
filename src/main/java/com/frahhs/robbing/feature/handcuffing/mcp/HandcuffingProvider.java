@@ -2,6 +2,7 @@ package com.frahhs.robbing.feature.handcuffing.mcp;
 
 import com.frahhs.robbing.feature.Provider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
+import com.frahhs.robbing.feature.handcuffing.bag.JustHandcuffBag;
 import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,12 +18,14 @@ import java.util.UUID;
  */
 class HandcuffingProvider extends Provider {
     private final HandcuffingCooldownBag handcuffingCooldownBag;
+    private final JustHandcuffBag justHandcuffBag;
 
     /**
      * Constructs a HandcuffingProvider instance.
      */
     protected HandcuffingProvider() {
         handcuffingCooldownBag = (HandcuffingCooldownBag) bagManager.getBag("HandcuffingCooldownBag");
+        justHandcuffBag = (JustHandcuffBag) bagManager.getBag("JustHandcuffBag");
     }
 
     /**
@@ -182,5 +185,20 @@ class HandcuffingProvider extends Provider {
      */
     protected void removeCooldown(Player handcuffer) {
         handcuffingCooldownBag.getData().remove(handcuffer);
+    }
+
+    protected void setJustHandcuff(Player player, boolean value) {
+        if(value) {
+            if(!justHandcuffBag.getData().contains(player)) {
+                justHandcuffBag.getData().add(player);
+            }
+        } else {
+            justHandcuffBag.getData().remove(player);
+        }
+
+    }
+
+    protected boolean isJustHandcuff(Player player) {
+        return justHandcuffBag.getData().contains(player);
     }
 }
