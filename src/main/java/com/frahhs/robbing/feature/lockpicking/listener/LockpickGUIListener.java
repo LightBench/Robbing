@@ -2,6 +2,8 @@ package com.frahhs.robbing.feature.lockpicking.listener;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
+import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
+import com.frahhs.robbing.feature.lockpicking.event.LockpickEvent;
 import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeUnlockGUI;
@@ -10,6 +12,7 @@ import com.frahhs.robbing.gui.event.GUIClickEvent;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.item.items.CylinderWrong;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
@@ -43,6 +46,8 @@ public class LockpickGUIListener extends RobbingListener {
             String message = messages.getMessage("lockpicking.success");
             e.getInventoryClickEvent().getWhoClicked().sendMessage(message);
             safeController.openInventory(((LockpickGUI) e.getGui()).getSafe(), clicker);
+            LockpickEvent lockpickEvent = new LockpickEvent((Player) e.getInventoryClickEvent().getWhoClicked(), ((LockpickGUI) e.getGui()).getSafe(), true);
+            Bukkit.getPluginManager().callEvent(lockpickEvent);
         } else {
             inventory.setItem(clickedSlot, itemManager.get(RobbingMaterial.CYLINDER_WRONG).getItemStack());
         }
@@ -66,6 +71,9 @@ public class LockpickGUIListener extends RobbingListener {
             // Send message
             String message = messages.getMessage("lockpicking.failed");
             e.getInventoryClickEvent().getWhoClicked().sendMessage(message);
+
+            LockpickEvent lockpickEvent = new LockpickEvent((Player) e.getInventoryClickEvent().getWhoClicked(), ((LockpickGUI) e.getGui()).getSafe(), false);
+            Bukkit.getPluginManager().callEvent(lockpickEvent);
         }
     }
 }

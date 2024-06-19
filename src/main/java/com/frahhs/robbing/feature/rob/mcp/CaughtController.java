@@ -11,7 +11,6 @@ import org.bukkit.potion.PotionEffectType;
 public class CaughtController extends Controller {
     /**
      * Handles catching a robber.
-     * TODO: add cooldown on the action bar
      *
      * @param robber The robber who was caught.
      * @param robbed The player who caught the robber.

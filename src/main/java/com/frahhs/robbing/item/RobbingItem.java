@@ -35,11 +35,7 @@ public abstract class RobbingItem {
         this.messagesProvider = plugin.getMessagesProvider();
         this.namespacedKey = new NamespacedKey(plugin, getName());
 
-        // TODO: Check if leave barrier here
-        if(getRobbingMaterial().isBlock())
-            item = new ItemStack(Material.BARRIER, 1);
-        else
-            item = new ItemStack(getVanillaMaterial(), 1);
+        item = new ItemStack(getVanillaMaterial(), 1);
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;

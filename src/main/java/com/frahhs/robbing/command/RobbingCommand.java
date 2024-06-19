@@ -63,7 +63,7 @@ public class RobbingCommand extends BaseCommand {
             return;
 
         if(!RobbingBlock.isRobbingBlock(target)) {
-            String message = messagesProvider.getMessage("general.not_looking_safe");
+            String message = messagesProvider.getMessage("safes.not_looking_safe");
             sender.sendMessage(message);
             return;
         }
@@ -72,18 +72,18 @@ public class RobbingCommand extends BaseCommand {
         SafeController safeController = new SafeController();
 
         if(SafeModel.isLocked(safe)) {
-            String message = messagesProvider.getMessage("general.already_locked");
+            String message = messagesProvider.getMessage("safes.already_locked");
             sender.sendMessage(message);
             return;
         }
 
         if(!pin.matches("^[1-9]\\d{3}$")) {
-            String message = messagesProvider.getMessage("general.invalid_pin");
+            String message = messagesProvider.getMessage("safes.invalid_pin");
             sender.sendMessage(message);
             return;
         }
 
-        String message = messagesProvider.getMessage("general.successfully_locked");
+        String message = messagesProvider.getMessage("safes.successfully_locked");
         sender.sendMessage(message);
 
         assert safe != null;
@@ -102,7 +102,7 @@ public class RobbingCommand extends BaseCommand {
             return;
 
         if(!RobbingBlock.isRobbingBlock(target)) {
-            String message = messagesProvider.getMessage("general.not_looking_safe");
+            String message = messagesProvider.getMessage("safes.not_looking_safe");
             sender.sendMessage(message);
             return;
         }
@@ -113,25 +113,25 @@ public class RobbingCommand extends BaseCommand {
         SafeController safeController = new SafeController();
 
         if(!SafeModel.isLocked(safe)) {
-            String message = messagesProvider.getMessage("general.already_unlocked");
+            String message = messagesProvider.getMessage("safes.already_unlocked");
             sender.sendMessage(message);
             return;
         }
 
         if(!pin.matches("^[1-9]\\d{3}$")) {
-            String message = messagesProvider.getMessage("general.invalid_pin");
+            String message = messagesProvider.getMessage("safes.invalid_pin");
             sender.sendMessage(message);
             return;
         }
 
         if(safeModel.getPin().equals(new SafePin(pin))) {
-            String message = messagesProvider.getMessage("general.successfully_unlocked");
+            String message = messagesProvider.getMessage("safes.successfully_unlocked");
             sender.sendMessage(message);
             assert safe != null;
             safeController.unlock(safe);
         }
         else {
-            String message = messagesProvider.getMessage("general.wrong_pin");
+            String message = messagesProvider.getMessage("safes.wrong_pin");
             sender.sendMessage(message);
         }
     }
