@@ -4,6 +4,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.lockpicking.listener.LockpickGUIListener;
 import com.frahhs.robbing.feature.lockpicking.listener.LockpickListener;
+import org.jetbrains.annotations.NotNull;
 
 public class LockpickingFeature extends Feature {
     private final Robbing plugin;
@@ -34,7 +35,7 @@ public class LockpickingFeature extends Feature {
     }
 
     @Override
-    protected String getID() {
+    protected @NotNull String getID() {
         return "lockpicking";
     }
 }

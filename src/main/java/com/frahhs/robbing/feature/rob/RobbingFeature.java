@@ -7,6 +7,7 @@ import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingNowBag;
 import com.frahhs.robbing.feature.rob.listener.CatchListener;
 import com.frahhs.robbing.feature.rob.listener.RobListener;
+import org.jetbrains.annotations.NotNull;
 
 public class RobbingFeature extends Feature {
     private final Robbing plugin;
@@ -39,7 +40,7 @@ public class RobbingFeature extends Feature {
     }
 
     @Override
-    protected String getID() {
+    protected @NotNull String getID() {
         return "robbing";
     }
 }

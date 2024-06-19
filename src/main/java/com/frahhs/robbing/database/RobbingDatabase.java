@@ -142,7 +142,7 @@ public class RobbingDatabase {
             dbConnection.commit();
             stmt.close();
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            Robbing.getRobbingLogger().error("Error while creating handcuffing table, %s", e);
         }
     }
 
@@ -169,7 +169,7 @@ public class RobbingDatabase {
             dbConnection.commit();
             stmt.close();
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            Robbing.getRobbingLogger().error("Error while creating blocksPlaced table, %s", e);
         }
     }
 
@@ -192,7 +192,7 @@ public class RobbingDatabase {
             dbConnection.commit();
             stmt.close();
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            Robbing.getRobbingLogger().error("Error while creating ShapedRecipe table, %s", e);
         }
     }
 }

@@ -4,7 +4,6 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
-import com.sun.tools.javac.jvm.Items;
 import de.themoep.inventorygui.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -148,30 +147,33 @@ public class RecipeMenu {
         Inventory openInventory = player.getOpenInventory().getTopInventory();
 
         // Check if the player is not using only vanilla items
-        /*for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(12 + i);
             if(Robbing.getInstance().getItemsManager().isRegistered(item)) {
                 player.closeInventory();
-                //TODO: add to messages
-                player.sendMessage("You can use only vanilla item for recipes");
+                String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_not_vanilla");
+                player.sendMessage(message);
+                return;
             }
         }
         for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(21 + i);
             if(Robbing.getInstance().getItemsManager().isRegistered(item)) {
                 player.closeInventory();
-                //TODO: add to messages
-                player.sendMessage("You can use only vanilla item for recipes");
+                String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_not_vanilla");
+                player.sendMessage(message);
+                return;
             }
         }
         for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(30 + i);
             if(Robbing.getInstance().getItemsManager().isRegistered(item)) {
                 player.closeInventory();
-                //TODO: add to messages
-                player.sendMessage("You can use only vanilla item for recipes");
+                String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_not_vanilla");
+                player.sendMessage(message);
+                return;
             }
-        }*/
+        }
 
         char[] chars = "abcdefghi".toCharArray();
         ShapedRecipe shapedRecipe = new ShapedRecipe(robbingItem.getNamespacedKey(), robbingItem.getItemStack());
@@ -238,7 +240,8 @@ public class RecipeMenu {
         }
 
         robbingItem.updateShapedRecipe(shapedRecipe);
-        //TODO: add to messages
-        player.sendMessage("Recipe updated!");
+
+        String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_updated");
+        player.sendMessage(message);
     }
 }

@@ -39,6 +39,12 @@ public class RobbingCommand extends BaseCommand {
         help.showHelp();
     }
 
+    @Subcommand("test")
+    @CommandPermission("robbing.admin")
+    public void onTest(Player player) {
+        player.sendMessage(messagesProvider.getMessage("general.deny_region"));
+    }
+
     @Subcommand("menu")
     @CommandPermission("robbing.admin")
     public void onGui(Player player) {
@@ -57,8 +63,8 @@ public class RobbingCommand extends BaseCommand {
             return;
 
         if(!RobbingBlock.isRobbingBlock(target)) {
-            //TODO: add to messages
-            sender.sendMessage("You have to look a safe to use this command");
+            String message = messagesProvider.getMessage("general.not_looking_safe");
+            sender.sendMessage(message);
             return;
         }
 
@@ -66,19 +72,21 @@ public class RobbingCommand extends BaseCommand {
         SafeController safeController = new SafeController();
 
         if(SafeModel.isLocked(safe)) {
-            //TODO: add to messages
-            sender.sendMessage("Safe already locked");
+            String message = messagesProvider.getMessage("general.already_locked");
+            sender.sendMessage(message);
             return;
         }
 
         if(!pin.matches("^[1-9]\\d{3}$")) {
-            //TODO: add to messages
-            sender.sendMessage("Invalid pin, the pin must be a 4 length digits");
+            String message = messagesProvider.getMessage("general.invalid_pin");
+            sender.sendMessage(message);
             return;
         }
 
-        //TODO: add to messages
-        sender.sendMessage("Safe successfully locked");
+        String message = messagesProvider.getMessage("general.successfully_locked");
+        sender.sendMessage(message);
+
+        assert safe != null;
         safeController.lock(safe, pin);
     }
 
@@ -94,8 +102,8 @@ public class RobbingCommand extends BaseCommand {
             return;
 
         if(!RobbingBlock.isRobbingBlock(target)) {
-            //TODO: add to messages
-            sender.sendMessage("You have to look a safe to use this command");
+            String message = messagesProvider.getMessage("general.not_looking_safe");
+            sender.sendMessage(message);
             return;
         }
 
@@ -105,25 +113,26 @@ public class RobbingCommand extends BaseCommand {
         SafeController safeController = new SafeController();
 
         if(!SafeModel.isLocked(safe)) {
-            //TODO: add to messages
-            sender.sendMessage("Safe already unlocked");
+            String message = messagesProvider.getMessage("general.already_unlocked");
+            sender.sendMessage(message);
             return;
         }
 
         if(!pin.matches("^[1-9]\\d{3}$")) {
-            //TODO: add to messages
-            sender.sendMessage("Invalid pin, the pin must be a 4 length digits");
+            String message = messagesProvider.getMessage("general.invalid_pin");
+            sender.sendMessage(message);
             return;
         }
 
         if(safeModel.getPin().equals(new SafePin(pin))) {
-            //TODO: add to messages
-            sender.sendMessage("Safe successfully unlocked");
+            String message = messagesProvider.getMessage("general.successfully_unlocked");
+            sender.sendMessage(message);
+            assert safe != null;
             safeController.unlock(safe);
         }
         else {
-            //TODO: add to messages
-            sender.sendMessage("Wrong pin");
+            String message = messagesProvider.getMessage("general.wrong_pin");
+            sender.sendMessage(message);
         }
     }
 

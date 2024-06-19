@@ -13,6 +13,7 @@ import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class HandcuffingFeature extends Feature {
     }
 
     @Override
-    protected String getID() {
+    protected @NotNull String getID() {
         return "handcuffing";
     }
 }

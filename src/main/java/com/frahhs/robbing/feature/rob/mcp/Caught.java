@@ -1,14 +1,20 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.feature.Model;
+import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
+import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
  * Model class representing the caught action.
  */
-public class Caught {
+public class Caught  extends Model {
     protected Caught() {}
 
     /**
@@ -42,16 +48,29 @@ public class Caught {
     public static void setCooldown(Player robber, int time) {
         CaughtProvider provider = new CaughtProvider();
 
-        new Thread(() -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Robbing.getPlugin(Robbing.class), () -> {
+            for(int i = time*10; i > 0; i--) {
+                try {
+                    String message = Robbing.getInstance().getMessagesProvider().getMessage("robbing.caught_actionbar_cooldown");
+                    float resTime = ((float)(i - 1)) / 10 ;
+                    robber.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message.replace("{time}", Float.toString(resTime))));
+                    Thread.sleep(100L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        Bukkit.getScheduler().runTaskAsynchronously(Robbing.getPlugin(Robbing.class), () -> {
             try {
                 Cooldown cooldown = new Cooldown(System.currentTimeMillis(), time);
                 provider.saveCooldown(robber, cooldown);
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(robber.getPlayer());
             } catch(InterruptedException e) {
-                System.out.println(e.getMessage());
+                Robbing.getRobbingLogger().error("Error handling caught cooldown for %s, %s", robber.getName(), e);
             }
-        }).start();
+        });
     }
 
     /**

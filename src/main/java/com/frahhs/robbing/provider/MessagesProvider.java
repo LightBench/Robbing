@@ -1,15 +1,17 @@
 package com.frahhs.robbing.provider;
 
 import com.frahhs.robbing.Robbing;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -60,26 +62,6 @@ public class MessagesProvider {
      * Retrieves a localized message for the given language and key.
      *
      * @param key The key of the message to retrieve.
-     * @return The localized message, or null if not found.
-     */
-    public String getMessage(String key) {
-        FileConfiguration config = languageConfigs.get(lang);
-        if (config == null) {
-            Robbing.getRobbingLogger().warning("Language files '%s' not found.", lang);
-            return null;
-        }
-
-        if(!config.contains(key))
-            Robbing.getRobbingLogger().error("The message path '%s' does not exist.", key);
-
-        String value = config.getString(key);
-        return String.format("%s%s", prefix, value).replace("&", "§");
-    }
-
-    /**
-     * Retrieves a localized message for the given language and key.
-     *
-     * @param key The key of the message to retrieve.
      * @param usePrefix If true the prefix will be added at the message head.
      * @return The localized message, or null if not found.
      */
@@ -90,14 +72,37 @@ public class MessagesProvider {
             return null;
         }
 
-        if(!config.contains(key))
-            Robbing.getRobbingLogger().error("The message path '%s' does not exist.", key);
+        String message = "";
 
-        String value = config.getString(key);
+        if(!config.contains(key)) {
+            FileConfiguration configEng = languageConfigs.get("en");
+            if(!configEng.contains(key)) {
+                Robbing.getRobbingLogger().error("The message path '%s' was not found, empty value used. Try to regen the lang folder.", key);
+            } else {
+                Robbing.getRobbingLogger().warning("The lang path '%s' does not exist for the language '%s', english used.", key, lang);
+                message = configEng.getString(key);
+            }
+        } else {
+            message = config.getString(key);
+        }
+
+        assert message != null;
+        message = message.replace("&", "§");
+
         if(usePrefix)
-            return String.format("%s%s", prefix, value);
+            return String.format("%s%s", prefix, message);
         else
-            return value;
+            return message;
+    }
+
+    /**
+     * Retrieves a localized message for the given language and key.
+     *
+     * @param key The key of the message to retrieve.
+     * @return The localized message, or null if not found.
+     */
+    public String getMessage(String key) {
+        return getMessage(key, true);
     }
 
     /**

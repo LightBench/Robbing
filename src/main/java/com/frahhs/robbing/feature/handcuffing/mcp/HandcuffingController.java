@@ -6,6 +6,7 @@ import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.robbing.util.Cooldown;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -167,7 +168,7 @@ public class HandcuffingController extends Controller {
         // Wait the delay time to use handcuffs again
         Handcuffing.setCooldown(handcuffer, delay + handcuffs_cd);
 
-        new Thread(() -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Robbing.getPlugin(Robbing.class), () -> {
             try {
                 for (int i = delay; i >= 1; i--) {
                     TextComponent time_to_escape_tc = new TextComponent(time_to_escape.replace("{time}", Integer.toString(i)));
@@ -190,9 +191,9 @@ public class HandcuffingController extends Controller {
                 handcuffer.spigot().sendMessage(ChatMessageType.ACTION_BAR, handcuffed_msg_tc);
 
                 putHandcuffs(handcuffer, handcuffed);
-            } catch (InterruptedException v) {
-                System.out.println(v.getMessage());
+            } catch (InterruptedException e) {
+                Robbing.getRobbingLogger().error("Error handling handcuff escape for %s from %s, %s", handcuffed.getName(), handcuffer.getName(), e);
             }
-        }).start();
+        });
     }
 }

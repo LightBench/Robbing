@@ -85,6 +85,11 @@ public class RobbingBlock extends Provider {
     }
 
     public PersistentDataContainer getPersistentDataContainer() {
+        if(armorStand == null) {
+            logger.error("Armor stand (safe skin) not found, probably you issued killall command losing all the active safes.");
+            throw new RuntimeException("Armor stand not found.");
+        }
+
         return armorStand.getPersistentDataContainer();
     }
 

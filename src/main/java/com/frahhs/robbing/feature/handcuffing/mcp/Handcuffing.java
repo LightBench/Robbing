@@ -4,6 +4,9 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
@@ -123,16 +126,16 @@ public class Handcuffing extends Model {
     public static void setCooldown(Player handcuffer, int time) {
         HandcuffingProvider provider = new HandcuffingProvider();
 
-        new Thread(() -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Robbing.getPlugin(Robbing.class), () -> {
             try {
                 Cooldown cooldown = new Cooldown(System.currentTimeMillis(), time);
                 provider.saveCooldown(handcuffer, cooldown);
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(handcuffer);
-            } catch (InterruptedException v) {
-                System.out.println(v.getMessage());
+            } catch (InterruptedException e) {
+                Robbing.getRobbingLogger().error("Error handling handcuffing cooldown for %s, %s", handcuffer.getName(), e);
             }
-        }).start();
+        });
     }
 
     /**

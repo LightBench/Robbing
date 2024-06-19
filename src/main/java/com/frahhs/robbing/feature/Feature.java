@@ -1,5 +1,7 @@
 package com.frahhs.robbing.feature;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Abstract class representing a feature in the plugin.
  */
@@ -30,5 +32,6 @@ public abstract class Feature {
      *
      * @return The ID of the feature.
      */
+    @NotNull
     protected abstract String getID();
 }

@@ -4,6 +4,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
 import com.frahhs.robbing.feature.kidnapping.listener.KidnappingListener;
+import org.jetbrains.annotations.NotNull;
 
 public class KidnappingFeature extends Feature {
     private final Robbing plugin;
@@ -33,7 +34,7 @@ public class KidnappingFeature extends Feature {
     }
 
     @Override
-    protected String getID() {
+    protected @NotNull String getID() {
         return "kidnapping";
     }
 }

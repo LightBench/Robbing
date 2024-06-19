@@ -150,7 +150,6 @@ public abstract class RobbingItem {
 
     /**
      * Abstract method to determine if the custom robbing item is craftable.
-     * TODO: make customizable
      */
     public boolean isCraftable() {
         return getDefaultShapedRecipe() != null;

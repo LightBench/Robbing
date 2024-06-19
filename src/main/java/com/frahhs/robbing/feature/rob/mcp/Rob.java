@@ -6,6 +6,7 @@ import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -124,16 +125,16 @@ public class Rob extends Model {
     public static void setCooldown(Player handcuffer, int time) {
         RobProvider provider = new RobProvider();
 
-        new Thread(() -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Robbing.getPlugin(Robbing.class), () -> {
             try {
                 Cooldown cooldown = new Cooldown(System.currentTimeMillis(), time);
                 provider.saveCooldown(handcuffer, cooldown);
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(handcuffer.getPlayer());
             } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+                Robbing.getRobbingLogger().error("Error handling robbing cooldown for %s, %s", handcuffer.getName(), e);
             }
-        }).start();
+        });
     }
 
     /**
