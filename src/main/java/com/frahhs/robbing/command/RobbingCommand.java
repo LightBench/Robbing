@@ -23,7 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.checkerframework.common.value.qual.IntRange;
 
 @CommandAlias("robbing|rb")
-@Description("Some ACF Command")
+@Description("Robbing main command")
 public class RobbingCommand extends BaseCommand {
     private Robbing plugin;
     MessagesProvider messagesProvider;
@@ -35,18 +35,21 @@ public class RobbingCommand extends BaseCommand {
 
     @Default
     @CommandPermission("robbing.help")
+    @Description("Show all the commands.")
     public void onRobbing(Player player, CommandHelp help) {
         help.showHelp();
     }
 
     @Subcommand("menu")
     @CommandPermission("robbing.admin")
+    @Description("Show the menu to manage the plugin settings.")
     public void onGui(Player player) {
         DashboardMenu.open(player, plugin);
     }
 
     @Subcommand("lock")
     @CommandPermission("robbing.lock")
+    @Description("Lock the looking safe.")
     public void onLock(CommandSender sender, String pin) {
         if(!(sender instanceof Player))
             return;
@@ -86,6 +89,7 @@ public class RobbingCommand extends BaseCommand {
 
     @Subcommand("unlock")
     @CommandPermission("robbing.unlock")
+    @Description("Unock the looking safe.")
     public void onUnlock(CommandSender sender, String pin) {
         if(!(sender instanceof Player))
             return;
@@ -142,6 +146,7 @@ public class RobbingCommand extends BaseCommand {
     @Subcommand("give")
     @CommandPermission("robbing.give")
     @CommandCompletion("* @RobbingItems 1|64")
+    @Description("give a Robbing item to a player.")
     public void onGive(CommandSender sender, OnlinePlayer player, @Single String item_name, @IntRange(from=1, to=64) @Default("1") int amount) {
         ItemManager itemManager = plugin.getItemsManager();
 

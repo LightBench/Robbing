@@ -9,3 +9,24 @@ commands:
   robbing:
     description: Robbing main command.
     aliases: [ rb ]
+permissions:
+  robbing.rob:
+    description: Allows to rob
+  robbing.notrobable:
+    description: Make not possible to be robbed
+  robbing.catch:
+    description: Allows to catch robber
+  robbing.handcuff:
+    description: Allow to handcuff
+  robbing.uncuff:
+    description: Allow to remove handcuffs
+  robbing.notcuffable:
+    description: Make not possible to be hahndcuffed
+  robbing.kidnap:
+    description: Allow to kidnap
+  robbing.craft.*:
+    description: Allow to craft all items
+  robbing.lockpick:
+    description: Allow to use the lockpick
+  robbing.use_safe:
+    description: Allow to use safes
