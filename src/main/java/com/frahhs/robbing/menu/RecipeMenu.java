@@ -4,6 +4,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
+import com.sun.tools.javac.jvm.Items;
 import de.themoep.inventorygui.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -32,9 +34,15 @@ public class RecipeMenu {
 
         for(RobbingItem item : Robbing.getInstance().getItemsManager().getRegisteredItems()) {
             if(item.isCraftable()) {
+                ItemStack itemStack = item.getItemStack();
+                ItemMeta meta = itemStack.getItemMeta();
+                assert meta != null;
+                meta.setLore(null);
+                itemStack.setItemMeta(meta);
+
                 group.addElement(new StaticGuiElement(
                         'e',
-                        item.getItemStack(),
+                        itemStack,
                         click -> {
                             openSpecificRecipe(item, player, plugin);
                             return true;
