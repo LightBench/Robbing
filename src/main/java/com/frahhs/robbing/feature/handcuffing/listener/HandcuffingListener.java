@@ -47,7 +47,7 @@ public class HandcuffingListener extends RobbingListener {
             return;
 
         // Check if player have permissions
-        if(! handcuffer.hasPermission("robbing.cuff") ) {
+        if(! handcuffer.hasPermission("robbing.handcuff") ) {
             message = messages.getMessage("general.no_permission_item");
             handcuffer.sendMessage(message);
             return;

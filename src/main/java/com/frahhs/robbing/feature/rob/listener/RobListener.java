@@ -42,10 +42,6 @@ public class RobListener extends RobbingListener {
         if(!config.getBoolean("rob.enabled"))
             return;
 
-        // Check if player have permissions
-        if(!e.getPlayer().hasPermission("robbing.steal"))
-            return;
-
         // Check if player is using main hand
         if(e.getHand() == EquipmentSlot.HAND)
             return;
@@ -54,9 +50,19 @@ public class RobListener extends RobbingListener {
         if(!(e.getRightClicked() instanceof Player))
             return;
 
-        // Check if target have not stealable permissions
-        if(e.getRightClicked().hasPermission("robbing.notstealable"))
+        // Check if player have permissions
+        if(!e.getPlayer().hasPermission("robbing.rob")) {
+            String message = messages.getMessage("general.no_permissions");
+            e.getPlayer().sendMessage(message);
             return;
+        }
+
+        // Check if target have not stealable permissions
+        if(e.getRightClicked().hasPermission("robbing.notrobable")) {
+            String message = messages.getMessage("general.no_permissions");
+            e.getPlayer().sendMessage(message);
+            return;
+        }
 
         // Check if target is an NPC
         if(!config.getBoolean("rob.NPC-rob"))

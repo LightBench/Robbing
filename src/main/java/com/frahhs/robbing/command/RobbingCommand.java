@@ -39,12 +39,6 @@ public class RobbingCommand extends BaseCommand {
         help.showHelp();
     }
 
-    @Subcommand("test")
-    @CommandPermission("robbing.admin")
-    public void onTest(Player player) {
-        player.sendMessage(messagesProvider.getMessage("general.deny_region"));
-    }
-
     @Subcommand("menu")
     @CommandPermission("robbing.admin")
     public void onGui(Player player) {

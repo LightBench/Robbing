@@ -43,6 +43,12 @@ public class SafeListener extends RobbingListener {
         if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
             return;
 
+        if(!e.getPlayer().hasPermission("robbing.use_safe")) {
+            String message = messages.getMessage("general.no_permissions");
+            e.getPlayer().sendMessage(message);
+            return;
+        }
+
         ItemStack itemInMainHand = e.getPlayer().getInventory().getItemInMainHand();
         ItemStack lockpickItem = itemManager.get(RobbingMaterial.LOCKPICK).getItemStack();
         if(SafeModel.isLocked(e.getBlock()) && itemInMainHand.isSimilar(lockpickItem))

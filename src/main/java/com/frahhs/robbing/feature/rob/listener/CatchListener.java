@@ -39,6 +39,12 @@ public class CatchListener extends RobbingListener {
         if(!damager.isSneaking())
             return;
 
+        if(!damager.hasPermission("robbing.catch")) {
+            String message = messages.getMessage("general.no_permissions");
+            damager.sendMessage(message);
+            return;
+        }
+
         // Do catching things
         caughtController.catchRobber(damaged, damager);
         e.setCancelled(true);

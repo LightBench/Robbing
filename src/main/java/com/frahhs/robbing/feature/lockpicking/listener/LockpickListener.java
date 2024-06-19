@@ -26,9 +26,10 @@ public class LockpickListener extends RobbingListener {
 
     @EventHandler
     public void lockpick(RobbingBlockInteractEvent e) {
-        if(! (e.getBlock().getRobbingMaterial() == RobbingMaterial.SAFE))
+        if(e.getBlock().getRobbingMaterial() != RobbingMaterial.SAFE)
             return;
 
+        assert e.getHand() != null;
         if(!e.getHand().equals(EquipmentSlot.HAND))
             return;
 
@@ -38,6 +39,12 @@ public class LockpickListener extends RobbingListener {
 
         if(!SafeModel.isLocked(e.getBlock()))
             return;
+
+        if(!e.getPlayer().hasPermission("robbing.lockpick")) {
+            String message = messages.getMessage("general.no_permissions_item");
+            e.getPlayer().sendMessage(message);
+            return;
+        }
 
         lockpickController.openGUI(e.getPlayer(), e.getBlock());
     }

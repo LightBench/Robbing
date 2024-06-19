@@ -50,9 +50,12 @@ public class KidnappingListener extends RobbingListener {
         if(e.getPlayer().getInventory().getItemInMainHand().isSimilar(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS_KEY).getItemStack()))
             return;
 
-        // Check if kidnapper have follow permissions
-        if(!e.getPlayer().hasPermission("robbing.follow"))
+        // Check if kidnapper have kidnap permissions
+        if(!e.getPlayer().hasPermission("robbing.kidnap")) {
+            String message = messages.getMessage("general.no_permissions");
+            e.getPlayer().sendMessage(message);
             return;
+        }
 
         Player kidnapper = e.getPlayer();
         Player kidnapped = (Player) e.getRightClicked();
