@@ -45,7 +45,7 @@ public abstract class RobbingItem {
         assert meta != null;
 
         // Display name
-        meta.setDisplayName(ChatColor.WHITE + messagesProvider.getMessage(getName() + ".name", false));
+        meta.setDisplayName(ChatColor.WHITE + messagesProvider.getMessage("items_name."  + getName(), false));
 
         // Lore
         if(getLore() != null) {

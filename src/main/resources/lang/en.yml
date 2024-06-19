@@ -47,62 +47,26 @@ lockpicking:
   failed: "You failed to lockpick that safe."
   success: "Safe successfully lockpicked."
 
-handcuffs:
-  name: "Handcuffs"
-
-handcuffs_key:
-  name: "Handcuffs Key"
-
-lockpick:
-  name: "Lockpick"
-
-safe:
-  name: "Safe"
-
-panel_number_0:
-  name: "0"
-
-panel_number_1:
-  name: "1"
-
-panel_number_2:
-  name: "2"
-
-panel_number_3:
-  name: "3"
-
-panel_number_4:
-  name: "4"
-
-panel_number_5:
-  name: "5"
-
-panel_number_6:
-  name: "6"
-
-panel_number_7:
-  name: "7"
-
-panel_number_8:
-  name: "8"
-
-panel_number_9:
-  name: "9"
-
-panel_number_cancel:
-  name: "Cancel"
-
-panel_number_check:
-  name: "Check"
-
-cylinder:
-  name: "Cylinder"
-
-cylinder_wrong:
-  name: "Wrong cylinder"
-
-cylinder_correct:
-  name: "Correct cylinder"
+items_name:
+  handcuffs: "Handcuffs"
+  handcuffs_key: "Handcuffs Key"
+  lockpick: "Lockpick"
+  safe: "Safe"
+  panel_number_0: "0"
+  panel_number_1: "1"
+  panel_number_2: "2"
+  panel_number_3: "3"
+  panel_number_4: "4"
+  panel_number_5: "5"
+  panel_number_6: "6"
+  panel_number_7: "7"
+  panel_number_8: "8"
+  panel_number_9: "9"
+  panel_number_cancel: "Cancel"
+  panel_number_check: "Check"
+  cylinder: "Cylinder"
+  cylinder_wrong: "Wrong cylinder"
+  cylinder_correct: "Correct cylinder"
 
 commands:
   reload: "&2Robbing reloaded!"

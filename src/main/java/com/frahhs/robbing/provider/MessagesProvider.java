@@ -101,22 +101,22 @@ public class MessagesProvider {
     }
 
     /**
-     * Loads language configuration files from the plugin's 'messages' folder.
+     * Loads language configuration files from the plugin's 'lang' folder.
      */
     private void loadLanguageFiles() {
-        File messagesFolder = new File(plugin.getDataFolder(), "messages");
+        File messagesFolder = new File(plugin.getDataFolder(), "lang");
         if (!messagesFolder.exists()) {
             messagesFolder.mkdirs();
         }
 
         // Retrieve all file names inside the messages folder
-        List<String> languagesYMLFileName = new ArrayList<>(getResources("messages"));
+        List<String> languagesYMLFileName = new ArrayList<>(getResources("lang"));
 
         // Save lang files
         for (String curYML : languagesYMLFileName) {
-            File curYMLFile = new File(Robbing.getInstance().getDataFolder(), "messages/" + curYML);
+            File curYMLFile = new File(Robbing.getInstance().getDataFolder(), "lang/" + curYML);
             if (!curYMLFile.exists())
-                Robbing.getInstance().saveResource("messages/" + curYML, false);
+                Robbing.getInstance().saveResource("lang/" + curYML, false);
         }
 
         // Load YAML files from messages folder
