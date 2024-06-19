@@ -14,7 +14,7 @@ public class HandcuffsKey extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getDefaultShapedRecipe() {
         ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
 
         shapedRecipe.shape(" I ", " I ", " I ");
@@ -24,18 +24,8 @@ public class HandcuffsKey extends RobbingItem {
     }
 
     @Override
-    public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "handcuffs_key");
-    }
-
-    @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.HANDCUFFS_KEY;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return configProvider.getBoolean("handcuffing.enable-crafting.handcuffs_key");
     }
 
     @Override

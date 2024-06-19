@@ -1,5 +1,6 @@
 package com.frahhs.robbing.item;
 
+import com.frahhs.robbing.Robbing;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -43,6 +44,7 @@ public class ItemManager {
 
         rbItems.put(rbItem.getName(), rbItem);
         if (rbItem.isCraftable()) {
+            Robbing.getRobbingLogger().finer("Adding %s shaped recipe.", rbItem.getName());
             plugin.getServer().addRecipe(rbItem.getShapedRecipe());
         }
     }
@@ -53,6 +55,7 @@ public class ItemManager {
     public void dispose() {
         for (String key : rbItems.keySet()) {
             if (rbItems.get(key).isCraftable()) {
+                Robbing.getRobbingLogger().finer("Removing %s shaped recipe.", rbItems.get(key).getName());
                 plugin.getServer().removeRecipe(rbItems.get(key).getNamespacedKey());
             }
         }
@@ -108,6 +111,9 @@ public class ItemManager {
      * @return True if the ItemStack is registered, otherwise false.
      */
     public boolean isRegistered(ItemStack itemStack) {
+        if(itemStack == null)
+            return false;
+
         ItemStack item = clean(itemStack);
 
         for (RobbingItem curItem : rbItems.values()) {

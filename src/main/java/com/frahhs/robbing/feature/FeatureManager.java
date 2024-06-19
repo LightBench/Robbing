@@ -50,6 +50,7 @@ public class FeatureManager {
     public void enableFeatures() {
         try {
             for (Feature feature : features.values()) {
+                Robbing.getRobbingLogger().finer("Enabling %s feature", feature.getID());
                 feature.onEnable();
             }
         } catch (Error e) {
@@ -63,10 +64,11 @@ public class FeatureManager {
     public void disableFeatures() {
         try {
             for (Feature feature : features.values()) {
+                Robbing.getRobbingLogger().finer("Disabling %s feature", feature.getID());
                 feature.onDisable();
             }
         } catch (Exception e) {
-            Robbing.getRobbingLogger().warning("Error while disabling a feature.\nStackTrace: \n%s", e.getMessage());
+            Robbing.getRobbingLogger().error("Error while disabling a feature.\nStackTrace: \n%s", e.getMessage());
         }
     }
 }

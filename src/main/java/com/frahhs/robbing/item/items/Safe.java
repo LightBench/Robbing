@@ -18,23 +18,22 @@ public class Safe extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
-        return null;
-    }
+    public ShapedRecipe getDefaultShapedRecipe() {
+        ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
 
-    @Override
-    public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "Safe");
+        shapedRecipe.shape("III", "ICI", "III");
+        shapedRecipe.setIngredient('C', Material.CHEST);
+        shapedRecipe.setIngredient('I', Material.IRON_BLOCK);
+
+        shapedRecipe.getShape();
+        shapedRecipe.getIngredientMap();
+
+        return shapedRecipe;
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.SAFE;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return false;
     }
 
     @Override

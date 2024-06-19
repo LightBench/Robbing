@@ -72,6 +72,7 @@ public class RobbingDatabase {
         // Setup tables
         handcuffingTable();
         blocksPlacedTable();
+        recipeTable();
     }
 
     /**
@@ -146,7 +147,7 @@ public class RobbingDatabase {
     }
 
     /**
-     * Creates the handcuffing table if it does not exist.
+     * Creates the block placed table if it does not exist.
      */
     public void blocksPlacedTable() {
         Statement stmt;
@@ -164,6 +165,29 @@ public class RobbingDatabase {
                          "blockX int NOT NULL,"                      +
                          "blockY int NOT NULL,"                      +
                          "blockZ int NOT NULL)"                      ;
+            stmt.executeUpdate(sql);
+            dbConnection.commit();
+            stmt.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
+    /**
+     * Creates the recipes table if it does not exist.
+     */
+    public void recipeTable() {
+        Statement stmt;
+
+        // if table safes not exist create it
+        try {
+            stmt = dbConnection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS ShapedRecipe (" +
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
+                         "item TEXT UNIQUE,"                                +
+                         "pattern TEXT,"                             +
+                         "ingredients TEXT)"                         ;
+
             stmt.executeUpdate(sql);
             dbConnection.commit();
             stmt.close();

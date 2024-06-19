@@ -14,23 +14,13 @@ public class PanelNumberCancel extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getDefaultShapedRecipe() {
         return null;
-    }
-
-    @Override
-    public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "PanelNumberCancel");
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.PANEL_NUMBER_CANCEL;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return false;
     }
 
     @Override

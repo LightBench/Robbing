@@ -14,23 +14,13 @@ public class CylinderWrong extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getDefaultShapedRecipe() {
         return null;
-    }
-
-    @Override
-    public @NotNull NamespacedKey getNamespacedKey()  {
-        return new NamespacedKey(plugin, "CylinderWrong");
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.CYLINDER_WRONG;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return false;
     }
 
     @Override

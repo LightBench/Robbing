@@ -14,7 +14,7 @@ public class Lockpick extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getDefaultShapedRecipe() {
         ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
 
         shapedRecipe.shape(" I ", " S ", " I ");
@@ -25,18 +25,8 @@ public class Lockpick extends RobbingItem {
     }
 
     @Override
-    public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "Lockpick");
-    }
-
-    @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.LOCKPICK;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return configProvider.getBoolean("lockpicking.enable-crafting.lockpick");
     }
 
     @Override

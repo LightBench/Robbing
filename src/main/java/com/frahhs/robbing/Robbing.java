@@ -75,11 +75,14 @@ public final class Robbing extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Disable database
-        robbingDatabase.disable();
-
         // Disable features
         featureManager.disableFeatures();
+
+        // Dispose items
+        itemManager.dispose();
+
+        // Disable database
+        robbingDatabase.disable();
 
         // Disable bags
         bagManager.disableBags();

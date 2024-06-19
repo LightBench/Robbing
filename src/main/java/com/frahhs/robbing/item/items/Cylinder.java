@@ -14,23 +14,13 @@ public class Cylinder extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getDefaultShapedRecipe() {
         return null;
-    }
-
-    @Override
-    public @NotNull NamespacedKey getNamespacedKey()  {
-        return new NamespacedKey(plugin, "Cylinder");
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.CYLINDER;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return false;
     }
 
     @Override

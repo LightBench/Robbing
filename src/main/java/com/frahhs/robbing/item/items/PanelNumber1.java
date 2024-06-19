@@ -14,23 +14,13 @@ public class PanelNumber1 extends RobbingItem {
     }
 
     @Override
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getDefaultShapedRecipe() {
         return null;
-    }
-
-    @Override
-    public @NotNull NamespacedKey getNamespacedKey() {
-        return new NamespacedKey(plugin, "PanelNumber1");
     }
 
     @Override
     public @NotNull RobbingMaterial getRobbingMaterial() {
         return RobbingMaterial.PANEL_NUMBER_1;
-    }
-
-    @Override
-    public boolean isCraftable() {
-        return false;
     }
 
     @Override

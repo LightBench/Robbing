@@ -6,14 +6,16 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafePin;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
+import com.frahhs.robbing.menu.DashboardMenu;
+import com.frahhs.robbing.menu.RecipeMenu;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.provider.MessagesProvider;
+import de.themoep.inventorygui.InventoryGui;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,6 +37,12 @@ public class RobbingCommand extends BaseCommand {
     @CommandPermission("robbing.help")
     public void onRobbing(Player player, CommandHelp help) {
         help.showHelp();
+    }
+
+    @Subcommand("menu")
+    @CommandPermission("robbing.admin")
+    public void onGui(Player player) {
+        DashboardMenu.open(player, plugin);
     }
 
     @Subcommand("lock")
