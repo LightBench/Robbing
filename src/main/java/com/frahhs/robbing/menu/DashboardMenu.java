@@ -2,7 +2,6 @@ package com.frahhs.robbing.menu;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.RobbingMaterial;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;

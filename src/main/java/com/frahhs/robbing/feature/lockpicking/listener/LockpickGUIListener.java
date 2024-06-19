@@ -2,11 +2,9 @@ package com.frahhs.robbing.feature.lockpicking.listener;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
-import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.lockpicking.event.LockpickEvent;
 import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
-import com.frahhs.robbing.feature.safe.mcp.SafeUnlockGUI;
 import com.frahhs.robbing.gui.GUIType;
 import com.frahhs.robbing.gui.event.GUIClickEvent;
 import com.frahhs.robbing.item.ItemManager;
@@ -18,8 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-
-import static com.frahhs.robbing.feature.safe.mcp.SafeUnlockGUI.*;
 
 public class LockpickGUIListener extends RobbingListener {
     private final ItemManager itemManager;

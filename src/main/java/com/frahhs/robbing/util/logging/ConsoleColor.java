@@ -1,11 +1,6 @@
 package com.frahhs.robbing.util.logging;
 
-import com.google.common.collect.Maps;
-import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.regex.Pattern;
 
 public enum ConsoleColor {
     RESET("[0m"),

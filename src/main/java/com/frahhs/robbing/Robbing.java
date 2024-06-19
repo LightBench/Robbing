@@ -16,8 +16,8 @@ import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.items.*;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
-import com.frahhs.robbing.util.logging.RobbingLogger;
 import com.frahhs.robbing.util.bag.BagManager;
+import com.frahhs.robbing.util.logging.RobbingLogger;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.plugin.java.JavaPlugin;
 

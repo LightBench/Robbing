@@ -4,7 +4,6 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.RobbingListener;
 import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
 import com.frahhs.robbing.feature.lockpicking.mcp.LockpickController;
-import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.item.ItemManager;

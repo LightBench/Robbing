@@ -5,7 +5,6 @@ import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.util.ItemUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

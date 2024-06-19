@@ -2,8 +2,6 @@ package com.frahhs.robbing.feature.rob.mcp;
 
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
-import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.util.Cooldown;
 import net.md_5.bungee.api.ChatMessageType;

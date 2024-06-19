@@ -1,13 +1,10 @@
 package com.frahhs.robbing.feature.handcuffing.bag;
 
-import com.frahhs.robbing.util.Cooldown;
 import com.frahhs.robbing.util.bag.Bag;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Bag to store handcuffed now player to avoid the kidnap in the same action of handcuff.

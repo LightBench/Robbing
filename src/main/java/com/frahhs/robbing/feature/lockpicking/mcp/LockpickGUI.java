@@ -5,15 +5,10 @@ import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.gui.GUI;
 import com.frahhs.robbing.gui.GUIType;
 import com.frahhs.robbing.item.RobbingMaterial;
-import com.frahhs.robbing.item.items.Cylinder;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class LockpickGUI implements GUI {

@@ -1,7 +1,6 @@
 package com.frahhs.robbing.gui;
 
 import com.frahhs.robbing.RobbingListener;
-import com.frahhs.robbing.feature.rob.event.StartRobbingEvent;
 import com.frahhs.robbing.gui.event.GUIClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

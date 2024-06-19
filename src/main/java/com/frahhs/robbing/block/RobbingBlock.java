@@ -21,7 +21,9 @@ import org.bukkit.scheduler.BukkitTask;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Represents a block used in the robbing feature.

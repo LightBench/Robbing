@@ -1,7 +1,6 @@
 package com.frahhs.robbing.gui.event;
 
 import com.frahhs.robbing.gui.GUI;
-import com.frahhs.robbing.gui.GUIType;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
