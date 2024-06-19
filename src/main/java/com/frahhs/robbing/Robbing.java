@@ -49,7 +49,7 @@ public final class Robbing extends JavaPlugin {
 
         // Enable logger
         robbingLogger = new RobbingLogger(this);
-        robbingLogger.setLevel(Level.FINEST);
+        robbingLogger.setLevel(Level.INFO);
 
         // Enable managers
         configProvider = new ConfigProvider(this);
