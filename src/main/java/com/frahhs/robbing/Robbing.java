@@ -19,6 +19,10 @@ import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.util.logging.RobbingLogger;
 import com.google.common.collect.ImmutableList;
+import org.bstats.MetricsBase;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.CustomChart;
+import org.bstats.charts.SimplePie;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -67,6 +71,12 @@ public final class Robbing extends JavaPlugin {
         registerEvents();
         registerItems();
         registerFeatures();
+
+        int pluginId = 22346; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
+
+        // Optional: Add custom charts
+        metrics.addCustomChart(new SimplePie("language", () -> configProvider.getString("language")));
 
         // Disable plugin if is disabled in the config
         if(!configProvider.getBoolean("enabled"))

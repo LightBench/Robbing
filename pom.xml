@@ -42,6 +42,11 @@
                             <pattern>co.aikar.locales</pattern>
                             <shadedPattern>com.locales</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <!-- Replace this with your package! -->
+                            <shadedPattern>com.frahhs.metric</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -51,7 +56,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>C:\Users\franc\Workspace\robbing-org\server\plugins</outputDirectory>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
@@ -95,6 +99,12 @@
             <artifactId>spigot-api</artifactId>
             <version>1.19.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.2</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
