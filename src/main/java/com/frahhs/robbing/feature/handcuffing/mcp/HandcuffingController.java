@@ -88,6 +88,10 @@ public class HandcuffingController extends Controller {
      */
     public void removeHandcuffs(Player handcuffed, boolean silent) {
         logger.fine("removing handcuffs on %s", handcuffed.getName());
+
+        if(!Handcuffing.isHandcuffed(handcuffed))
+            return;
+
         Handcuffing handcuffing = Handcuffing.getFromHandcuffed(handcuffed);
         final Player handcuffer = handcuffing.getHandcuffer();
 

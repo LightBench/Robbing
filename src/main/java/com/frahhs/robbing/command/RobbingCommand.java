@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
@@ -53,8 +54,18 @@ public class RobbingCommand extends BaseCommand {
 
         HandcuffingController controller = new HandcuffingController();
         if(value) {
+            if(Handcuffing.isHandcuffed(player.getPlayer())) {
+                String message = messagesProvider.getMessage("handcuffing.already_handcuffed");
+                sender.sendMessage(message);
+                return;
+            }
             controller.putHandcuffs((Player) sender, player.getPlayer());
         } else {
+            if(!Handcuffing.isHandcuffed(player.getPlayer())) {
+                String message = messagesProvider.getMessage("handcuffing.not_handcuffed");
+                sender.sendMessage(message);
+                return;
+            }
             controller.removeHandcuffs(player.getPlayer());
         }
     }

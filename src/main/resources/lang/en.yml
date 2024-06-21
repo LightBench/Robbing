@@ -27,6 +27,7 @@ handcuffing:
   not_handcuffed: "The player is not handcuffed"
   handcuffs_healthbar_title: "Handcuffs Health - Shift to weaken"
   broken_handcuffs: "You broke the handcuffs!"
+  already_handcuffed: "player already handcuffed"
 
 follow:
   make_follow_cuffed: "{target} is following you"
