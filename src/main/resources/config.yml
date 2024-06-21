@@ -136,11 +136,6 @@ handcuffing:
   # Set a cooldown before using handcuffs again (in seconds).
   cooldown: 5
 
-  # Crafting of custom items related to the current feature.
-  enable-crafting:
-    handcuffs: true
-    handcuffs_key: true
-
   # Make it possible to escape from handcuffing.
   # Handcuffed players have the "delay-handcuffing" time to escape from the handcuffer within the "distance" block.
   # to avoid being handcuffed.
@@ -171,13 +166,8 @@ handcuffing:
 ############################################################
 
 lockpicking:
-
   # Whether the lock picking feature should be enabled or not.
   enabled: true
-
-  # Crafting of custom items related to the current feature.
-  enable-crafting:
-    lockpick: true
 
 
 ############################################################

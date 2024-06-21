@@ -8,7 +8,6 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
-import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.feature.safe.mcp.SafePin;
@@ -39,6 +38,13 @@ public class RobbingCommand extends BaseCommand {
     @Description("Show all the commands.")
     public void onRobbing(Player player, CommandHelp help) {
         help.showHelp();
+    }
+
+    @Subcommand("menu")
+    @CommandPermission("git robbing.admin")
+    @Description("Open a gui to change some settings.")
+    public void onMenu(Player player) {
+        DashboardMenu.open(player, plugin);
     }
 
     @Subcommand("handcuffs")
