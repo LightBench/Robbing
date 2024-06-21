@@ -4,6 +4,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.robbing.util.StringUtil;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
@@ -92,7 +93,7 @@ public class RecipeMenu {
                 "b      cs"
         };
 
-        InventoryGui gui = new InventoryGui(plugin, null, "Recipes (Page %page% of %pages%)", guiSetup);
+        InventoryGui gui = new InventoryGui(plugin, null,  StringUtil.capitalize(item.getName()).replace("_", " ") + " recipe", guiSetup);
         gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS_PANE)); // fill the empty slots with this
 
         ShapedRecipe shapedRecipe = item.getShapedRecipe();

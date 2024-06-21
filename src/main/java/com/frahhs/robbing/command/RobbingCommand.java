@@ -6,6 +6,8 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
+import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.feature.safe.mcp.SafePin;
@@ -38,11 +40,23 @@ public class RobbingCommand extends BaseCommand {
         help.showHelp();
     }
 
-    @Subcommand("menu")
+    @Subcommand("handcuffs")
     @CommandPermission("robbing.admin")
-    @Description("Show the menu to manage the plugin settings.")
-    public void onGui(Player player) {
-        DashboardMenu.open(player, plugin);
+    @CommandCompletion("* true|false")
+    @Description("Toggle handcuffs on a Player.")
+    public void onHandcuffs(CommandSender sender, OnlinePlayer player, boolean value) {
+        if(!(sender instanceof Player)) {
+            String message = messagesProvider.getMessage("commands.player_command");
+            sender.sendMessage(message);
+            return;
+        }
+
+        HandcuffingController controller = new HandcuffingController();
+        if(value) {
+            controller.putHandcuffs((Player) sender, player.getPlayer());
+        } else {
+            controller.removeHandcuffs(player.getPlayer());
+        }
     }
 
     @Subcommand("lock")

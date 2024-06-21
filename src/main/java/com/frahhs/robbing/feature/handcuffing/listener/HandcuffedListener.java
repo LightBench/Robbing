@@ -79,7 +79,7 @@ public class HandcuffedListener extends RobbingListener {
                 return;
         }
 
-        if(Handcuffing.isHandcuffed(player)) {
+        if(Handcuffing.isHandcuffed(player) &&!player.hasPermission("robbing.admin")) {
             e.setCancelled(true);
             String message = messages.getMessage("handcuffing.you_cant_when_cuffed");
             player.sendMessage(message);

@@ -83,3 +83,4 @@ commands:
   item_not_found: "{item} not found!"
   unknown: "&eUnknown or incomplete command!"
   no_permissions: "&eYou do not have permission to perform this command"
+  player_command: "Only player can use this command!"
