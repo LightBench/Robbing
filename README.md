@@ -24,7 +24,7 @@ Robbing is a plugin that adds a lot to your gameplay roleplay. It adds many diff
 
 This repository the source code for Robbing, but if you want to just use Robbing, you can get the plugin from here:
 
-* Spigot: https://www.spigotmc.org/resources/robbing-%E2%AD%95-roleplay-%E2%AD%95-custom-items-%E2%AD%90.117484/
+* Spigot: [Download](https://www.spigotmc.org/resources/robbing-%E2%AD%95-roleplay-%E2%AD%95-custom-items-%E2%AD%90.117484/)
 
 Contributing
 -----
