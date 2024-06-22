@@ -31,3 +31,7 @@ Contributing
 The best way to submit a change is to create a fork on GitHub, put your changes there, and then create a "pull request" on our repository.
 
 If you are planning to contribute please read the [Contributing](https://github.com/FrahHS/Robbing/blob/main/CONTRIBUTING.md) guidelines section.
+
+License
+-----
+This project is licensed under the terms of the Apache-2.0 license.
