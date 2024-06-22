@@ -8,7 +8,9 @@
 
 ---
 
-**Documentation**: <a href="https://robbingrp.gitbook.io/robbing" target="_blank">https://robbingrp.gitbook.io/robbing</a>
+**Discord**: <a href="https://discord.gg/Hh9zMQnWvW" target="_blank">https://discord.gg/Hh9zMQnWvW</a>
+
+**End-user documentation**: <a href="https://robbingrp.gitbook.io/robbing" target="_blank">https://robbingrp.gitbook.io/robbing</a>
 
 **Source Code**: <a href="https://github.com/FrahHS/Robbing" target="_blank">https://github.com/FrahHS/Robbing</a>
 
@@ -23,12 +25,6 @@ Robbing is a plugin that adds a lot to your gameplay roleplay. It adds many diff
 This repository the source code for Robbing, but if you want to just use Robbing, you can get the plugin from here:
 
 * Spigot: https://www.spigotmc.org/resources/robbing-%E2%AD%95-roleplay-%E2%AD%95-custom-items-%E2%AD%90.117484/
-
-Links
------
-
-* [Discord](https://discord.gg/Hh9zMQnWvW)
-* [End-user documentation](https://robbingrp.gitbook.io/robbing)
 
 Contributing
 -----
