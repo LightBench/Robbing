@@ -1,24 +1,24 @@
 #!/bin/bash
 
-# Cartella principale
+# Main folder
 RESOURCE_PACK_FOLDER="robbing-resource-pack"
 
-# File di input
+# Input file
 PACK_FORMAT_FILE="pack-format.yml"
 
-# Cartella di output
+# Output folder
 BUILD_FOLDER="build"
 
-# Crea la cartella di output se non esiste
+# Create the output folder if it doesn't exist
 mkdir -p "$BUILD_FOLDER"
 
-# Legge il file pack-format.yml riga per riga
+# Read the pack-format.yml file line by line
 while IFS=: read -r key value; do
-    # Rimuove gli spazi bianchi
+    # Trim whitespace
     key=$(echo $key | xargs)
     value=$(echo $value | xargs)
 
-    # Crea il file pack.mcmeta con il valore appropriato
+    # Create the pack.mcmeta file with the appropriate value
     cat <<EOL > "$RESOURCE_PACK_FOLDER/pack.mcmeta"
 {
     "pack": {
@@ -28,11 +28,11 @@ while IFS=: read -r key value; do
 }
 EOL
 
-    # Crea un archivio zip con il nome della key e include la cartella
+    # Create a zip archive with the key name and include the folder
     zip -r "${BUILD_FOLDER}/${key}.zip" "$RESOURCE_PACK_FOLDER"
 
-    # Rimuove il file pack.mcmeta dopo aver creato lo zip
+    # Remove the pack.mcmeta file after creating the zip
     rm "$RESOURCE_PACK_FOLDER/pack.mcmeta"
 done < "$PACK_FORMAT_FILE"
 
-echo "Archiviazione completata."
+echo "Archiving completed."
