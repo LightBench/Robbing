@@ -50,13 +50,13 @@ public final class Robbing extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        configProvider = new ConfigProvider(this);
 
         // Enable logger
         robbingLogger = new RobbingLogger(this);
         robbingLogger.setLevel(Level.INFO);
 
         // Enable managers
-        configProvider = new ConfigProvider(this);
         messagesProvider = new MessagesProvider(this);
         itemManager = new ItemManager(this);
         commandManager  = new PaperCommandManager(this);
