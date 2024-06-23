@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/light_gray_wool",
+    "overrides": [
+      { "predicate": {"custom_model_data": 5472}, "model": "robbing:item/cylinder"}
+    ]
+  }
+  

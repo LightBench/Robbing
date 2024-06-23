@@ -1,0 +1,29 @@
+{
+    "providers": [
+        {
+            "type": "space",
+            "advances":{
+                "\uF001":-8,
+                "\uF002":128
+            }
+        },
+        {
+            "file": "robbing:gui/safe.png",
+            "chars": [
+                "🚗"
+            ],
+            "height": 135,
+            "ascent": 13,
+            "type": "bitmap"
+        },
+        {
+            "file": "robbing:gui/lockpick.png",
+            "chars": [
+                "🧠"
+            ],
+            "height": 135,
+            "ascent": 13,
+            "type": "bitmap"
+        }
+    ]
+}
