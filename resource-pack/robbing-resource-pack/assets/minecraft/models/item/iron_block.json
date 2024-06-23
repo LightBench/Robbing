@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "minecraft:block/iron_block"
+  },
+  "overrides": [
+    { "predicate": {"custom_model_data": 5458}, "model": "robbing:item/safe"}
+  ]
+}

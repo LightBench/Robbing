@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/green_wool",
+  "overrides": [
+    { "predicate": {"custom_model_data": 5474}, "model": "robbing:item/correct_cylinder"}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "minecraft:item/stick"
+  },
+  "overrides": [
+    { "predicate": {"custom_model_data": 5456}, "model": "robbing:item/handcuffs"},
+    { "predicate": {"custom_model_data": 5457}, "model": "robbing:item/lockpick"},
+    { "predicate": {"custom_model_data": 5458}, "model": "robbing:item/handcuffs_key"},
+    { "predicate": {"custom_model_data": 5460}, "model": "robbing:item/panel_number_0"},
+    { "predicate": {"custom_model_data": 5461}, "model": "robbing:item/panel_number_1"},
+    { "predicate": {"custom_model_data": 5462}, "model": "robbing:item/panel_number_2"},
+    { "predicate": {"custom_model_data": 5463}, "model": "robbing:item/panel_number_3"},
+    { "predicate": {"custom_model_data": 5464}, "model": "robbing:item/panel_number_4"},
+    { "predicate": {"custom_model_data": 5465}, "model": "robbing:item/panel_number_5"},
+    { "predicate": {"custom_model_data": 5466}, "model": "robbing:item/panel_number_6"},
+    { "predicate": {"custom_model_data": 5467}, "model": "robbing:item/panel_number_7"},
+    { "predicate": {"custom_model_data": 5468}, "model": "robbing:item/panel_number_8"},
+    { "predicate": {"custom_model_data": 5469}, "model": "robbing:item/panel_number_9"},
+    { "predicate": {"custom_model_data": 5470}, "model": "robbing:item/panel_number_cancel"},
+    { "predicate": {"custom_model_data": 5471}, "model": "robbing:item/panel_number_check"}
+  ]
+}
