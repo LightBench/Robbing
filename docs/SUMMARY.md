@@ -1,0 +1,18 @@
+# Table of contents
+
+* [Intro](README.md)
+* [Getting Started](getting-started.md)
+* [Resource pack](resource-pack.md)
+* [Commands](commands.md)
+* [Region flags](region-flags.md)
+* [Rob](tutorial-theft/README.md)
+  * [Configuration](tutorial-theft/configuration.md)
+  * [Permissions](tutorial-theft/permissions.md)
+* [Handcuffs](tutorial-handcuffs/README.md)
+  * [Configuration](tutorial-handcuffs/configuration.md)
+  * [Permissions](tutorial-handcuffs/permissions.md)
+* [Safes](tutorial-safes/README.md)
+  * [Configuration](tutorial-safes/configuration.md)
+  * [Permissions](tutorial-safes/permissions.md)
+* [Permissions](permissions.md)
+* [Translation](translation.md)
