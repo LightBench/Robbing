@@ -5,7 +5,16 @@
     <em>Plugin for role play that adds theft mechanics to the gameplay</em>
 </p>
 <p align="center">
-
+    <a href="https://bstats.org/plugin/bukkit/Robbing2/22346" alt="bstats servers">
+        <img src="https://img.shields.io/bstats/servers/22346?color=5c769b&style=for-the-badge"/>
+    </a>
+    <a href="https://bstats.org/plugin/bukkit/Robbing2/22346" alt="bstats players">
+        <img src="https://img.shields.io/bstats/players/22346?color=5c769b&style=for-the-badge"/>
+    </a>
+    <a href="https://discord.gg/Hh9zMQnWvW" alt="Discord">
+        <img src="https://img.shields.io/discord/1023367722496700477?label=discord&style=for-the-badge&color=5c769b"/>
+    </a>
+</p>
 ---
 
 **Discord**: <a href="https://discord.gg/Hh9zMQnWvW" target="_blank">https://discord.gg/Hh9zMQnWvW</a>
