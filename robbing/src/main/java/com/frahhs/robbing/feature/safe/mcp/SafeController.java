@@ -85,22 +85,23 @@ public class SafeController extends Controller {
         NamespacedKey inventoryKey = new NamespacedKey(Robbing.getInstance(), "inventory");
         NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
 
-        if(safeModel.haveInventory())
-            container.set(inventoryKey, PersistentDataType.STRING, ItemUtil.toBase64(safeModel.getInventory().getContents()));
-        if(safeModel.havePin())
-            container.set(pinKey, PersistentDataType.STRING, safeModel.getPin().toString());
-
         List<String> lore = new ArrayList<>();
         if(SafeModel.isLocked(safe)) {
             lore.add(ChatColor.GRAY + "Status: " + ChatColor.RED + "Locked");
             meta.setLore(lore);
         } else {
+            safeModel.removeInventory();
             lore.add(ChatColor.GRAY + "Status: " + ChatColor.DARK_GREEN + "Free");
             meta.setLore(lore);
         }
 
+        if(safeModel.haveInventory())
+            container.set(inventoryKey, PersistentDataType.STRING, ItemUtil.toBase64(safeModel.getInventory().getContents()));
+        if(safeModel.havePin())
+            container.set(pinKey, PersistentDataType.STRING, safeModel.getPin().toString());
+
+
         item.setItemMeta(meta);
-        safeModel.removeInventory();
         player.getWorld().dropItemNaturally(safe.getLocation(), item);
     }
 

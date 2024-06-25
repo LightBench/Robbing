@@ -13,9 +13,11 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class SafeModel extends Model {
     RobbingBlock safe;
+    SafeInventoryProvider safeInventoryProvider;
 
     private SafeModel(RobbingBlock safe) {
         this.safe = safe;
+        this.safeInventoryProvider = new SafeInventoryProvider();
     }
 
     public SafeUnlockGUI getSafeUnlockGUI() {
@@ -23,9 +25,7 @@ public class SafeModel extends Model {
     }
 
     protected boolean haveInventory() {
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey inventoryKey = new NamespacedKey(plugin, "inventory");
-        return container.has(inventoryKey, PersistentDataType.STRING);
+        return safeInventoryProvider.getEntryByUUID(safe.getUniqueId().toString()) != null;
     }
 
     protected boolean havePin() {
@@ -44,12 +44,10 @@ public class SafeModel extends Model {
             safeInventory = new SafeInventory(safe);
             safeInventoryBag.getData().put(safe.getUniqueId(), safeInventory);
 
-            PersistentDataContainer container = safe.getPersistentDataContainer();
-            NamespacedKey inventoryKey = new NamespacedKey(Robbing.getInstance(), "inventory");
-
             // Handle Safe inventory
-            if(container.has(inventoryKey, PersistentDataType.STRING)) {
-                ItemStack[] content = ItemUtil.fromBase64(container.get(inventoryKey, PersistentDataType.STRING));
+            SafeInventoryProvider.SafeInventoryEntry safeInventoryEntry = safeInventoryProvider.getEntryByUUID(safe.getUniqueId().toString());
+            if(safeInventoryEntry != null) {
+                ItemStack[] content = ItemUtil.fromBase64(safeInventoryEntry.getInventory());
                 safeInventory.getInventory().setContents(content);
             }
         }
@@ -69,19 +67,23 @@ public class SafeModel extends Model {
         return new SafePin(pin);
     }
 
-    protected void saveInventory(Inventory inventory) {
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey inventoryKey = new NamespacedKey(plugin, "inventory");
-        container.set(inventoryKey, PersistentDataType.STRING, ItemUtil.toBase64(inventory.getContents()));
+    public void saveInventory(Inventory inventory) {
+        if(safeInventoryProvider.getEntryByUUID(safe.getUniqueId().toString()) == null) {
+            safeInventoryProvider.addEntry(safe.getUniqueId().toString(), ItemUtil.toBase64(inventory.getContents()));
+        } else {
+            safeInventoryProvider.updateEntry(safe.getUniqueId().toString(), ItemUtil.toBase64(inventory.getContents()));
+        }
     }
 
-    protected void savePin(String pin) {
+    public void savePin(String pin) {
         PersistentDataContainer container = safe.getPersistentDataContainer();
         NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
         container.set(pinKey, PersistentDataType.STRING, pin);
     }
 
     protected void removeInventory() {
+        safeInventoryProvider.removeEntry(safe.getUniqueId().toString());
+
         PersistentDataContainer container = safe.getPersistentDataContainer();
         NamespacedKey inventoryKey = new NamespacedKey(plugin, "inventory");
         container.remove(inventoryKey);

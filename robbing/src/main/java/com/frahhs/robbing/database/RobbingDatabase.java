@@ -73,6 +73,7 @@ public class RobbingDatabase {
         handcuffingTable();
         blocksPlacedTable();
         recipeTable();
+        safeInventoryTable();
     }
 
     /**
@@ -137,7 +138,7 @@ public class RobbingDatabase {
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"    +
                          "handcuffed CHAR(100) NOT NULL,"           +
                          "handcuffer CHAR(100) NOT NULL,"           +
-                         "timestamp DEFAULT CURRENT_TIMESTAMP)"            ;
+                         "timestamp DEFAULT CURRENT_TIMESTAMP)"     ;
             stmt.executeUpdate(sql);
             dbConnection.commit();
             stmt.close();
@@ -160,7 +161,7 @@ public class RobbingDatabase {
                          "timestamp DEFAULT CURRENT_TIMESTAMP,"      +
                          "placer CHAR(100),"                         +
                          "material CHAR(100) NOT NULL,"              +
-                         "armorStandUUID CHAR(100) NOT NULL,"        +
+                         "entityUUID CHAR(100) NOT NULL,"            +
                          "world CHAR(100) NOT NULL,"                 +
                          "blockX int NOT NULL,"                      +
                          "blockY int NOT NULL,"                      +
@@ -184,7 +185,7 @@ public class RobbingDatabase {
             stmt = dbConnection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS ShapedRecipe (" +
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"     +
-                         "item TEXT UNIQUE,"                                +
+                         "item TEXT UNIQUE,"                         +
                          "pattern TEXT,"                             +
                          "ingredients TEXT)"                         ;
 
@@ -193,6 +194,27 @@ public class RobbingDatabase {
             stmt.close();
         } catch ( Exception e ) {
             Robbing.getRobbingLogger().error("Error while creating ShapedRecipe table, %s", e);
+        }
+    }
+
+    /**
+     * Creates the safe inventories table if it does not exist.
+     */
+    public void safeInventoryTable() {
+        Statement stmt;
+
+        // if table safes not exist create it
+        try {
+            stmt = dbConnection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS safeInventory (" +
+                         "safeUUID CHAR(100) PRIMARY KEY,"            +
+                         "timestamp DEFAULT CURRENT_TIMESTAMP,"       +
+                         "inventory TEXT NOT NULL)"                   ;
+            stmt.executeUpdate(sql);
+            dbConnection.commit();
+            stmt.close();
+        } catch ( Exception e ) {
+            Robbing.getRobbingLogger().error("Error while creating blocksPlaced table, %s", e);
         }
     }
 }

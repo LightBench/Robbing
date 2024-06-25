@@ -11,10 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -30,10 +27,8 @@ import java.util.UUID;
  */
 public class RobbingBlock extends Provider {
     private final RobbingItem item;
-    private Entity armorStand;
+    private ItemDisplay itemDisplay;
     private Location location;
-
-    private static final Map<Location, Integer> activeTasks  = new HashMap<>();
 
     /**
      * Constructs a new RobbingBlock.
@@ -56,21 +51,21 @@ public class RobbingBlock extends Provider {
     }
 
     /**
-     * Retrieves the armor stand entity associated with this block.
+     * Retrieves the item display entity associated with this block.
      *
-     * @return The armor stand entity.
+     * @return ItemDisplay entity.
      */
-    protected Entity getArmorStand() {
-        return armorStand;
+    protected ItemDisplay getItemDisplay() {
+        return itemDisplay;
     }
 
     /**
-     * Sets the armor stand entity associated with this block.
+     * Sets the item display entity associated with this block.
      *
-     * @param armorStand The armor stand entity.
+     * @param itemDisplay The ItemDisplay.
      */
-    protected void setArmorStand(Entity armorStand) {
-        this.armorStand = armorStand;
+    protected void setItemDisplay(ItemDisplay itemDisplay) {
+        this.itemDisplay = itemDisplay;
     }
 
     /**
@@ -87,16 +82,16 @@ public class RobbingBlock extends Provider {
     }
 
     public PersistentDataContainer getPersistentDataContainer() {
-        if(armorStand == null) {
-            logger.error("Armor stand (safe skin) not found, probably you issued killall command losing all the active safes.");
-            throw new RuntimeException("Armor stand not found.");
+        if(itemDisplay == null) {
+            logger.error("Item Display (safe skin) not found, probably you issued killall command losing all the active safes.");
+            throw new RuntimeException("Item Display not found.");
         }
 
-        return armorStand.getPersistentDataContainer();
+        return itemDisplay.getPersistentDataContainer();
     }
 
     public UUID getUniqueId() {
-        return armorStand.getUniqueId();
+        return itemDisplay.getUniqueId();
     }
 
     /**
@@ -121,35 +116,18 @@ public class RobbingBlock extends Provider {
             direction = 270;
         }
 
-        location = location.getBlock().getLocation().add(0.5, 0, 0.5);
+        location = location.getBlock().getLocation().add(0.5, 0.5, 0.5);
         location.setYaw(direction + 180);
 
-        Location spawn_location = location.clone();
-        spawn_location.setY(-5);
-
         assert location.getWorld() != null;
-        final ArmorStand armorStand = location.getWorld().spawn(spawn_location, ArmorStand.class);
+        final ItemDisplay itemDisplay = location.getWorld().spawn(location, ItemDisplay.class);
 
-        armorStand.setMarker(true);
-        armorStand.setVisualFire(true);
-        armorStand.setInvisible(true);
+        itemDisplay.setItemStack(item.getItemStack());
+        itemDisplay.setBrightness(new Display.Brightness(15, 15));
+        setItemDisplay(itemDisplay);
 
-        assert armorStand.getEquipment() != null;
-        armorStand.getEquipment().setHelmet(item.getItemStack());
-        armorStand.teleport(location);
-        setArmorStand(armorStand);
-
-        // Teleport is not immediate, await before setting the block
-        Location finalLocation = location.clone();
 
         save(placer);
-
-        int taskId = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Robbing.getInstance(), () -> {
-            // Run after waiting for things to settle
-            finalLocation.getBlock().setType(Material.IRON_BLOCK);
-            activeTasks.remove(location);
-        }, 10);
-        activeTasks.put(location, taskId);
     }
 
     /**
@@ -158,21 +136,13 @@ public class RobbingBlock extends Provider {
     public void destroy() {
         RobbingBlock block = getFromLocation(location);
 
-        if (block == null) {
+        if(block == null)
             return;
-        }
 
-        if (block.getArmorStand() != null) {
-            block.getArmorStand().remove();
-        }
+        if(block.getItemDisplay() != null)
+            block.getItemDisplay().remove();
 
-        // Set AIR Material
-        if(activeTasks.containsKey(location))
-            for(BukkitTask cur : Bukkit.getScheduler().getPendingTasks())
-                if(cur.getTaskId() == activeTasks.get(location))
-                    cur.cancel();
-        else
-            block.getLocation().getBlock().setType(Material.AIR);
+        block.getLocation().getBlock().setType(Material.AIR);
 
         remove();
     }
@@ -192,16 +162,16 @@ public class RobbingBlock extends Provider {
      * @param placer The player who placed the block.
      */
     private void save(Player placer) {
-        if (armorStand == null) {
+        if (itemDisplay == null) {
             throw new RuntimeException("Tried to save a not placed Robbing block!");
         }
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (placer, material, armorStandUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ps = dbConnection.prepareStatement("INSERT INTO BlocksPlaced (placer, material, entityUUID, world, blockX, blockY, blockZ) VALUES (?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, placer.getUniqueId().toString());
             ps.setString(2, item.getRobbingMaterial().toString());
-            ps.setString(3, armorStand.getUniqueId().toString());
+            ps.setString(3, itemDisplay.getUniqueId().toString());
             ps.setString(4, location.getWorld().getName());
             ps.setInt(5, location.getBlockX());
             ps.setInt(6, location.getBlockY());
@@ -290,18 +260,18 @@ public class RobbingBlock extends Provider {
     }
 
     /**
-     * Checks if an armor stand corresponds to a RobbingBlock.
+     * Checks if an item display corresponds to a RobbingBlock.
      *
-     * @param armorStand The armor stand to check.
-     * @return True if the armor stand corresponds to a RobbingBlock, false otherwise.
+     * @param entity The entity to check.
+     * @return True if the item display corresponds to a RobbingBlock, false otherwise.
      */
-    public static boolean isRobbingBlock(Entity armorStand) {
+    public static boolean isRobbingBlock(Entity entity) {
         Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("SELECT * FROM BlocksPlaced WHERE armorStandUUID = ?;");
-            ps.setString(1, armorStand.getUniqueId().toString());
+            ps = dbConnection.prepareStatement("SELECT * FROM BlocksPlaced WHERE entityUUID = ?;");
+            ps.setString(1, entity.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -343,14 +313,14 @@ public class RobbingBlock extends Provider {
 
                 RobbingBlock block = new RobbingBlock(item, location);
 
-                // Armor stand can be null if someone manually destroyed it
-                String armorStandId = rs.getString("armorStandUUID");
-                Entity armorStand = Bukkit.getEntity(UUID.fromString(armorStandId));
-                if (armorStand != null) {
-                    if (!armorStand.getType().equals(EntityType.ARMOR_STAND)) {
-                        throw new RuntimeException("Database UUID is not an armor stand UUID");
+                // Entity can be null if someone manually destroyed it
+                String entityUUID = rs.getString("entityUUID");
+                Entity itemDisplay = Bukkit.getEntity(UUID.fromString(entityUUID));
+                if (itemDisplay != null) {
+                    if (!itemDisplay.getType().equals(EntityType.ITEM_DISPLAY)) {
+                        throw new RuntimeException("Database UUID is not an ItemDisplay UUID");
                     } else {
-                        block.setArmorStand(armorStand);
+                        block.setItemDisplay((ItemDisplay) itemDisplay);
                     }
                 }
 
@@ -366,15 +336,15 @@ public class RobbingBlock extends Provider {
     /**
      * Retrieves a RobbingBlock from a UUID.
      *
-     * @param entityUUID The UUID of the armor stand.
-     * @return The RobbingBlock associated with the armor stand, or null if none is found.
+     * @param entityUUID The UUID of the entity display.
+     * @return The RobbingBlock associated with the entity display, or null if none is found.
      */
     public static RobbingBlock getFromUUID(UUID entityUUID) {
         Connection dbConnection = Robbing.getInstance().getRobbingDatabase().getConnection();
 
         try {
             PreparedStatement ps;
-            ps = dbConnection.prepareStatement("SELECT * FROM BlocksPlaced WHERE armorStandUUID = ?;");
+            ps = dbConnection.prepareStatement("SELECT * FROM BlocksPlaced WHERE entityUUID = ?;");
             ps.setString(1, entityUUID.toString());
             ResultSet rs = ps.executeQuery();
 
@@ -391,14 +361,14 @@ public class RobbingBlock extends Provider {
                 Location location = new Location(world, blockX, blockY, blockZ);
                 RobbingBlock block = new RobbingBlock(item, location);
 
-                // Armor stand can be null if someone manually destroyed it
-                String armorStandId = rs.getString("armorStandUUID");
-                Entity armorStand = Bukkit.getEntity(UUID.fromString(armorStandId));
-                if (armorStand != null) {
-                    if (!armorStand.getType().equals(EntityType.ARMOR_STAND)) {
-                        throw new RuntimeException("Database UUID is not an armor stand UUID");
+                // Entity can be null if someone manually destroyed it
+                String itemDisplayUUID = rs.getString("entityUUID");
+                Entity itemDisplay = Bukkit.getEntity(UUID.fromString(itemDisplayUUID));
+                if (itemDisplay != null) {
+                    if (!itemDisplay.getType().equals(EntityType.ITEM_DISPLAY)) {
+                        throw new RuntimeException("Database UUID is not an item display UUID");
                     } else {
-                        block.setArmorStand(armorStand);
+                        block.setItemDisplay((ItemDisplay) itemDisplay);
                     }
                 }
 

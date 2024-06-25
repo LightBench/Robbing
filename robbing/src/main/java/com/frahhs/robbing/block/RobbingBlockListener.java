@@ -93,21 +93,6 @@ public class RobbingBlockListener extends RobbingListener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent e) {
-        if(!e.getEntityType().equals(EntityType.ARMOR_STAND))
-            return;
-
-        if(RobbingBlock.isRobbingBlock(e.getEntity()))
-            e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onManipulate(PlayerArmorStandManipulateEvent e) {
-        if(RobbingBlock.isRobbingBlock(e.getRightClicked()))
-            e.setCancelled(true);
-    }
-
-    @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if(e.getClickedBlock() == null)
             return;
