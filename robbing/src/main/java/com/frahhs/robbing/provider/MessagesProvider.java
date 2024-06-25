@@ -104,6 +104,15 @@ public class MessagesProvider {
     }
 
     /**
+     * Retrieves the plugin prefix.
+     *
+     * @return The prefix.
+     */
+    public String getPrefix() {
+        return prefix;
+    }
+
+    /**
      * Loads language configuration files from the plugin's 'lang' folder.
      */
     private void loadLanguageFiles() {

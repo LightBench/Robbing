@@ -133,6 +133,9 @@ handcuffing:
   # Whether the handcuffing feature should be enabled or not.
   enabled: true
 
+  # Check if an update is out for Robbing plugin
+  update-check: true
+
   # Set a cooldown before using handcuffs again (in seconds).
   cooldown: 5
 
