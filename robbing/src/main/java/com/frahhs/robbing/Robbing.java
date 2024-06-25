@@ -1,6 +1,7 @@
 package com.frahhs.robbing;
 
 import co.aikar.commands.PaperCommandManager;
+import com.frahhs.robbing.adapter.AdapterManager;
 import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RobbingDatabase;
@@ -23,6 +24,8 @@ import org.bstats.MetricsBase;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.CustomChart;
 import org.bstats.charts.SimplePie;
+import org.bukkit.Bukkit;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -77,6 +80,9 @@ public final class Robbing extends JavaPlugin {
 
         // Optional: Add custom charts
         metrics.addCustomChart(new SimplePie("language", () -> configProvider.getString("language")));
+
+        // Do adaptions
+        AdapterManager.adapt();
 
         // Disable plugin if is disabled in the config
         if(!configProvider.getBoolean("enabled"))
