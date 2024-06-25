@@ -19,6 +19,7 @@ import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.bag.BagManager;
 import com.frahhs.robbing.util.logging.RobbingLogger;
+import com.frahhs.robbing.util.update.UpdateChecker;
 import com.google.common.collect.ImmutableList;
 import org.bstats.MetricsBase;
 import org.bstats.bukkit.Metrics;
@@ -75,7 +76,7 @@ public final class Robbing extends JavaPlugin {
         registerItems();
         registerFeatures();
 
-        int pluginId = 22346; // <-- Replace with the id of your plugin!
+        int pluginId = 22346;
         Metrics metrics = new Metrics(this, pluginId);
 
         // Optional: Add custom charts
@@ -139,6 +140,7 @@ public final class Robbing extends JavaPlugin {
     private void registerEvents() {
         getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
         getServer().getPluginManager().registerEvents(new GUIListener(),this);
+        getServer().getPluginManager().registerEvents(new UpdateChecker(),this);
     }
 
     private void registerCommands() {
