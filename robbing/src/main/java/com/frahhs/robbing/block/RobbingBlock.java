@@ -131,7 +131,7 @@ public class RobbingBlock extends Provider {
     }
 
     /**
-     * Destroys the robbing block at the specified location.
+     * Destroys the robbing block, removing the Item Display too.
      */
     public void destroy() {
         RobbingBlock block = getFromLocation(location);

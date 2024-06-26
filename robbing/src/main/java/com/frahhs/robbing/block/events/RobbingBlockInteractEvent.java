@@ -27,17 +27,17 @@ public class RobbingBlockInteractEvent extends RobbingBlockEvent implements Canc
     private EquipmentSlot hand;
     private boolean cancel;
 
-    public RobbingBlockInteractEvent(@NotNull final RobbingBlock clickedBlock, @NotNull final PlayerInteractEvent blockPlaceEvent) {
+    public RobbingBlockInteractEvent(@NotNull final RobbingBlock clickedBlock, @NotNull final PlayerInteractEvent playerInteractEvent) {
         super(clickedBlock);
-        this.player = blockPlaceEvent.getPlayer();
-        this.action = blockPlaceEvent.getAction();
-        this.item = blockPlaceEvent.getItem();
-        this.blockFace = blockPlaceEvent.getBlockFace();
-        this.hand = blockPlaceEvent.getHand();
+        this.player = playerInteractEvent.getPlayer();
+        this.action = playerInteractEvent.getAction();
+        this.item = playerInteractEvent.getItem();
+        this.blockFace = playerInteractEvent.getBlockFace();
+        this.hand = playerInteractEvent.getHand();
         cancel = false;
 
         useItemInHand = Result.DEFAULT;
-        useClickedBlock = blockPlaceEvent.getClickedBlock() == null ? Result.DENY : Result.ALLOW;
+        useClickedBlock = playerInteractEvent.getClickedBlock() == null ? Result.DENY : Result.ALLOW;
     }
 
     /**
