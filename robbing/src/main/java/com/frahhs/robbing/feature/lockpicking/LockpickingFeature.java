@@ -4,15 +4,10 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.lockpicking.listener.LockpickGUIListener;
 import com.frahhs.robbing.feature.lockpicking.listener.LockpickListener;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class LockpickingFeature extends Feature {
-    private final Robbing plugin;
-
-    public LockpickingFeature(Robbing plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     protected void onEnable() {
 
@@ -24,13 +19,13 @@ public class LockpickingFeature extends Feature {
     }
 
     @Override
-    protected void registerEvents() {
+    protected void registerEvents(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(new LockpickGUIListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new LockpickListener(), plugin);
     }
 
     @Override
-    protected void registerBags() {
+    protected void registerBags(JavaPlugin javaPlugin) {
 
     }
 

@@ -163,33 +163,34 @@ public final class Robbing extends JavaPlugin {
     }
 
     public void registerFeatures() {
-        featureManager.registerFeatures(new RobbingFeature(this));
-        featureManager.registerFeatures(new HandcuffingFeature(this));
-        featureManager.registerFeatures(new KidnappingFeature(this));
-        featureManager.registerFeatures(new SafeFeature(this));
-        featureManager.registerFeatures(new LockpickingFeature(this));
+        featureManager.registerFeatures(new RobbingFeature(), this);
+        featureManager.registerFeatures(new HandcuffingFeature(), this);
+        featureManager.registerFeatures(new KidnappingFeature(), this);
+        featureManager.registerFeatures(new SafeFeature(), this);
+        featureManager.registerFeatures(new LockpickingFeature(), this);
     }
 
     private void registerItems() {
-        itemManager.registerItems(new Handcuffs(this));
-        itemManager.registerItems(new HandcuffsKey(this));
-        itemManager.registerItems(new Lockpick(this));
-        itemManager.registerItems(new Safe(this));
-        itemManager.registerItems(new PanelNumber0(this));
-        itemManager.registerItems(new PanelNumber1(this));
-        itemManager.registerItems(new PanelNumber2(this));
-        itemManager.registerItems(new PanelNumber3(this));
-        itemManager.registerItems(new PanelNumber4(this));
-        itemManager.registerItems(new PanelNumber5(this));
-        itemManager.registerItems(new PanelNumber6(this));
-        itemManager.registerItems(new PanelNumber7(this));
-        itemManager.registerItems(new PanelNumber8(this));
-        itemManager.registerItems(new PanelNumber9(this));
-        itemManager.registerItems(new PanelNumberCancel(this));
-        itemManager.registerItems(new PanelNumberCheck(this));
-        itemManager.registerItems(new Cylinder(this));
-        itemManager.registerItems(new CylinderWrong(this));
-        itemManager.registerItems(new CylinderCorrect(this));
+        itemManager.registerItems(new Handcuffs(), this);
+        itemManager.registerItems(new HandcuffsKey(), this);
+        itemManager.registerItems(new Lockpick(), this);
+        itemManager.registerItems(new Safe(), this);
+        itemManager.registerItems(new PanelNumber0(), this);
+        itemManager.registerItems(new PanelNumber1(), this);
+        itemManager.registerItems(new PanelNumber2(), this);
+        itemManager.registerItems(new PanelNumber3(), this);
+        itemManager.registerItems(new PanelNumber4(), this);
+        itemManager.registerItems(new PanelNumber5(), this);
+        itemManager.registerItems(new PanelNumber6(), this);
+        itemManager.registerItems(new PanelNumber7(), this);
+        itemManager.registerItems(new PanelNumber8(), this);
+        itemManager.registerItems(new PanelNumber9(), this);
+        itemManager.registerItems(new PanelNumberCancel(), this);
+        itemManager.registerItems(new PanelNumberCheck(), this);
+        itemManager.registerItems(new Cylinder(), this);
+        itemManager.registerItems(new CylinderWrong(), this);
+        itemManager.registerItems(new CylinderCorrect(), this);
+        itemManager.registerItems(new ATM(), this);
     }
 
     public static RobbingLogger getRobbingLogger() {
