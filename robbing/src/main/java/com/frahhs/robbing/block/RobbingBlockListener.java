@@ -80,11 +80,12 @@ public class RobbingBlockListener extends RobbingListener {
             return;
         }
 
-        e.setDropItems(false);
         // Drop option
         if(robbingBlockBreakEvent.isDropItems() && e.isDropItems() && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), item.getItemStack());
         }
+
+        e.setDropItems(false);
 
         // Exp option
         e.setExpToDrop(robbingBlockBreakEvent.getExpToDrop());
