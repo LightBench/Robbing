@@ -65,7 +65,7 @@ public enum RobbingMaterial {
     }
 
     @NotNull
-    public static RobbingMaterial matchMaterial(@NotNull final String name) {
+    public static RobbingMaterial matchMaterial(@NotNull final String name) throws IllegalArgumentException {
         String filtered = name;
         if (filtered.startsWith(NamespacedKey.MINECRAFT + ":")) {
             filtered = filtered.substring((NamespacedKey.MINECRAFT + ":").length());

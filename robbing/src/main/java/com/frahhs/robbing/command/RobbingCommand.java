@@ -16,6 +16,7 @@ import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.menu.DashboardMenu;
 import com.frahhs.robbing.provider.MessagesProvider;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,7 +26,7 @@ import org.checkerframework.common.value.qual.IntRange;
 @CommandAlias("robbing|rb")
 @Description("Robbing main command")
 public class RobbingCommand extends BaseCommand {
-    private Robbing plugin;
+    private final Robbing plugin;
     MessagesProvider messagesProvider;
 
     public RobbingCommand(Robbing plugin) {
@@ -182,7 +183,11 @@ public class RobbingCommand extends BaseCommand {
         String message;
         RobbingItem robbingItem;
 
-        robbingItem = itemManager.get(RobbingMaterial.matchMaterial(item_name));
+        try {
+            robbingItem = itemManager.get(RobbingMaterial.matchMaterial(item_name));
+        } catch (IllegalArgumentException e) {
+            robbingItem = null;
+        }
 
         item_name = item_name.substring(0, 1).toUpperCase() + item_name.substring(1).toLowerCase();
         if(robbingItem == null || !robbingItem.isGivable()) {
