@@ -1,19 +1,26 @@
 package com.frahhs.robbing.provider;
 
 import com.frahhs.robbing.Robbing;
+import com.google.gson.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 /**
  * Manages localization for a Spigot plugin using YAML configuration files.
  */
@@ -22,6 +29,7 @@ public class MessagesProvider {
     private String lang;
     private String prefix;
     private Map<String, FileConfiguration> languageConfigs;
+
 
     /**
      * Constructs a new MessagesManager.
@@ -132,6 +140,7 @@ public class MessagesProvider {
         }
 
         // Load YAML files from messages folder
+        YamlUpdater.update();
         File[] languageFiles = messagesFolder.listFiles((dir, name) -> name.endsWith(".yml"));
 
         assert languageFiles != null;
@@ -194,5 +203,121 @@ public class MessagesProvider {
 
         // Return the array of strings of filenames inside the path
         return Arrays.asList(result.toArray(new String[0]));
+    }
+
+    private static class YamlUpdater {
+        private static final String GITHUB_CONTENTS_URL = "https://api.github.com/repos/FrahHS/Robbing/contents/robbing/src/main/resources/lang";
+        private static final String GITHUB_URL_TEMPLATE = "https://raw.githubusercontent.com/FrahHS/Robbing/main/robbing/src/main/resources/lang/";
+        private static final String LOCAL_PATH_TEMPLATE = Robbing.getInstance().getDataFolder() + File.separator + "lang" + File.separator;
+
+        public static void update() {
+            try {
+                List<String> languages = fetchAvailableLanguages();
+
+                if(languages == null) {
+                    throw new RuntimeException("Unable to retrieve languages files.");
+                }
+
+                for (String lang : languages) {
+                    String githubUrl = GITHUB_URL_TEMPLATE + lang;
+                    String localPath = LOCAL_PATH_TEMPLATE + lang;
+
+                    Map<String, Object> githubYaml = downloadYaml(githubUrl);
+
+                    File localFile = new File(localPath);
+                    if (!localFile.exists()) {
+                        saveYaml(localPath, githubYaml);
+                    } else {
+                        Map<String, Object> localYaml = loadYaml(localPath);
+                        updateYaml(localYaml, githubYaml);
+                        saveYaml(localPath, localYaml);
+                    }
+                }
+            } catch (IOException | RuntimeException e) {
+                Robbing.getRobbingLogger().warning("Error while trying to update language files, be sure to have the latest version of Robbing installed.");
+            }
+        }
+
+        private static List<String> fetchAvailableLanguages() throws IOException {
+            List<String> languages = new ArrayList<>();
+            String response = httpGet(GITHUB_CONTENTS_URL);
+
+            JsonArray jsonArray;
+            if (response != null) {
+                Gson gson = new Gson();
+                try {
+                    jsonArray = gson.fromJson(response, JsonArray.class);
+                } catch(JsonSyntaxException e) {
+                    return null;
+                }
+
+                for (JsonElement element : jsonArray) {
+                    JsonObject jsonObject = element.getAsJsonObject();
+                    String filename = jsonObject.get("name").getAsString();
+                    if (filename.endsWith(".yml")) {
+                        languages.add(filename);
+                    }
+                }
+            }
+            return languages;
+        }
+
+        private static String httpGet(String url) throws IOException {
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                HttpGet request = new HttpGet(url);
+                try (CloseableHttpResponse response = httpClient.execute(request)) {
+                    HttpEntity entity = response.getEntity();
+                    if (entity != null) {
+                        try (InputStream inputStream = entity.getContent()) {
+                            return new BufferedReader(new InputStreamReader(inputStream))
+                                    .lines().collect(java.util.stream.Collectors.joining("\n"));
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static Map<String, Object> downloadYaml(String url) throws IOException {
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                HttpGet request = new HttpGet(url);
+                try (CloseableHttpResponse response = httpClient.execute(request)) {
+                    HttpEntity entity = response.getEntity();
+                    if (entity != null) {
+                        try (InputStream inputStream = entity.getContent()) {
+                            Yaml yaml = new Yaml();
+                            return yaml.load(inputStream);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static Map<String, Object> loadYaml(String path) throws IOException {
+            try (InputStream inputStream = Files.newInputStream(Paths.get(path))) {
+                Yaml yaml = new Yaml();
+                return yaml.load(inputStream);
+            }
+        }
+
+        private static void saveYaml(String path, Map<String, Object> data) throws IOException {
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            Yaml yaml = new Yaml(options);
+            try (Writer writer = new FileWriter(path)) {
+                yaml.dump(data, writer);
+            }
+        }
+
+        private static void updateYaml(Map<String, Object> localYaml, Map<String, Object> githubYaml) {
+            for (Map.Entry<String, Object> entry : githubYaml.entrySet()) {
+                if (!localYaml.containsKey(entry.getKey())) {
+                    localYaml.put(entry.getKey(), entry.getValue());
+                } else if (entry.getValue() instanceof Map) {
+                    updateYaml((Map<String, Object>) localYaml.get(entry.getKey()), (Map<String, Object>) entry.getValue());
+                }
+            }
+        }
     }
 }
