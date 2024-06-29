@@ -1,16 +1,20 @@
 package com.frahhs.robbing.feature.handcuffing;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
 import com.frahhs.robbing.feature.handcuffing.bag.JustHandcuffBag;
+import com.frahhs.robbing.feature.handcuffing.database.HandcuffingDatabase;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffedListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HandcuffingListener;
 import com.frahhs.robbing.feature.handcuffing.listener.HitHandcuffsListener;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
+import com.frahhs.robbing.item.Handcuffs;
+import com.frahhs.robbing.item.HandcuffsKey;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,9 +23,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandcuffingFeature extends Feature {
+public class HandcuffingFeature extends LightFeature {
     @Override
     protected void onEnable() {
+        HandcuffingDatabase.createHandcuffingTable();
+
         // Handle Handcuffs bars
         HandcuffsBarController handcuffsBarController = new HandcuffsBarController();
         List<Player> allHandcuffed = new ArrayList<>();
@@ -57,11 +63,15 @@ public class HandcuffingFeature extends Feature {
         if(!(javaPlugin instanceof Robbing))
             return;
 
-        Robbing plugin = (Robbing) javaPlugin;
+        LightPlugin.getBagManager().registerBags(new HandcuffingCooldownBag());
+        LightPlugin.getBagManager().registerBags(new HandcuffsBarBag());
+        LightPlugin.getBagManager().registerBags(new JustHandcuffBag());
+    }
 
-        plugin.getBagManager().registerBags(new HandcuffingCooldownBag());
-        plugin.getBagManager().registerBags(new HandcuffsBarBag());
-        plugin.getBagManager().registerBags(new JustHandcuffBag());
+    @Override
+    protected void registerItems(JavaPlugin javaPlugin) {
+        LightPlugin.getItemsManager().registerItems(new Handcuffs(), javaPlugin);
+        LightPlugin.getItemsManager().registerItems(new HandcuffsKey(), javaPlugin);
     }
 
     @Override

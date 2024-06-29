@@ -1,15 +1,13 @@
 package com.frahhs.robbing.feature.lockpicking.listener;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.RobbingListener;
+import com.frahhs.lightlib.LightListener;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.gui.event.GUIClickEvent;
+import com.frahhs.lightlib.item.ItemManager;
 import com.frahhs.robbing.feature.lockpicking.event.LockpickEvent;
 import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
-import com.frahhs.robbing.gui.GUIType;
-import com.frahhs.robbing.gui.event.GUIClickEvent;
-import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.RobbingMaterial;
-import com.frahhs.robbing.item.items.CylinderWrong;
+import com.frahhs.robbing.item.CylinderWrong;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,18 +15,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class LockpickGUIListener extends RobbingListener {
+public class LockpickGUIListener extends LightListener {
     private final ItemManager itemManager;
     private final SafeController safeController;
 
     public LockpickGUIListener() {
-        itemManager = Robbing.getInstance().getItemsManager();
+        itemManager = LightPlugin.getItemsManager();
         safeController = new SafeController();
     }
 
     @EventHandler
     public void onSafeUnlockGUIClick(GUIClickEvent e) {
-        if(!e.getGui().getType().equals(GUIType.LOCKPICK))
+        if(!(e.getGui() instanceof LockpickGUI))
             return;
 
         LockpickGUI lockpickGUI = (LockpickGUI) e.getGui();
@@ -38,14 +36,14 @@ public class LockpickGUIListener extends RobbingListener {
         int clickedSlot = e.getInventoryClickEvent().getSlot();
 
         if(clickedSlot == lockpickGUI.getCorrectCylinder()) {
-            inventory.setItem(clickedSlot, itemManager.get(RobbingMaterial.CYLINDER_CORRECT).getItemStack());
+            inventory.setItem(clickedSlot, itemManager.get("cylinder_correct").getItemStack());
             String message = messages.getMessage("lockpicking.success");
             e.getInventoryClickEvent().getWhoClicked().sendMessage(message);
             safeController.openInventory(((LockpickGUI) e.getGui()).getSafe(), clicker);
             LockpickEvent lockpickEvent = new LockpickEvent((Player) e.getInventoryClickEvent().getWhoClicked(), ((LockpickGUI) e.getGui()).getSafe(), true);
             Bukkit.getPluginManager().callEvent(lockpickEvent);
         } else {
-            inventory.setItem(clickedSlot, itemManager.get(RobbingMaterial.CYLINDER_WRONG).getItemStack());
+            inventory.setItem(clickedSlot, itemManager.get("cylinder_wrong").getItemStack());
         }
 
         int failed_addemps = 0;

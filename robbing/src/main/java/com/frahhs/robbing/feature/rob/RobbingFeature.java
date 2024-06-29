@@ -1,7 +1,8 @@
 package com.frahhs.robbing.feature.rob;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.rob.bag.CaughtBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingNowBag;
@@ -10,7 +11,7 @@ import com.frahhs.robbing.feature.rob.listener.RobListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class RobbingFeature extends Feature {
+public class RobbingFeature extends LightFeature {
     @Override
     protected void onEnable() {
 
@@ -34,9 +35,14 @@ public class RobbingFeature extends Feature {
 
         Robbing plugin = (Robbing) javaPlugin;
 
-        plugin.getBagManager().registerBags(new RobbingNowBag());
-        plugin.getBagManager().registerBags(new RobbingCooldownBag());
-        plugin.getBagManager().registerBags(new CaughtBag());
+        LightPlugin.getBagManager().registerBags(new RobbingNowBag());
+        LightPlugin.getBagManager().registerBags(new RobbingCooldownBag());
+        LightPlugin.getBagManager().registerBags(new CaughtBag());
+    }
+
+    @Override
+    protected void registerItems(JavaPlugin javaPlugin) {
+        
     }
 
     @Override

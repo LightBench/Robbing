@@ -1,11 +1,13 @@
 package com.frahhs.robbing.feature.atm;
 
-import com.frahhs.robbing.feature.Feature;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.feature.atm.listener.AtmListener;
+import com.frahhs.robbing.item.ATM;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class AtmFeature extends Feature {
+public class AtmFeature extends LightFeature {
     @Override
     protected void onEnable() {
 
@@ -24,6 +26,11 @@ public class AtmFeature extends Feature {
     @Override
     protected void registerBags(JavaPlugin plugin) {
 
+    }
+
+    @Override
+    protected void registerItems(JavaPlugin javaPlugin) {
+        LightPlugin.getItemsManager().registerItems(new ATM(), javaPlugin);
     }
 
     @Override

@@ -1,23 +1,22 @@
 package com.frahhs.robbing.command;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.*;
-import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import com.acf.BaseCommand;
+import com.acf.CommandHelp;
+import com.acf.annotation.*;
+import com.acf.bukkit.contexts.OnlinePlayer;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.block.LightBlock;
+import com.frahhs.lightlib.item.ItemManager;
+import com.frahhs.lightlib.item.LightItem;
+import com.frahhs.lightlib.provider.ConfigProvider;
+import com.frahhs.lightlib.provider.MessagesProvider;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.feature.safe.mcp.SafePin;
-import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.RobbingItem;
-import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.menu.DashboardMenu;
-import com.frahhs.robbing.provider.ConfigProvider;
-import com.frahhs.robbing.provider.MessagesProvider;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,14 +26,14 @@ import org.checkerframework.common.value.qual.IntRange;
 @CommandAlias("robbing|rb")
 @Description("Robbing main command")
 public class RobbingCommand extends BaseCommand {
-    private final Robbing plugin;
+    private final LightPlugin plugin;
     MessagesProvider messagesProvider;
     ConfigProvider configProvider;
 
     public RobbingCommand(Robbing plugin) {
         this.plugin = plugin;
-        messagesProvider = plugin.getMessagesProvider();
-        configProvider = plugin.getConfigProvider();
+        messagesProvider = LightPlugin.getMessagesProvider();
+        configProvider = LightPlugin.getConfigProvider();
     }
 
     @Default
@@ -92,13 +91,13 @@ public class RobbingCommand extends BaseCommand {
         if(target == null)
             return;
 
-        if(!RobbingBlock.isRobbingBlock(target)) {
+        if(!LightBlock.isLightBlock(target)) {
             String message = messagesProvider.getMessage("safes.not_looking_safe");
             sender.sendMessage(message);
             return;
         }
 
-        RobbingBlock safe = RobbingBlock.getFromLocation(target.getLocation());
+        LightBlock safe = LightBlock.getFromLocation(target.getLocation());
         SafeController safeController = new SafeController();
 
         if(SafeModel.isLocked(safe)) {
@@ -143,13 +142,13 @@ public class RobbingCommand extends BaseCommand {
         if(target == null)
             return;
 
-        if(!RobbingBlock.isRobbingBlock(target)) {
+        if(!LightBlock.isLightBlock(target)) {
             String message = messagesProvider.getMessage("safes.not_looking_safe");
             sender.sendMessage(message);
             return;
         }
 
-        RobbingBlock safe = RobbingBlock.getFromLocation(target.getLocation());
+        LightBlock safe = LightBlock.getFromLocation(target.getLocation());
 
         SafeModel safeModel = SafeModel.getFromSafe(safe);
         SafeController safeController = new SafeController();
@@ -182,7 +181,7 @@ public class RobbingCommand extends BaseCommand {
     @CommandPermission("robbing.reload")
     @Description("Reload the configuration of Robbing.")
     public void onReload(Player player) {
-        plugin.reload();
+        plugin.onReload();
         String message = messagesProvider.getMessage("commands.reload");
         player.sendMessage(message);
     }
@@ -192,13 +191,13 @@ public class RobbingCommand extends BaseCommand {
     @CommandCompletion("* @RobbingItems 1|64")
     @Description("give a Robbing item to a player.")
     public void onGive(CommandSender sender, OnlinePlayer player, @Single String item_name, @IntRange(from=1, to=64) @Default("1") int amount) {
-        ItemManager itemManager = plugin.getItemsManager();
+        ItemManager itemManager = LightPlugin.getItemsManager();
 
         String message;
-        RobbingItem robbingItem;
+        LightItem robbingItem;
 
         try {
-            robbingItem = itemManager.get(RobbingMaterial.matchMaterial(item_name));
+            robbingItem = itemManager.get(item_name);
         } catch (IllegalArgumentException e) {
             robbingItem = null;
         }

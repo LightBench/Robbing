@@ -1,17 +1,21 @@
 package com.frahhs.robbing.feature.safe;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
+import com.frahhs.robbing.feature.safe.database.SafeDatabase;
 import com.frahhs.robbing.feature.safe.listener.SafeListener;
 import com.frahhs.robbing.feature.safe.listener.SafeUnlockGUIListener;
+import com.frahhs.robbing.item.Safe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class SafeFeature extends Feature {
+public class SafeFeature extends LightFeature {
     @Override
     protected void onEnable() {
-
+        SafeDatabase.createSafeInventoryTable();
+        SafeDatabase.createSafeLockedTable();
     }
 
     @Override
@@ -32,7 +36,12 @@ public class SafeFeature extends Feature {
 
         Robbing plugin = (Robbing) javaPlugin;
 
-        plugin.getBagManager().registerBags(new SafeInventoryBag());
+        LightPlugin.getBagManager().registerBags(new SafeInventoryBag());
+    }
+
+    @Override
+    protected void registerItems(JavaPlugin javaPlugin) {
+        LightPlugin.getItemsManager().registerItems(new Safe(), javaPlugin);
     }
 
     @Override

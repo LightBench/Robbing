@@ -1,25 +1,24 @@
 package com.frahhs.robbing.adapter;
 
+import com.frahhs.lightlib.LightListener;
+import com.frahhs.lightlib.block.events.LightBlockInteractEvent;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.RobbingListener;
-import com.frahhs.robbing.block.events.RobbingBlockBreakEvent;
-import com.frahhs.robbing.block.events.RobbingBlockInteractEvent;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
-import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.robbing.item.Safe;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-public class SafePinAdapter extends RobbingListener {
+public class SafePinAdapter extends LightListener {
     public static void adapt() {
 
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onSafeOpen(RobbingBlockInteractEvent e) {
-        if(!e.getBlock().getRobbingMaterial().equals(RobbingMaterial.SAFE))
+    public void onSafeOpen(LightBlockInteractEvent e) {
+        if(!(e.getBlock().getItem() instanceof Safe))
             return;
 
         PersistentDataContainer container = e.getBlock().getPersistentDataContainer();
@@ -34,8 +33,8 @@ public class SafePinAdapter extends RobbingListener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onSafeBreak(RobbingBlockBreakEvent e) {
-        if(!e.getBlock().getRobbingMaterial().equals(RobbingMaterial.SAFE))
+    public void onSafeBreak(LightBlockInteractEvent e) {
+        if(!(e.getBlock().getItem() instanceof Safe))
             return;
 
         PersistentDataContainer container = e.getBlock().getPersistentDataContainer();

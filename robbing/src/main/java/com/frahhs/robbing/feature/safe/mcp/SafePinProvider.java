@@ -1,7 +1,7 @@
 package com.frahhs.robbing.feature.safe.mcp;
 
-import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
+import com.frahhs.lightlib.block.LightBlock;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ import java.util.UUID;
 /**
  * SafePinProvider class that extends LightProvider and manages the SafeLocked table.
  */
-public class SafePinProvider extends Provider {
+public class SafePinProvider extends LightProvider {
     /**
      * Creates a new safe entry in the SafeLocked table.
      *
@@ -125,7 +125,7 @@ public class SafePinProvider extends Provider {
             pstmt.setString(1, playerUUID.toString());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                RobbingBlock safe = RobbingBlock.getFromUUID(UUID.fromString(rs.getString("safeUUID")));
+                LightBlock safe = LightBlock.getFromUUID(UUID.fromString(rs.getString("safeUUID")));
                 safes.add(SafeModel.getFromSafe(safe));
             }
         } catch (SQLException e) {

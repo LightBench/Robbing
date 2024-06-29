@@ -1,10 +1,8 @@
 package com.frahhs.robbing.feature.lockpicking.mcp;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.gui.GUI;
-import com.frahhs.robbing.gui.GUIType;
-import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.block.LightBlock;
+import com.frahhs.lightlib.gui.GUI;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +11,7 @@ import java.util.Random;
 
 public class LockpickGUI implements GUI {
     private final Inventory inventory;
-    private final RobbingBlock safe;
+    private final LightBlock safe;
     private final int correctCylinder;
 
     public static final int SLOT_CYLINDER_1 = 18;
@@ -26,19 +24,19 @@ public class LockpickGUI implements GUI {
     public static final int SLOT_CYLINDER_8 = 25;
     public static final int SLOT_CYLINDER_9 = 26;
 
-    public LockpickGUI(RobbingBlock safe) {
+    public LockpickGUI(LightBlock safe) {
         this.inventory = Bukkit.createInventory(this, 6*9, "\uF001§f\uD83E\uDDE0");
         this.safe = safe;
 
-        this.inventory.setItem(SLOT_CYLINDER_1, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_2, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_3, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_4, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_5, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_6, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_7, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_8, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
-        this.inventory.setItem(SLOT_CYLINDER_9, Robbing.getInstance().getItemsManager().get(RobbingMaterial.CYLINDER).getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_1, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_2, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_3, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_4, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_5, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_6, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_7, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_8, LightPlugin.getItemsManager().get("cylinder").getItemStack());
+        this.inventory.setItem(SLOT_CYLINDER_9, LightPlugin.getItemsManager().get("cylinder").getItemStack());
 
         // Generate random integers in range 1 to 26
         Random rand = new Random();
@@ -51,16 +49,15 @@ public class LockpickGUI implements GUI {
         return inventory;
     }
 
-    @Override
-    public GUIType getType() {
-        return GUIType.LOCKPICK;
+    public String getType() {
+        return "lockpick";
     }
 
     public int getCorrectCylinder() {
         return correctCylinder;
     }
 
-    public RobbingBlock getSafe() {
+    public LightBlock getSafe() {
         return safe;
     }
 }

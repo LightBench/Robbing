@@ -1,20 +1,21 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightModel;
+import com.frahhs.lightlib.item.ItemManager;
+import com.frahhs.lightlib.item.LightItem;
+import com.frahhs.lightlib.provider.ConfigProvider;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.RobbingItem;
-import com.frahhs.robbing.provider.ConfigProvider;
-import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Model class representing a robbery event.
+ * LightModel class representing a robbery event.
  */
-public class Rob extends Model {
+public class Rob extends LightModel {
     private final Player robber;
     private final Player robbed;
     private final RobProvider provider;
@@ -132,7 +133,7 @@ public class Rob extends Model {
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(handcuffer.getPlayer());
             } catch (InterruptedException e) {
-                Robbing.getRobbingLogger().error("Error handling robbing cooldown for %s, %s", handcuffer.getName(), e);
+                LightPlugin.getLightLogger().error("Error handling robbing cooldown for %s, %s", handcuffer.getName(), e);
             }
         });
     }
@@ -143,14 +144,14 @@ public class Rob extends Model {
      * @param handcuffer The player to set the default cooldown for.
      */
     public static void setCooldown(Player handcuffer) {
-        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+        ConfigProvider config = LightPlugin.getConfigProvider();
         setCooldown(handcuffer, config.getInt("rob.cooldown"));
     }
 
     public static boolean itemIsRobbable(ItemStack item) {
-        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+        ConfigProvider config = LightPlugin.getConfigProvider();
 
-        ItemManager itemManager = Robbing.getInstance().getItemsManager();
+        ItemManager itemManager = LightPlugin.getItemsManager();
 
         boolean whitelisted = false;
         boolean blacklisted = false;
@@ -161,7 +162,7 @@ public class Rob extends Model {
                 // Robbing item check
                 if(itemManager.isRegistered(item) ) {
                     if(el.startsWith("robbing:")) {
-                        RobbingItem rbItem = itemManager.get(item);
+                        LightItem rbItem = itemManager.get(item);
                         if(rbItem.getName().equalsIgnoreCase(el.replace("robbing:", ""))) {
                             whitelisted = true;
                         }
@@ -181,7 +182,7 @@ public class Rob extends Model {
                 // Robbing item check
                 if(itemManager.isRegistered(item) ) {
                     if(el.startsWith("robbing:")) {
-                        RobbingItem rbItem = itemManager.get(item);
+                        LightItem rbItem = itemManager.get(item);
                         if(rbItem.getName().equalsIgnoreCase(el.replace("robbing:", ""))) {
                             blacklisted = true;
                         }

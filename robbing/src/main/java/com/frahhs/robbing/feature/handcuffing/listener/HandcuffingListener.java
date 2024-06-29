@@ -1,15 +1,15 @@
 package com.frahhs.robbing.feature.handcuffing.listener;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.RobbingListener;
+import com.frahhs.lightlib.LightListener;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.item.ItemManager;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.dependencies.Dependency;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
-import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.RobbingMaterial;
-import com.frahhs.robbing.util.Cooldown;
+import com.frahhs.robbing.item.HandcuffsKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
-public class HandcuffingListener extends RobbingListener {
+public class HandcuffingListener extends LightListener {
     private final HandcuffingController handcuffingController = new HandcuffingController();
 
     @EventHandler
@@ -127,15 +127,16 @@ public class HandcuffingListener extends RobbingListener {
         }
 
         // Check if handcuffer have handcuffs key in main hand, if true remove handcuffs
-        ItemManager itemManager = Robbing.getInstance().getItemsManager();
-        if(handcuffer.getInventory().getItemInMainHand().isSimilar(itemManager.get(RobbingMaterial.HANDCUFFS_KEY).getItemStack())) {
+        ItemManager itemManager = LightPlugin.getItemsManager();
+        ItemStack itemInMainHand = handcuffer.getInventory().getItemInMainHand();
+        if(itemManager.get(itemInMainHand) instanceof HandcuffsKey) {
 
             // Try to place handcuffs in the inventory
-            Map<Integer, ItemStack> map = handcuffer.getInventory().addItem(itemManager.get(RobbingMaterial.HANDCUFFS).getItemStack());
+            Map<Integer, ItemStack> map = handcuffer.getInventory().addItem(itemManager.get("handcuffs").getItemStack());
 
             // If inventory is full drop handcuffs
             if(!map.isEmpty())
-                handcuffed.getWorld().dropItemNaturally(handcuffed.getLocation(), itemManager.get(RobbingMaterial.HANDCUFFS_KEY).getItemStack());
+                handcuffed.getWorld().dropItemNaturally(handcuffed.getLocation(), itemManager.get("handcuffs").getItemStack());
 
             handcuffingController.removeHandcuffs(handcuffed);
         }

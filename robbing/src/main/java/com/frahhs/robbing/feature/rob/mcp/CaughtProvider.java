@@ -1,14 +1,14 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.feature.rob.bag.CaughtBag;
-import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
 /**
- * Provider class for managing caught cooldowns.
+ * LightProvider class for managing caught cooldowns.
  */
-class CaughtProvider extends Provider {
+class CaughtProvider extends LightProvider {
     private final CaughtBag caughtBag;
 
     /**

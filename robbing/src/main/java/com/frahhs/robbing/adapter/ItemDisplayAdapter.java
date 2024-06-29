@@ -1,11 +1,11 @@
 package com.frahhs.robbing.adapter;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.block.LightBlock;
+import com.frahhs.lightlib.util.ItemUtil;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
 import com.frahhs.robbing.feature.safe.mcp.SafeInventory;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
-import com.frahhs.robbing.item.RobbingMaterial;
-import com.frahhs.robbing.util.ItemUtil;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
@@ -27,7 +27,7 @@ import java.util.Objects;
  */
 class ItemDisplayAdapter implements Listener {
     static void adapt() {
-        Connection connection = Robbing.getInstance().getRobbingDatabase().getConnection();
+        Connection connection = LightPlugin.getLightDatabase().getConnection();
         adaptDatabase(connection);
     }
 
@@ -39,16 +39,16 @@ class ItemDisplayAdapter implements Listener {
         if(e.getClickedBlock() == null)
             return;
 
-        if(!RobbingBlock.isRobbingBlock(e.getClickedBlock().getLocation()))
+        if(!LightBlock.isLightBlock(e.getClickedBlock().getLocation()))
             return;
 
         Location location = e.getClickedBlock().getLocation();
 
-        for(Entity entity : location.getWorld().getEntities()) {
+        for(Entity entity : Objects.requireNonNull(location.getWorld()).getEntities()) {
             if (entity.getType() == EntityType.ARMOR_STAND) {
                 if (entity.getLocation().getBlock().getLocation().equals(location)) {
                     adaptExistingBlock(
-                            Robbing.getInstance().getRobbingDatabase().getConnection(),
+                            LightPlugin.getLightDatabase().getConnection(),
                             entity.getLocation().getBlock().getLocation(),
                             (ArmorStand) entity
                     );
@@ -67,14 +67,14 @@ class ItemDisplayAdapter implements Listener {
                 return;
             }
         } catch(SQLException e) {
-            Robbing.getRobbingLogger().error("error while performing Item Display adaption\n%s", e);
+            LightPlugin.getLightLogger().error("error while performing Item Display adaption\n%s", e);
         }
 
         // Place the Item Display
         Location armorStandLocation = armorStand.getLocation();
         armorStandLocation.add(0, 0.5, 0);
         ItemDisplay itemDisplay = Objects.requireNonNull(armorStandLocation.getWorld()).spawn(armorStandLocation, ItemDisplay.class);
-        itemDisplay.setItemStack(Robbing.getInstance().getItemsManager().get(RobbingMaterial.SAFE).getItemStack());
+        itemDisplay.setItemStack(LightPlugin.getItemsManager().get("safe").getItemStack());
         itemDisplay.setBrightness(new Display.Brightness(15, 15));
 
         // Save the Item Display
@@ -82,11 +82,11 @@ class ItemDisplayAdapter implements Listener {
         try {
             updateEntityUUID(connection, tableName, entityUUIDColumn, newEntityUUID, location);
         } catch(SQLException e) {
-            Robbing.getRobbingLogger().error("error while performing Item Display adaption\n%s", e);
+            LightPlugin.getLightLogger().error("error while performing Item Display adaption\n%s", e);
         }
 
         // Save the safe inventory and pin
-        RobbingBlock safe = RobbingBlock.getFromLocation(armorStand.getLocation().getBlock().getLocation());
+        LightBlock safe = LightBlock.getFromLocation(armorStand.getLocation().getBlock().getLocation());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         PersistentDataContainer container = armorStand.getPersistentDataContainer();
@@ -114,12 +114,12 @@ class ItemDisplayAdapter implements Listener {
         String sql = "UPDATE " + tableName + " SET " + columnName + " = ? WHERE world = ? AND blockX = ? AND blockY = ? AND blockZ = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, newEntityUUID);
-            preparedStatement.setString(2, location.getWorld().getName());
+            preparedStatement.setString(2, Objects.requireNonNull(location.getWorld()).getName());
             preparedStatement.setInt(3, location.getBlockX());
             preparedStatement.setInt(4, location.getBlockY());
             preparedStatement.setInt(5, location.getBlockZ());
             preparedStatement.executeUpdate();
-            Robbing.getRobbingLogger().fine("Updated " + columnName + " to " + newEntityUUID);
+            LightPlugin.getLightLogger().fine("Updated " + columnName + " to " + newEntityUUID);
             connection.commit();
         }
     }
@@ -144,7 +144,7 @@ class ItemDisplayAdapter implements Listener {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
             connection.commit();
-            Robbing.getRobbingLogger().fine("Column " + columnName + " removed from the table " + tableName);
+            LightPlugin.getLightLogger().fine("Column " + columnName + " removed from the table " + tableName);
         }
     }
 
@@ -161,7 +161,7 @@ class ItemDisplayAdapter implements Listener {
                 addColumn(connection, tableName, armorStandUUIDColumn, columnDefinition);
             }
         } catch(SQLException e) {
-            Robbing.getRobbingLogger().error("error while performing Item Display adaption\n%s", e);
+            LightPlugin.getLightLogger().error("error while performing Item Display adaption\n%s", e);
         }
     }
 
@@ -179,7 +179,7 @@ class ItemDisplayAdapter implements Listener {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
             connection.commit();
-            Robbing.getRobbingLogger().fine("Column " + columnName + " added to the table " + tableName);
+            LightPlugin.getLightLogger().fine("Column " + columnName + " added to the table " + tableName);
         }
     }
 
@@ -188,7 +188,7 @@ class ItemDisplayAdapter implements Listener {
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
-            Robbing.getRobbingLogger().fine("Renamed column " + oldColumnName + " to " + newColumnName + " in table " + tableName);
+            LightPlugin.getLightLogger().fine("Renamed column " + oldColumnName + " to " + newColumnName + " in table " + tableName);
         }
     }
 }

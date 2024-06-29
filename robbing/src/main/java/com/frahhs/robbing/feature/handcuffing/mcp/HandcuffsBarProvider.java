@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.mcp;
 
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffsBarBag;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provider class for managing handcuffs bar-related data and operations.
+ * LightProvider class for managing handcuffs bar-related data and operations.
  */
-class HandcuffsBarProvider extends Provider {
+class HandcuffsBarProvider extends LightProvider {
     private final HandcuffsBarBag handcuffsBarBag;
 
     /**

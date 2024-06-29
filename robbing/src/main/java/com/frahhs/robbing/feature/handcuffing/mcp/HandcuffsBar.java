@@ -1,7 +1,7 @@
 package com.frahhs.robbing.feature.handcuffing.mcp;
 
+import com.frahhs.lightlib.feature.LightModel;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Model;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 /**
- * Model class representing the health bar for handcuffs.
+ * LightModel class representing the health bar for handcuffs.
  */
-public class HandcuffsBar extends Model {
+public class HandcuffsBar extends LightModel {
     private final BossBar bar;
     private final Player player;
 

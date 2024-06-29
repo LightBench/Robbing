@@ -1,10 +1,9 @@
 package com.frahhs.robbing.menu;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.RobbingItem;
-import com.frahhs.robbing.item.RobbingMaterial;
-import com.frahhs.robbing.util.StringUtil;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.item.ItemManager;
+import com.frahhs.lightlib.item.LightItem;
+import com.frahhs.lightlib.util.StringUtil;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
@@ -22,8 +21,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class RecipeMenu {
-    public static void open(Player player, Robbing plugin) {
-        ItemManager itemManager = Robbing.getInstance().getItemsManager();
+    public static void open(Player player, JavaPlugin plugin) {
+        ItemManager itemManager = LightPlugin.getItemsManager();
         String[] guiSetup = {
                 "         ",
                 "  ggggg  ",
@@ -35,7 +34,7 @@ public class RecipeMenu {
 
         GuiElementGroup group = new GuiElementGroup('g');
 
-        for(RobbingItem item : Robbing.getInstance().getItemsManager().getRegisteredItems()) {
+        for(LightItem item : LightPlugin.getItemsManager().getRegisteredItems()) {
             if(item.isCraftable()) {
                 ItemStack itemStack = item.getItemStack();
                 ItemMeta meta = itemStack.getItemMeta();
@@ -83,8 +82,8 @@ public class RecipeMenu {
         gui.show(player);
     }
 
-    private static void openSpecificRecipe(RobbingItem item, Player player, Robbing plugin) {
-        ItemManager itemManager = Robbing.getInstance().getItemsManager();
+    private static void openSpecificRecipe(LightItem item, Player player, JavaPlugin plugin) {
+        ItemManager itemManager = LightPlugin.getItemsManager();
         String[] guiSetup = {
                 "         ",
                 "   ggg   ",
@@ -114,7 +113,7 @@ public class RecipeMenu {
 
         // Save
         gui.addElement(new StaticGuiElement('s',
-                itemManager.get(RobbingMaterial.PANEL_NUMBER_CHECK).getItemStack(),
+                itemManager.get("panel_number_check").getItemStack(),
                 click -> {
                     saveRecipe(player, item, plugin);
                     player.closeInventory();
@@ -125,7 +124,7 @@ public class RecipeMenu {
 
         // Cancel
         gui.addElement(new StaticGuiElement('c',
-                itemManager.get(RobbingMaterial.PANEL_NUMBER_CANCEL).getItemStack(),
+                itemManager.get("panel_number_cancel").getItemStack(),
                 click -> {
                     player.closeInventory();
                     return true; // returning true will cancel the click event and stop taking the item
@@ -147,33 +146,33 @@ public class RecipeMenu {
         gui.show(player);
     }
 
-    private static void saveRecipe(Player player, RobbingItem robbingItem, Robbing plugin) {
+    private static void saveRecipe(Player player, LightItem robbingItem, JavaPlugin plugin) {
         Inventory openInventory = player.getOpenInventory().getTopInventory();
 
         // Check if the player is not using only vanilla items
         for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(12 + i);
-            if(Robbing.getInstance().getItemsManager().isRegistered(item)) {
+            if(LightPlugin.getItemsManager().isRegistered(item)) {
                 player.closeInventory();
-                String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_not_vanilla");
+                String message = LightPlugin.getMessagesProvider().getMessage("general.recipe_not_vanilla");
                 player.sendMessage(message);
                 return;
             }
         }
         for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(21 + i);
-            if(Robbing.getInstance().getItemsManager().isRegistered(item)) {
+            if(LightPlugin.getItemsManager().isRegistered(item)) {
                 player.closeInventory();
-                String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_not_vanilla");
+                String message = LightPlugin.getMessagesProvider().getMessage("general.recipe_not_vanilla");
                 player.sendMessage(message);
                 return;
             }
         }
         for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(30 + i);
-            if(Robbing.getInstance().getItemsManager().isRegistered(item)) {
+            if(LightPlugin.getItemsManager().isRegistered(item)) {
                 player.closeInventory();
-                String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_not_vanilla");
+                String message = LightPlugin.getMessagesProvider().getMessage("general.recipe_not_vanilla");
                 player.sendMessage(message);
                 return;
             }
@@ -217,7 +216,7 @@ public class RecipeMenu {
 
         shapedRecipe.shape(row1.toString(), row2.toString(), row3.toString());
 
-        Robbing.getRobbingLogger().info(Arrays.toString(shapedRecipe.getShape()));
+        LightPlugin.getLightLogger().info(Arrays.toString(shapedRecipe.getShape()));
 
         // First row
         for(int i = 0; i < 3; i++) {
@@ -245,7 +244,7 @@ public class RecipeMenu {
 
         robbingItem.updateShapedRecipe(shapedRecipe, plugin);
 
-        String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_updated");
+        String message = LightPlugin.getMessagesProvider().getMessage("general.recipe_updated");
         player.sendMessage(message);
     }
 }
