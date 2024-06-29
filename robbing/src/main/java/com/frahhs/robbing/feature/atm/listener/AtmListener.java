@@ -5,7 +5,7 @@ import com.frahhs.lightlib.block.LightBlock;
 import com.frahhs.lightlib.block.events.LightBlockBreakEvent;
 import com.frahhs.lightlib.block.events.LightBlockInteractEvent;
 import com.frahhs.lightlib.block.events.LightBlockPlaceEvent;
-import com.frahhs.robbing.item.ATM;
+import com.frahhs.robbing.feature.atm.item.ATM;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

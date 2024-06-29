@@ -6,7 +6,7 @@ import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
-import com.frahhs.robbing.item.Handcuffs;
+import com.frahhs.robbing.feature.handcuffing.item.Handcuffs;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

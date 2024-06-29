@@ -49,15 +49,27 @@ public class LockpickGUI implements GUI {
         return inventory;
     }
 
-    public String getType() {
-        return "lockpick";
-    }
-
     public int getCorrectCylinder() {
         return correctCylinder;
     }
 
     public LightBlock getSafe() {
         return safe;
+    }
+
+    public boolean isCylinderSlot(int slot) {
+        switch(slot) {
+            case SLOT_CYLINDER_1:
+            case SLOT_CYLINDER_2:
+            case SLOT_CYLINDER_3:
+            case SLOT_CYLINDER_4:
+            case SLOT_CYLINDER_5:
+            case SLOT_CYLINDER_6:
+            case SLOT_CYLINDER_7:
+            case SLOT_CYLINDER_8:
+            case SLOT_CYLINDER_9:
+                return true;
+        }
+        return false;
     }
 }

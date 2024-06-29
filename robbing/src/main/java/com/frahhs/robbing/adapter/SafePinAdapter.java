@@ -4,7 +4,7 @@ import com.frahhs.lightlib.LightListener;
 import com.frahhs.lightlib.block.events.LightBlockInteractEvent;
 import com.frahhs.robbing.Robbing;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
-import com.frahhs.robbing.item.Safe;
+import com.frahhs.robbing.feature.safe.item.Safe;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

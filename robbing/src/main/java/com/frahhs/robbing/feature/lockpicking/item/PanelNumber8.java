@@ -1,4 +1,4 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.feature.lockpicking.item;
 
 import com.frahhs.lightlib.item.LightItem;
 import org.bukkit.Material;

@@ -216,8 +216,6 @@ public class RecipeMenu {
 
         shapedRecipe.shape(row1.toString(), row2.toString(), row3.toString());
 
-        LightPlugin.getLightLogger().info(Arrays.toString(shapedRecipe.getShape()));
-
         // First row
         for(int i = 0; i < 3; i++) {
             ItemStack item = openInventory.getItem(12 + i);

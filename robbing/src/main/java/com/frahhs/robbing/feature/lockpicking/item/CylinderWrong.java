@@ -1,11 +1,11 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.feature.lockpicking.item;
 
 import com.frahhs.lightlib.item.LightItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class PanelNumber2 extends LightItem {
+public class CylinderWrong extends LightItem {
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
         return null;
@@ -23,16 +23,16 @@ public class PanelNumber2 extends LightItem {
 
     @Override
     public @NotNull Material getVanillaMaterial() {
-        return Material.STICK;
+        return Material.BLACK_WOOL;
     }
 
     @Override
     public @NotNull String getIdentifier() {
-        return "panel_number_2";
+        return "cylinder_wrong";
     }
 
     @Override
     public int getCustomModelData() {
-        return 5462;
+        return 5473;
     }
 }

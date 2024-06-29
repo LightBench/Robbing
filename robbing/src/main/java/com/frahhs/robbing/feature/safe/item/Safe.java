@@ -1,4 +1,4 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.feature.safe.item;
 
 import com.frahhs.lightlib.item.LightItem;
 import org.bukkit.ChatColor;

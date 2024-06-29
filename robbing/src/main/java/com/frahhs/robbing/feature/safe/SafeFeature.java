@@ -7,7 +7,7 @@ import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
 import com.frahhs.robbing.feature.safe.database.SafeDatabase;
 import com.frahhs.robbing.feature.safe.listener.SafeListener;
 import com.frahhs.robbing.feature.safe.listener.SafeUnlockGUIListener;
-import com.frahhs.robbing.item.Safe;
+import com.frahhs.robbing.feature.safe.item.Safe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 

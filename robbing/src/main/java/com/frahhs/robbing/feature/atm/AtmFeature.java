@@ -3,7 +3,7 @@ package com.frahhs.robbing.feature.atm;
 import com.frahhs.lightlib.LightPlugin;
 import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.feature.atm.listener.AtmListener;
-import com.frahhs.robbing.item.ATM;
+import com.frahhs.robbing.feature.atm.item.ATM;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 

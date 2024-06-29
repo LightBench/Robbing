@@ -1,28 +1,19 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.feature.lockpicking.item;
 
 import com.frahhs.lightlib.item.LightItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class Handcuffs extends LightItem {
+public class PanelNumber1 extends LightItem {
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
-
-        shapedRecipe.shape("   ", "BIB", "   ");
-        shapedRecipe.setIngredient('I', Material.IRON_INGOT);
-        shapedRecipe.setIngredient('B', Material.IRON_BLOCK);
-
-        shapedRecipe.getShape();
-        shapedRecipe.getIngredientMap();
-
-        return shapedRecipe;
+        return null;
     }
 
     @Override
     public boolean isGivable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -37,11 +28,11 @@ public class Handcuffs extends LightItem {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "handcuffs";
+        return "panel_number_1";
     }
 
     @Override
     public int getCustomModelData() {
-        return 5456;
+        return 5461;
     }
 }

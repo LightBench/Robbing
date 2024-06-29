@@ -1,11 +1,13 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.feature.atm.item;
 
 import com.frahhs.lightlib.item.LightItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class PanelNumber6 extends LightItem {
+import java.util.List;
+
+public class ATM extends LightItem {
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
         return null;
@@ -13,7 +15,7 @@ public class PanelNumber6 extends LightItem {
 
     @Override
     public boolean isGivable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -23,16 +25,21 @@ public class PanelNumber6 extends LightItem {
 
     @Override
     public @NotNull Material getVanillaMaterial() {
-        return Material.STICK;
-    }
-
-    @Override
-    public @NotNull String getIdentifier() {
-        return "panel_number_6";
+        return Material.IRON_BLOCK;
     }
 
     @Override
     public int getCustomModelData() {
-        return 5466;
+        return 5480;
+    }
+
+    @Override
+    public @NotNull String getIdentifier() {
+        return "atm";
+    }
+
+    @Override
+    public List<String> getLore() {
+        return null;
     }
 }

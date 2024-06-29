@@ -10,7 +10,7 @@ import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
-import com.frahhs.robbing.item.HandcuffsKey;
+import com.frahhs.robbing.feature.handcuffing.item.HandcuffsKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

@@ -1,19 +1,28 @@
-package com.frahhs.robbing.item;
+package com.frahhs.robbing.feature.handcuffing.item;
 
 import com.frahhs.lightlib.item.LightItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class Cylinder extends LightItem {
+public class Handcuffs extends LightItem {
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
-        return null;
+        ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
+
+        shapedRecipe.shape("   ", "BIB", "   ");
+        shapedRecipe.setIngredient('I', Material.IRON_INGOT);
+        shapedRecipe.setIngredient('B', Material.IRON_BLOCK);
+
+        shapedRecipe.getShape();
+        shapedRecipe.getIngredientMap();
+
+        return shapedRecipe;
     }
 
     @Override
     public boolean isGivable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -23,16 +32,16 @@ public class Cylinder extends LightItem {
 
     @Override
     public @NotNull Material getVanillaMaterial() {
-        return Material.LIGHT_GRAY_WOOL;
+        return Material.STICK;
     }
 
     @Override
     public @NotNull String getIdentifier() {
-        return "cylinder";
+        return "handcuffs";
     }
 
     @Override
     public int getCustomModelData() {
-        return 5472;
+        return 5456;
     }
 }

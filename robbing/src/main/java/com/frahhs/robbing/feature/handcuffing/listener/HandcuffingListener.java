@@ -9,7 +9,7 @@ import com.frahhs.robbing.dependencies.Dependency;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
-import com.frahhs.robbing.item.HandcuffsKey;
+import com.frahhs.robbing.feature.handcuffing.item.HandcuffsKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

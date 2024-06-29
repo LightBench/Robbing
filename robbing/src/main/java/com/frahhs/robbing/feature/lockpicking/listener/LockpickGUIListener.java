@@ -7,7 +7,7 @@ import com.frahhs.lightlib.item.ItemManager;
 import com.frahhs.robbing.feature.lockpicking.event.LockpickEvent;
 import com.frahhs.robbing.feature.lockpicking.mcp.LockpickGUI;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
-import com.frahhs.robbing.item.CylinderWrong;
+import com.frahhs.robbing.feature.lockpicking.item.CylinderWrong;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,7 +42,7 @@ public class LockpickGUIListener extends LightListener {
             safeController.openInventory(((LockpickGUI) e.getGui()).getSafe(), clicker);
             LockpickEvent lockpickEvent = new LockpickEvent((Player) e.getInventoryClickEvent().getWhoClicked(), ((LockpickGUI) e.getGui()).getSafe(), true);
             Bukkit.getPluginManager().callEvent(lockpickEvent);
-        } else {
+        } else if(lockpickGUI.isCylinderSlot(clickedSlot)){
             inventory.setItem(clickedSlot, itemManager.get("cylinder_wrong").getItemStack());
         }
 
