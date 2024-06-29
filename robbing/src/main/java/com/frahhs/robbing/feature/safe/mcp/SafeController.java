@@ -68,7 +68,7 @@ public class SafeController extends Controller {
 
         if(container.has(pinKey, PersistentDataType.STRING)) {
             String pin = container.get(pinKey, PersistentDataType.STRING);
-            safeModel.savePin(pin);
+            safeModel.savePin(pin, safe.getPlacer());
         }
     }
 
@@ -121,14 +121,14 @@ public class SafeController extends Controller {
         safeModel.getInventory().setContents(content);
     }
 
-    public void lock(RobbingBlock safe, String pin) {
+    public void lock(RobbingBlock safe, String pin, Player locker) {
         logger.fine("safe %s locked, pin: %s", safe.getUniqueId().toString(), pin);
         // If it is already locked, return
         if(SafeModel.isLocked(safe))
             return;
 
         SafeModel safeModel = SafeModel.getFromSafe(safe);
-        safeModel.savePin(pin);
+        safeModel.savePin(pin, safe.getPlacer());
     }
 
     public void unlock(RobbingBlock safe) {

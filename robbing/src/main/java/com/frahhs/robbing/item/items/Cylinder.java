@@ -8,10 +8,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class Cylinder extends RobbingItem {
-    public Cylinder(Robbing plugin) {
-        super(plugin);
-    }
-
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
         return null;

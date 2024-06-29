@@ -7,6 +7,7 @@ import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.database.RobbingDatabase;
 import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.feature.FeatureManager;
+import com.frahhs.robbing.feature.atm.AtmFeature;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
 import com.frahhs.robbing.feature.lockpicking.LockpickingFeature;
@@ -119,6 +120,10 @@ public final class Robbing extends JavaPlugin {
         return instance;
     }
 
+    public static RobbingLogger getRobbingLogger() {
+        return robbingLogger;
+    }
+
     public void reload() {
         // Config and messages providers
         configProvider.reload();
@@ -135,12 +140,6 @@ public final class Robbing extends JavaPlugin {
         // Feature
         featureManager.disableFeatures();
         featureManager.enableFeatures();
-    }
-
-    private void registerEvents() {
-        getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
-        getServer().getPluginManager().registerEvents(new GUIListener(),this);
-        getServer().getPluginManager().registerEvents(new UpdateChecker(),this);
     }
 
     private void registerCommands() {
@@ -162,38 +161,42 @@ public final class Robbing extends JavaPlugin {
         });
     }
 
+    private void registerEvents() {
+        getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
+        getServer().getPluginManager().registerEvents(new GUIListener(),this);
+        getServer().getPluginManager().registerEvents(new UpdateChecker(),this);
+    }
+
     public void registerFeatures() {
-        featureManager.registerFeatures(new RobbingFeature(this));
-        featureManager.registerFeatures(new HandcuffingFeature(this));
-        featureManager.registerFeatures(new KidnappingFeature(this));
-        featureManager.registerFeatures(new SafeFeature(this));
-        featureManager.registerFeatures(new LockpickingFeature(this));
+        featureManager.registerFeatures(new RobbingFeature(), this);
+        featureManager.registerFeatures(new HandcuffingFeature(), this);
+        featureManager.registerFeatures(new KidnappingFeature(), this);
+        featureManager.registerFeatures(new SafeFeature(), this);
+        featureManager.registerFeatures(new LockpickingFeature(), this);
+        //featureManager.registerFeatures(new AtmFeature(), this);
     }
 
     private void registerItems() {
-        itemManager.registerItems(new Handcuffs(this));
-        itemManager.registerItems(new HandcuffsKey(this));
-        itemManager.registerItems(new Lockpick(this));
-        itemManager.registerItems(new Safe(this));
-        itemManager.registerItems(new PanelNumber0(this));
-        itemManager.registerItems(new PanelNumber1(this));
-        itemManager.registerItems(new PanelNumber2(this));
-        itemManager.registerItems(new PanelNumber3(this));
-        itemManager.registerItems(new PanelNumber4(this));
-        itemManager.registerItems(new PanelNumber5(this));
-        itemManager.registerItems(new PanelNumber6(this));
-        itemManager.registerItems(new PanelNumber7(this));
-        itemManager.registerItems(new PanelNumber8(this));
-        itemManager.registerItems(new PanelNumber9(this));
-        itemManager.registerItems(new PanelNumberCancel(this));
-        itemManager.registerItems(new PanelNumberCheck(this));
-        itemManager.registerItems(new Cylinder(this));
-        itemManager.registerItems(new CylinderWrong(this));
-        itemManager.registerItems(new CylinderCorrect(this));
-    }
-
-    public static RobbingLogger getRobbingLogger() {
-        return robbingLogger;
+        itemManager.registerItems(new Handcuffs(), this);
+        itemManager.registerItems(new HandcuffsKey(), this);
+        itemManager.registerItems(new Lockpick(), this);
+        itemManager.registerItems(new Safe(), this);
+        itemManager.registerItems(new PanelNumber0(), this);
+        itemManager.registerItems(new PanelNumber1(), this);
+        itemManager.registerItems(new PanelNumber2(), this);
+        itemManager.registerItems(new PanelNumber3(), this);
+        itemManager.registerItems(new PanelNumber4(), this);
+        itemManager.registerItems(new PanelNumber5(), this);
+        itemManager.registerItems(new PanelNumber6(), this);
+        itemManager.registerItems(new PanelNumber7(), this);
+        itemManager.registerItems(new PanelNumber8(), this);
+        itemManager.registerItems(new PanelNumber9(), this);
+        itemManager.registerItems(new PanelNumberCancel(), this);
+        itemManager.registerItems(new PanelNumberCheck(), this);
+        itemManager.registerItems(new Cylinder(), this);
+        itemManager.registerItems(new CylinderWrong(), this);
+        itemManager.registerItems(new CylinderCorrect(), this);
+        //itemManager.registerItems(new ATM(), this);
     }
 
     public RobbingDatabase getRobbingDatabase() {

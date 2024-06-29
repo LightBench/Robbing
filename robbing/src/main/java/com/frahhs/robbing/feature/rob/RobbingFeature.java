@@ -7,15 +7,10 @@ import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingNowBag;
 import com.frahhs.robbing.feature.rob.listener.CatchListener;
 import com.frahhs.robbing.feature.rob.listener.RobListener;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class RobbingFeature extends Feature {
-    private final Robbing plugin;
-
-    public RobbingFeature(Robbing plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     protected void onEnable() {
 
@@ -27,13 +22,18 @@ public class RobbingFeature extends Feature {
     }
 
     @Override
-    protected void registerEvents() {
+    protected void registerEvents(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(new RobListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new CatchListener(), plugin);
     }
 
     @Override
-    protected void registerBags() {
+    protected void registerBags(JavaPlugin javaPlugin) {
+        if(!(javaPlugin instanceof Robbing))
+            return;
+
+        Robbing plugin = (Robbing) javaPlugin;
+
         plugin.getBagManager().registerBags(new RobbingNowBag());
         plugin.getBagManager().registerBags(new RobbingCooldownBag());
         plugin.getBagManager().registerBags(new CaughtBag());

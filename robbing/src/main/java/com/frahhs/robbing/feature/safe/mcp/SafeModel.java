@@ -6,18 +6,22 @@ import com.frahhs.robbing.feature.Model;
 import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
 import com.frahhs.robbing.util.ItemUtil;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
 
 public class SafeModel extends Model {
     RobbingBlock safe;
     SafeInventoryProvider safeInventoryProvider;
+    SafePinProvider safePinProvider;
 
     private SafeModel(RobbingBlock safe) {
         this.safe = safe;
         this.safeInventoryProvider = new SafeInventoryProvider();
+        this.safePinProvider = new SafePinProvider();
     }
 
     public SafeUnlockGUI getSafeUnlockGUI() {
@@ -29,9 +33,7 @@ public class SafeModel extends Model {
     }
 
     protected boolean havePin() {
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
-        return container.has(pinKey, PersistentDataType.STRING);
+        return safePinProvider.getSafePin(safe.getUniqueId()) != null;
     }
 
     public Inventory getInventory() {
@@ -59,12 +61,7 @@ public class SafeModel extends Model {
         if(!havePin())
             return null;
 
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey pinKey = new NamespacedKey(plugin, "pin");
-        String pin = container.get(pinKey, PersistentDataType.STRING);
-        assert pin != null;
-
-        return new SafePin(pin);
+        return new SafePin(safePinProvider.getSafePin(safe.getUniqueId()));
     }
 
     public void saveInventory(Inventory inventory) {
@@ -75,34 +72,36 @@ public class SafeModel extends Model {
         }
     }
 
-    public void savePin(String pin) {
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
-        container.set(pinKey, PersistentDataType.STRING, pin);
+    public void savePin(String pin, Player player) {
+        if(safePinProvider.getSafePin(safe.getUniqueId()) == null) {
+            safePinProvider.addLockedSafe(safe.getUniqueId(), player.getUniqueId(), pin);
+        } else {
+            safePinProvider.updateSafe(safe.getUniqueId(), pin);
+        }
     }
 
     protected void removeInventory() {
         safeInventoryProvider.removeEntry(safe.getUniqueId().toString());
-
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey inventoryKey = new NamespacedKey(plugin, "inventory");
-        container.remove(inventoryKey);
 
         SafeInventoryBag safeInventoryBag = (SafeInventoryBag) Robbing.getInstance().getBagManager().getBag("SafeInventoryBag");
         safeInventoryBag.getData().remove(safe.getUniqueId());
     }
 
     protected void removePin() {
-        PersistentDataContainer container = safe.getPersistentDataContainer();
-        NamespacedKey pinKey = new NamespacedKey(Robbing.getInstance(), "pin");
-        container.remove(pinKey);
+        safePinProvider.deleteSafe(safe.getUniqueId());
+    }
+
+    public static boolean isLocked(RobbingBlock safe) {
+        return getFromSafe(safe).havePin();
     }
 
     public static SafeModel getFromSafe(RobbingBlock safe) {
         return new SafeModel(safe);
     }
 
-    public static boolean isLocked(RobbingBlock safe) {
-        return getFromSafe(safe).havePin();
+    public static List<SafeModel> getByPlayer(Player player) {
+        SafePinProvider safePinProvider = new SafePinProvider();
+
+        return safePinProvider.getSafesByPlayer(player.getUniqueId());
     }
 }

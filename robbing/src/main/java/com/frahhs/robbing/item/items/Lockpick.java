@@ -8,10 +8,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class Lockpick extends RobbingItem {
-    public Lockpick(Robbing plugin) {
-        super(plugin);
-    }
-
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
         ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());

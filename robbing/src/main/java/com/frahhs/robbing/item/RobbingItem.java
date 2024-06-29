@@ -1,6 +1,7 @@
 package com.frahhs.robbing.item;
 
 import com.frahhs.robbing.Robbing;
+import com.frahhs.robbing.RobbingObject;
 import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import com.frahhs.robbing.util.recipe.RecipeManager;
@@ -10,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
@@ -18,21 +20,14 @@ import java.util.List;
 /**
  * Abstract class representing a custom robbing item.
  */
-public abstract class RobbingItem {
-    protected final Robbing plugin;
-    protected final ConfigProvider configProvider;
-    protected final MessagesProvider messagesProvider;
+public abstract class RobbingItem extends RobbingObject {
     protected final NamespacedKey namespacedKey;
-
     protected ItemStack item;
 
     /**
      * Constructor for RobbingItem.
      */
-    protected RobbingItem(Robbing plugin) {
-        this.plugin = plugin;
-        this.configProvider = plugin.getConfigProvider();
-        this.messagesProvider = plugin.getMessagesProvider();
+    protected RobbingItem() {
         this.namespacedKey = new NamespacedKey(plugin, getName());
 
         item = new ItemStack(getVanillaMaterial(), 1);
@@ -41,7 +36,7 @@ public abstract class RobbingItem {
         assert meta != null;
 
         // Display name
-        meta.setDisplayName(ChatColor.WHITE + messagesProvider.getMessage("items_name."  + getName(), false));
+        meta.setDisplayName(ChatColor.WHITE + messages.getMessage("items_name."  + getName(), false));
 
         // Lore
         if(getLore() != null) {
@@ -93,7 +88,7 @@ public abstract class RobbingItem {
      *
      * @return The shaped recipe of the custom robbing item.
      */
-    public ShapedRecipe getShapedRecipe() {
+    public ShapedRecipe getShapedRecipe(Robbing plugin) {
         RecipeManager recipeManager = new RecipeManager(plugin);
 
         ShapedRecipe shapedRecipe = getDefaultShapedRecipe();
@@ -110,7 +105,7 @@ public abstract class RobbingItem {
         return shapedRecipe;
     }
 
-    public void updateShapedRecipe(ShapedRecipe shapedRecipe) {
+    public void updateShapedRecipe(ShapedRecipe shapedRecipe, Robbing plugin) {
         if(!isCraftable()) {
             Robbing.getRobbingLogger().warning("Trying to update the recipe of a non craftable item: %s", getName());
             return;

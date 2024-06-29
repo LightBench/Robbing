@@ -16,11 +16,14 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
+
 /**
  * Manages localization for a Spigot plugin using YAML configuration files.
  */
@@ -214,7 +217,7 @@ public class MessagesProvider {
             try {
                 List<String> languages = fetchAvailableLanguages();
 
-                if(languages == null) {
+                if (languages == null) {
                     throw new RuntimeException("Unable to retrieve languages files.");
                 }
 
@@ -247,7 +250,7 @@ public class MessagesProvider {
                 Gson gson = new Gson();
                 try {
                     jsonArray = gson.fromJson(response, JsonArray.class);
-                } catch(JsonSyntaxException e) {
+                } catch (JsonSyntaxException e) {
                     return null;
                 }
 
@@ -268,9 +271,10 @@ public class MessagesProvider {
                 try (CloseableHttpResponse response = httpClient.execute(request)) {
                     HttpEntity entity = response.getEntity();
                     if (entity != null) {
-                        try (InputStream inputStream = entity.getContent()) {
-                            return new BufferedReader(new InputStreamReader(inputStream))
-                                    .lines().collect(java.util.stream.Collectors.joining("\n"));
+                        try (InputStream inputStream = entity.getContent();
+                             InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                             BufferedReader reader = new BufferedReader(isr)) {
+                            return reader.lines().collect(Collectors.joining("\n"));
                         }
                     }
                 }
@@ -284,9 +288,11 @@ public class MessagesProvider {
                 try (CloseableHttpResponse response = httpClient.execute(request)) {
                     HttpEntity entity = response.getEntity();
                     if (entity != null) {
-                        try (InputStream inputStream = entity.getContent()) {
+                        try (InputStream inputStream = entity.getContent();
+                             InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                             BufferedReader reader = new BufferedReader(isr)) {
                             Yaml yaml = new Yaml();
-                            return yaml.load(inputStream);
+                            return yaml.load(reader);
                         }
                     }
                 }
@@ -295,9 +301,11 @@ public class MessagesProvider {
         }
 
         private static Map<String, Object> loadYaml(String path) throws IOException {
-            try (InputStream inputStream = Files.newInputStream(Paths.get(path))) {
+            try (InputStream inputStream = Files.newInputStream(Paths.get(path));
+                 InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                 BufferedReader reader = new BufferedReader(isr)) {
                 Yaml yaml = new Yaml();
-                return yaml.load(inputStream);
+                return yaml.load(reader);
             }
         }
 
@@ -305,7 +313,7 @@ public class MessagesProvider {
             DumperOptions options = new DumperOptions();
             options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
             Yaml yaml = new Yaml(options);
-            try (Writer writer = new FileWriter(path)) {
+            try (Writer writer = new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8)) {
                 yaml.dump(data, writer);
             }
         }

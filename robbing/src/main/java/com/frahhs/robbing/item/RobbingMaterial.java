@@ -25,7 +25,8 @@ public enum RobbingMaterial {
     PANEL_NUMBER_CHECK,
     CYLINDER,
     CYLINDER_WRONG,
-    CYLINDER_CORRECT;
+    CYLINDER_CORRECT,
+    ATM;
 
     public boolean isItem() {
         switch (this) {
@@ -56,6 +57,7 @@ public enum RobbingMaterial {
     public boolean isBlock() {
         switch (this) {
             case SAFE:
+            case ATM:
                 return true;
             default:
                 return false;
@@ -63,7 +65,7 @@ public enum RobbingMaterial {
     }
 
     @NotNull
-    public static RobbingMaterial matchMaterial(@NotNull final String name) {
+    public static RobbingMaterial matchMaterial(@NotNull final String name) throws IllegalArgumentException {
         String filtered = name;
         if (filtered.startsWith(NamespacedKey.MINECRAFT + ":")) {
             filtered = filtered.substring((NamespacedKey.MINECRAFT + ":").length());

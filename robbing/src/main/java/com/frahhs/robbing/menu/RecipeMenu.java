@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class RecipeMenu {
-    public static void open(Player player, JavaPlugin plugin) {
+    public static void open(Player player, Robbing plugin) {
         ItemManager itemManager = Robbing.getInstance().getItemsManager();
         String[] guiSetup = {
                 "         ",
@@ -83,7 +83,7 @@ public class RecipeMenu {
         gui.show(player);
     }
 
-    private static void openSpecificRecipe(RobbingItem item, Player player, JavaPlugin plugin) {
+    private static void openSpecificRecipe(RobbingItem item, Player player, Robbing plugin) {
         ItemManager itemManager = Robbing.getInstance().getItemsManager();
         String[] guiSetup = {
                 "         ",
@@ -96,7 +96,7 @@ public class RecipeMenu {
         InventoryGui gui = new InventoryGui(plugin, null,  StringUtil.capitalize(item.getName()).replace("_", " ") + " recipe", guiSetup);
         gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS_PANE)); // fill the empty slots with this
 
-        ShapedRecipe shapedRecipe = item.getShapedRecipe();
+        ShapedRecipe shapedRecipe = item.getShapedRecipe(plugin);
         String[] shape = shapedRecipe.getShape();
         Map<Character, ItemStack> ingredientMap = shapedRecipe.getIngredientMap();
 
@@ -116,7 +116,7 @@ public class RecipeMenu {
         gui.addElement(new StaticGuiElement('s',
                 itemManager.get(RobbingMaterial.PANEL_NUMBER_CHECK).getItemStack(),
                 click -> {
-                    saveRecipe(player, item, gui);
+                    saveRecipe(player, item, plugin);
                     player.closeInventory();
                     return true; // returning true will cancel the click event and stop taking the item
                 },
@@ -147,7 +147,7 @@ public class RecipeMenu {
         gui.show(player);
     }
 
-    private static void saveRecipe(Player player, RobbingItem robbingItem, InventoryGui gui) {
+    private static void saveRecipe(Player player, RobbingItem robbingItem, Robbing plugin) {
         Inventory openInventory = player.getOpenInventory().getTopInventory();
 
         // Check if the player is not using only vanilla items
@@ -243,7 +243,7 @@ public class RecipeMenu {
             }
         }
 
-        robbingItem.updateShapedRecipe(shapedRecipe);
+        robbingItem.updateShapedRecipe(shapedRecipe, plugin);
 
         String message = Robbing.getInstance().getMessagesProvider().getMessage("general.recipe_updated");
         player.sendMessage(message);
