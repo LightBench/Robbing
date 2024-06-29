@@ -9,7 +9,6 @@ import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
 import com.frahhs.robbing.feature.lockpicking.LockpickingFeature;
 import com.frahhs.robbing.feature.rob.RobbingFeature;
 import com.frahhs.robbing.feature.safe.SafeFeature;
-import com.frahhs.robbing.item.*;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
