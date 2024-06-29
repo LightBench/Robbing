@@ -1,6 +1,7 @@
 package com.frahhs.robbing.feature;
 
 import com.frahhs.robbing.Robbing;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +28,10 @@ public class FeatureManager {
      *
      * @param feature The feature to register.
      */
-    public void registerFeatures(Feature feature) {
+    public void registerFeatures(Feature feature, JavaPlugin plugin) {
         features.put(feature.getID(), feature);
-        feature.registerEvents();
-        feature.registerBags();
+        feature.registerEvents(plugin);
+        feature.registerBags(plugin);
         feature.onEnable();
     }
 

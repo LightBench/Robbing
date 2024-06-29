@@ -8,10 +8,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class PanelNumber1 extends RobbingItem {
-    public PanelNumber1(Robbing plugin) {
-        super(plugin);
-    }
-
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
         return null;

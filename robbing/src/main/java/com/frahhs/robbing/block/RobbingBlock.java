@@ -29,6 +29,7 @@ public class RobbingBlock extends Provider {
     private final RobbingItem item;
     private ItemDisplay itemDisplay;
     private Location location;
+    private final Player placer;
 
     /**
      * Constructs a new RobbingBlock.
@@ -36,9 +37,10 @@ public class RobbingBlock extends Provider {
      * @param item The robbing item associated with this block.
      * @param location The location of the block.
      */
-    public RobbingBlock(RobbingItem item, Location location) {
+    public RobbingBlock(RobbingItem item, Location location, Player placer) {
         this.item = item;
         this.location = location;
+        this.placer = placer;
     }
 
     /**
@@ -94,6 +96,10 @@ public class RobbingBlock extends Provider {
         return itemDisplay.getUniqueId();
     }
 
+    public Player getPlacer() {
+        return placer;
+    }
+
     /**
      * Places the robbing block at the specified location.
      *
@@ -131,7 +137,7 @@ public class RobbingBlock extends Provider {
     }
 
     /**
-     * Destroys the robbing block at the specified location.
+     * Destroys the robbing block, removing the Item Display too.
      */
     public void destroy() {
         RobbingBlock block = getFromLocation(location);
@@ -311,7 +317,10 @@ public class RobbingBlock extends Provider {
                 ItemManager itemManager = Robbing.getInstance().getItemsManager();
                 RobbingItem item = itemManager.get(material);
 
-                RobbingBlock block = new RobbingBlock(item, location);
+                String placer = rs.getString("placer");
+                Player player = Bukkit.getPlayer(UUID.fromString(placer));
+
+                RobbingBlock block = new RobbingBlock(item, location, player);
 
                 // Entity can be null if someone manually destroyed it
                 String entityUUID = rs.getString("entityUUID");
@@ -358,8 +367,11 @@ public class RobbingBlock extends Provider {
                 int blockY = rs.getInt("blockY");
                 int blockZ = rs.getInt("blockZ");
 
+                String placer = rs.getString("placer");
+                Player player = Bukkit.getPlayer(UUID.fromString(placer));
+
                 Location location = new Location(world, blockX, blockY, blockZ);
-                RobbingBlock block = new RobbingBlock(item, location);
+                RobbingBlock block = new RobbingBlock(item, location, player);
 
                 // Entity can be null if someone manually destroyed it
                 String itemDisplayUUID = rs.getString("entityUUID");

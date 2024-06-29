@@ -102,7 +102,7 @@ class ItemDisplayAdapter implements Listener {
 
         if(container.has(pinKey, PersistentDataType.STRING)) {
             String pin = container.get(pinKey, PersistentDataType.STRING);
-            safeModel.savePin(pin);
+            safeModel.savePin(pin, safe.getPlacer());
         }
 
         // Remove the armor stand

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DashboardMenu {
-    public static void open(Player player, JavaPlugin plugin) {
+    public static void open(Player player, Robbing plugin) {
         ItemManager itemManager = Robbing.getInstance().getItemsManager();
         String[] guiSetup = {
                 "         ",

@@ -41,6 +41,7 @@ safes:
   invalid_pin: "Invalid pin, the pin must be a 4 length digits"
   successfully_locked: "Safe successfully locked"
   successfully_unlocked: "Safe successfully unlocked"
+  limit_locking: "You have locked too much safes"
 actionbar:
   time_to_escape: "You have {time} to escape..."
   handcuffing: "Handcuffing {time}..."

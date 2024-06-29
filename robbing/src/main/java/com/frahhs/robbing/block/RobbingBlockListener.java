@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -36,7 +37,7 @@ public class RobbingBlockListener extends RobbingListener {
             return;
 
         // Instance of the Robbing block.
-        RobbingBlock block = new RobbingBlock(rbItem, e.getBlock().getLocation());
+        RobbingBlock block = new RobbingBlock(rbItem, e.getBlock().getLocation(), e.getPlayer());
 
         // Do the place action.
         block.place(e.getPlayer());
@@ -80,11 +81,12 @@ public class RobbingBlockListener extends RobbingListener {
             return;
         }
 
-        e.setDropItems(false);
         // Drop option
         if(robbingBlockBreakEvent.isDropItems() && e.isDropItems() && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), item.getItemStack());
         }
+
+        e.setDropItems(false);
 
         // Exp option
         e.setExpToDrop(robbingBlockBreakEvent.getExpToDrop());

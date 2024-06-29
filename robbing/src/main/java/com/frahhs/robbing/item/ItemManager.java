@@ -37,7 +37,7 @@ public class ItemManager {
      *
      * @param rbItem The RobbingItem to register.
      */
-    public void registerItems(RobbingItem rbItem) {
+    public void registerItems(RobbingItem rbItem, Robbing plugin) {
         if (rbItems.containsKey(rbItem.getName())) {
             throw new RuntimeException(String.format("Item name [%s] already exists.", rbItem.getName()));
         }
@@ -45,7 +45,7 @@ public class ItemManager {
         rbItems.put(rbItem.getName(), rbItem);
         if (rbItem.isCraftable()) {
             Robbing.getRobbingLogger().finer("Adding %s shaped recipe.", rbItem.getName());
-            plugin.getServer().addRecipe(rbItem.getShapedRecipe());
+            plugin.getServer().addRecipe(rbItem.getShapedRecipe(plugin));
         }
     }
 

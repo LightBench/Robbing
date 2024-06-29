@@ -13,18 +13,13 @@ import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBar;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffsBarController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HandcuffingFeature extends Feature {
-    private final Robbing plugin;
-
-    public HandcuffingFeature(Robbing plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     protected void onEnable() {
         // Handle Handcuffs bars
@@ -51,14 +46,19 @@ public class HandcuffingFeature extends Feature {
     }
 
     @Override
-    protected void registerEvents() {
+    protected void registerEvents(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(new HandcuffingListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new HandcuffedListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new HitHandcuffsListener(), plugin);
     }
 
     @Override
-    protected void registerBags() {
+    protected void registerBags(JavaPlugin javaPlugin) {
+        if(!(javaPlugin instanceof Robbing))
+            return;
+
+        Robbing plugin = (Robbing) javaPlugin;
+
         plugin.getBagManager().registerBags(new HandcuffingCooldownBag());
         plugin.getBagManager().registerBags(new HandcuffsBarBag());
         plugin.getBagManager().registerBags(new JustHandcuffBag());

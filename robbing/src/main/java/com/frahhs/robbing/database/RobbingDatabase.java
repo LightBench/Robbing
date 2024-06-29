@@ -74,6 +74,7 @@ public class RobbingDatabase {
         blocksPlacedTable();
         recipeTable();
         safeInventoryTable();
+        safeLockedTable();
     }
 
     /**
@@ -214,7 +215,29 @@ public class RobbingDatabase {
             dbConnection.commit();
             stmt.close();
         } catch ( Exception e ) {
-            Robbing.getRobbingLogger().error("Error while creating blocksPlaced table, %s", e);
+            Robbing.getRobbingLogger().error("Error while creating safeInventory table, %s", e);
+        }
+    }
+
+    /**
+     * Creates the safe inventories table if it does not exist.
+     */
+    public void safeLockedTable() {
+        Statement stmt;
+
+        // if table safes not exist create it
+        try {
+            stmt = dbConnection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS SafeLocked (" +
+                         "safeUUID CHAR(100) PRIMARY KEY,"         +
+                         "timestamp DEFAULT CURRENT_TIMESTAMP,"    +
+                         "playerUUID CHAR(100) NOT NULL,"          +
+                         "pin CHAR(100) NOT NULL)"                 ;
+            stmt.executeUpdate(sql);
+            dbConnection.commit();
+            stmt.close();
+        } catch ( Exception e ) {
+            Robbing.getRobbingLogger().error("Error while creating SafeLocked table, %s", e);
         }
     }
 }

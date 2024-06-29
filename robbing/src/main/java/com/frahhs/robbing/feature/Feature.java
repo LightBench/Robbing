@@ -1,5 +1,6 @@
 package com.frahhs.robbing.feature;
 
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,12 +21,12 @@ public abstract class Feature {
     /**
      * Registers events for the feature.
      */
-    protected abstract void registerEvents();
+    protected abstract void registerEvents(JavaPlugin plugin);
 
     /**
      * Registers bags for the feature.
      */
-    protected abstract void registerBags();
+    protected abstract void registerBags(JavaPlugin plugin);
 
     /**
      * Retrieves the ID of the feature.

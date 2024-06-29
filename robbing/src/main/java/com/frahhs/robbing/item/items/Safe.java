@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Safe extends RobbingItem {
-    public Safe(Robbing plugin) {
-        super(plugin);
-    }
-
     @Override
     public ShapedRecipe getDefaultShapedRecipe() {
         ShapedRecipe shapedRecipe = new ShapedRecipe(getNamespacedKey(), getItemStack());
