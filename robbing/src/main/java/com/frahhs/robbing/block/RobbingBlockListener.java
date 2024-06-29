@@ -37,7 +37,7 @@ public class RobbingBlockListener extends RobbingListener {
             return;
 
         // Instance of the Robbing block.
-        RobbingBlock block = new RobbingBlock(rbItem, e.getBlock().getLocation());
+        RobbingBlock block = new RobbingBlock(rbItem, e.getBlock().getLocation(), e.getPlayer());
 
         // Do the place action.
         block.place(e.getPlayer());
@@ -91,7 +91,6 @@ public class RobbingBlockListener extends RobbingListener {
         // Exp option
         e.setExpToDrop(robbingBlockBreakEvent.getExpToDrop());
 
-        logger.info("here!!!!");
         block.destroy();
     }
 

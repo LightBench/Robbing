@@ -173,7 +173,7 @@ public final class Robbing extends JavaPlugin {
         featureManager.registerFeatures(new KidnappingFeature(), this);
         featureManager.registerFeatures(new SafeFeature(), this);
         featureManager.registerFeatures(new LockpickingFeature(), this);
-        featureManager.registerFeatures(new AtmFeature(), this);
+        //featureManager.registerFeatures(new AtmFeature(), this);
     }
 
     private void registerItems() {
@@ -196,7 +196,7 @@ public final class Robbing extends JavaPlugin {
         itemManager.registerItems(new Cylinder(), this);
         itemManager.registerItems(new CylinderWrong(), this);
         itemManager.registerItems(new CylinderCorrect(), this);
-        itemManager.registerItems(new ATM(), this);
+        //itemManager.registerItems(new ATM(), this);
     }
 
     public RobbingDatabase getRobbingDatabase() {

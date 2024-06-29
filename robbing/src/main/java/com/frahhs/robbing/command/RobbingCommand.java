@@ -15,6 +15,7 @@ import com.frahhs.robbing.item.ItemManager;
 import com.frahhs.robbing.item.RobbingItem;
 import com.frahhs.robbing.item.RobbingMaterial;
 import com.frahhs.robbing.menu.DashboardMenu;
+import com.frahhs.robbing.provider.ConfigProvider;
 import com.frahhs.robbing.provider.MessagesProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -28,10 +29,12 @@ import org.checkerframework.common.value.qual.IntRange;
 public class RobbingCommand extends BaseCommand {
     private final Robbing plugin;
     MessagesProvider messagesProvider;
+    ConfigProvider configProvider;
 
     public RobbingCommand(Robbing plugin) {
         this.plugin = plugin;
         messagesProvider = plugin.getMessagesProvider();
+        configProvider = plugin.getConfigProvider();
     }
 
     @Default
@@ -110,11 +113,22 @@ public class RobbingCommand extends BaseCommand {
             return;
         }
 
+        // Limit safes feature
+        boolean limitSafesEnabled = configProvider.getBoolean("safe.limit-locked-safes.enabled");
+        int limitSafesAmount = configProvider.getInt("safe.limit-locked-safes.max-safes");
+        if(limitSafesEnabled) {
+            if(SafeModel.getByPlayer((Player) sender).size() >= limitSafesAmount) {
+                String message = messagesProvider.getMessage("safes.limit_locking");
+                sender.sendMessage(message);
+                return;
+            }
+        }
+
         String message = messagesProvider.getMessage("safes.successfully_locked");
         sender.sendMessage(message);
 
         assert safe != null;
-        safeController.lock(safe, pin);
+        safeController.lock(safe, pin, (Player) sender);
     }
 
     @Subcommand("unlock")
