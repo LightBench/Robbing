@@ -41,6 +41,7 @@ safes:
   invalid_pin: "Pin invalido, il pin deve essere di 4 cifre"
   successfully_locked: "Cassaforte bloccata con successo"
   successfully_unlocked: "Cassaforte sbloccata con successo"
+  limit_locking: "Hai bloccato troppe casseforti"
 actionbar:
   time_to_escape: "Hai {time} per scappare"
   handcuffing: "Ammanettando {time}..."
