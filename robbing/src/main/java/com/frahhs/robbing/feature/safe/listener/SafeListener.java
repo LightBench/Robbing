@@ -13,6 +13,7 @@ import com.frahhs.robbing.feature.lockpicking.item.Lockpick;
 import com.frahhs.robbing.feature.safe.item.Safe;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -79,6 +80,20 @@ public class SafeListener extends LightListener {
     public void onBreak(LightBlockBreakEvent e) {
         if(!(e.getBlock().getItem() instanceof Safe))
             return;
+
+        if(config.getBoolean("safe.only_owner_can_break")) {
+            if(!e.getPlayer().hasPermission("robbing.admin")) {
+                Player locker = SafeModel.getFromSafe(e.getBlock()).getLocker();
+                if(locker != null) {
+                    if(!locker.getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                        String message = messages.getMessage("safes.cant_break_claimed_safe");
+                        e.getPlayer().sendMessage(message);
+                        e.setCancelled(true);
+                        return;
+                    }
+                }
+            }
+        }
 
         // Drop option
         if(!e.isCancelled() && e.isDropItems() && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {

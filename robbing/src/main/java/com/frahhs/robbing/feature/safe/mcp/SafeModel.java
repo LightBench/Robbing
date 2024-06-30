@@ -89,6 +89,10 @@ public class SafeModel extends LightModel {
         safePinProvider.deleteSafe(safe.getUniqueId());
     }
 
+    public Player getLocker() {
+        return safePinProvider.getSafeLocker(safe.getUniqueId());
+    }
+
     public static boolean isLocked(LightBlock safe) {
         return getFromSafe(safe).havePin();
     }
