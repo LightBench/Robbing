@@ -14,6 +14,8 @@ permissions:
     description: Allows to rob
   robbing.notrobable:
     description: Make not possible to be robbed
+  robbing.bypass_rob_rules:
+    description: Bypass the rob whitelist and blacklist
   robbing.catch:
     description: Allows to catch robber
   robbing.handcuff:
