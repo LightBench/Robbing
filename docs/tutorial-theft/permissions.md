@@ -10,6 +10,10 @@ Allow the rob mechanic.
 
 Make a player invulnerable to rob feature.
 
+### robbing.bypass\_rob\_rules
+
+Bypass the rob whitelist and blacklist
+
 ### robbing.catch
 
 Allow the catch mechanic.
