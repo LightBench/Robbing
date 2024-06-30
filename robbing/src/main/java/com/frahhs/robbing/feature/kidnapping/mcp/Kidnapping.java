@@ -1,12 +1,12 @@
 package com.frahhs.robbing.feature.kidnapping.mcp;
 
-import com.frahhs.robbing.feature.Model;
+import com.frahhs.lightlib.feature.LightModel;
 import org.bukkit.entity.Player;
 
 /**
- * Model class representing a kidnapping event.
+ * LightModel class representing a kidnapping event.
  */
-public class Kidnapping extends Model {
+public class Kidnapping extends LightModel {
     private final Player kidnapped;
     private final Player kidnapper;
 

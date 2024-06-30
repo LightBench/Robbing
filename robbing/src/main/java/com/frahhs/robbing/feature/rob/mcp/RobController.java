@@ -1,12 +1,12 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
-import com.frahhs.robbing.feature.Model;
+import com.frahhs.lightlib.feature.LightModel;
 import org.bukkit.entity.Player;
 
 /**
- * Controller class for managing robbery actions.
+ * LightController class for managing robbery actions.
  */
-public class RobController extends Model {
+public class RobController extends LightModel {
     /**
      * Constructor for RobController.
      */

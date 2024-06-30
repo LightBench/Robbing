@@ -1,10 +1,8 @@
 package com.frahhs.robbing.feature.safe.mcp;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.gui.GUI;
-import com.frahhs.robbing.gui.GUIType;
-import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.block.LightBlock;
+import com.frahhs.lightlib.gui.GUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SafeUnlockGUI implements GUI {
-    private final RobbingBlock safe;
+    private final LightBlock safe;
     private final SafePin correctPin;
     private final Inventory inventory;
 
@@ -39,7 +37,7 @@ public class SafeUnlockGUI implements GUI {
     public static final int SLOT_PIN_3 = 16;
     public static final int SLOT_PIN_4 = 17;
 
-    public SafeUnlockGUI(SafePin pin, RobbingBlock safe) {
+    public SafeUnlockGUI(SafePin pin, LightBlock safe) {
         if(pin == null)
             throw new RuntimeException("Pin is not nullable");
 
@@ -68,12 +66,7 @@ public class SafeUnlockGUI implements GUI {
         return inventory;
     }
 
-    @Override
-    public GUIType getType() {
-        return GUIType.SAFE_UNLOCK;
-    }
-
-    public RobbingBlock getSafe() {
+    public LightBlock getSafe() {
         return safe;
     }
 
@@ -114,29 +107,29 @@ public class SafeUnlockGUI implements GUI {
     private ItemStack getItemFromSlot(int slot) {
         switch(slot) {
             case SLOT_PANEL_0:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_0).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_0").getItemStack();
             case SLOT_PANEL_1:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_1).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_1").getItemStack();
             case SLOT_PANEL_2:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_2).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_2").getItemStack();
             case SLOT_PANEL_3:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_3).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_3").getItemStack();
             case SLOT_PANEL_4:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_4).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_4").getItemStack();
             case SLOT_PANEL_5:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_5).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_5").getItemStack();
             case SLOT_PANEL_6:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_6).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_6").getItemStack();
             case SLOT_PANEL_7:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_7).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_7").getItemStack();
             case SLOT_PANEL_8:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_8).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_8").getItemStack();
             case SLOT_PANEL_9:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_9).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_9").getItemStack();
             case SLOT_PANEL_CANCEL:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_CANCEL).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_cancel").getItemStack();
             case SLOT_PANEL_CHECK:
-                return Robbing.getInstance().getItemsManager().get(RobbingMaterial.PANEL_NUMBER_CHECK).getItemStack();
+                return LightPlugin.getItemsManager().get("panel_number_check").getItemStack();
         }
 
         return null;

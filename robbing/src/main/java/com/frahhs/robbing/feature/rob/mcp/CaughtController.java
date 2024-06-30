@@ -1,14 +1,14 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
-import com.frahhs.robbing.feature.Controller;
+import com.frahhs.lightlib.feature.LightController;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * Controller class for managing caught players.
+ * LightController class for managing caught players.
  */
-public class CaughtController extends Controller {
+public class CaughtController extends LightController {
     /**
      * Handles catching a robber.
      *

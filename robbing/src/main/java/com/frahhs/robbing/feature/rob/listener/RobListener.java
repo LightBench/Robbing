@@ -1,6 +1,7 @@
 package com.frahhs.robbing.feature.rob.listener;
 
-import com.frahhs.robbing.RobbingListener;
+import com.frahhs.lightlib.LightListener;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.dependencies.Dependency;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
@@ -9,7 +10,6 @@ import com.frahhs.robbing.feature.rob.event.ItemRobbedEvent;
 import com.frahhs.robbing.feature.rob.event.StartRobbingEvent;
 import com.frahhs.robbing.feature.rob.mcp.Rob;
 import com.frahhs.robbing.feature.rob.mcp.RobController;
-import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Listener class for robbery-related events.
  */
-public class RobListener extends RobbingListener {
+public class RobListener extends LightListener {
     public final RobController robController;
 
     public RobListener() {

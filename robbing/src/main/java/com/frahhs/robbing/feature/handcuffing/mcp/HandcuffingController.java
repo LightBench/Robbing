@@ -1,11 +1,12 @@
 package com.frahhs.robbing.feature.handcuffing.mcp;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightController;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Controller;
 import com.frahhs.robbing.feature.handcuffing.event.ToggleHandcuffsEvent;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
-import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.robbing.feature.handcuffing.item.Handcuffs;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -13,9 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Controller class for managing handcuffing actions.
+ * LightController class for managing handcuffing actions.
  */
-public class HandcuffingController extends Controller {
+public class HandcuffingController extends LightController {
 
     /**
      * Default constructor for HandcuffingController.
@@ -147,8 +148,8 @@ public class HandcuffingController extends Controller {
      * @return True if the player is using handcuffs, otherwise false.
      */
     public boolean handcuffsInHand(Player player) {
-        ItemStack handcuffsItemStack = Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS).getItemStack();
-        return player.getInventory().getItemInMainHand().isSimilar(handcuffsItemStack);
+        ItemStack item = player.getInventory().getItemInMainHand();
+        return LightPlugin.getItemsManager().get(item) instanceof Handcuffs;
     }
 
     /**
@@ -195,7 +196,7 @@ public class HandcuffingController extends Controller {
 
                 putHandcuffs(handcuffer, handcuffed);
             } catch (InterruptedException e) {
-                Robbing.getRobbingLogger().error("Error handling handcuff escape for %s from %s, %s", handcuffed.getName(), handcuffer.getName(), e);
+                LightPlugin.getLightLogger().error("Error handling handcuff escape for %s from %s, %s", handcuffed.getName(), handcuffer.getName(), e);
             }
         });
     }

@@ -1,9 +1,9 @@
 package com.frahhs.robbing.feature.handcuffing.mcp;
 
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.feature.handcuffing.bag.HandcuffingCooldownBag;
 import com.frahhs.robbing.feature.handcuffing.bag.JustHandcuffBag;
-import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -14,9 +14,9 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
- * Provider class for managing handcuffing-related data and database operations.
+ * LightProvider class for managing handcuffing-related data and database operations.
  */
-class HandcuffingProvider extends Provider {
+class HandcuffingProvider extends LightProvider {
     private final HandcuffingCooldownBag handcuffingCooldownBag;
     private final JustHandcuffBag justHandcuffBag;
 

@@ -1,13 +1,13 @@
 package com.frahhs.robbing.feature.handcuffing.mcp;
 
-import com.frahhs.robbing.feature.Controller;
+import com.frahhs.lightlib.feature.LightController;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import org.bukkit.entity.Player;
 
 /**
- * Controller class for managing handcuffs bar actions.
+ * LightController class for managing handcuffs bar actions.
  */
-public class HandcuffsBarController extends Controller {
+public class HandcuffsBarController extends LightController {
     /**
      * Puts the handcuffs bar on a player, if he doesn't have it.
      *

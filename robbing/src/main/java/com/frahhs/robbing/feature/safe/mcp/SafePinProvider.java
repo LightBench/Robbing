@@ -1,7 +1,9 @@
 package com.frahhs.robbing.feature.safe.mcp;
 
-import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
+import com.frahhs.lightlib.block.LightBlock;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +15,7 @@ import java.util.UUID;
 /**
  * SafePinProvider class that extends LightProvider and manages the SafeLocked table.
  */
-public class SafePinProvider extends Provider {
+public class SafePinProvider extends LightProvider {
     /**
      * Creates a new safe entry in the SafeLocked table.
      *
@@ -55,6 +57,26 @@ public class SafePinProvider extends Provider {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("pin");
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to retrieve pin for safe UUID: " + safeUUID, e);
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves the pin code for a given safeUUID from the SafeLocked table.
+     *
+     * @param safeUUID The unique identifier for the safe.
+     * @return The pin code as a String if found, null otherwise.
+     */
+    protected Player getSafeLocker(UUID safeUUID) {
+        String sql = "SELECT playerUUID FROM SafeLocked WHERE safeUUID = ?";
+        try (PreparedStatement pstmt = dbConnection.prepareStatement(sql)) {
+            pstmt.setString(1, safeUUID.toString());
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return Bukkit.getPlayer(UUID.fromString(rs.getString("playerUUID")));
             }
         } catch (SQLException e) {
             logger.error("Failed to retrieve pin for safe UUID: " + safeUUID, e);
@@ -125,7 +147,7 @@ public class SafePinProvider extends Provider {
             pstmt.setString(1, playerUUID.toString());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                RobbingBlock safe = RobbingBlock.getFromUUID(UUID.fromString(rs.getString("safeUUID")));
+                LightBlock safe = LightBlock.getFromUUID(UUID.fromString(rs.getString("safeUUID")));
                 safes.add(SafeModel.getFromSafe(safe));
             }
         } catch (SQLException e) {

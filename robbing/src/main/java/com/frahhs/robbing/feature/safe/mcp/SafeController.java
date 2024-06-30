@@ -1,10 +1,10 @@
 package com.frahhs.robbing.feature.safe.mcp;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.block.LightBlock;
+import com.frahhs.lightlib.feature.LightController;
+import com.frahhs.lightlib.util.ItemUtil;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.feature.Controller;
-import com.frahhs.robbing.item.RobbingMaterial;
-import com.frahhs.robbing.util.ItemUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,9 +18,9 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SafeController extends Controller {
+public class SafeController extends LightController {
 
-    public void open(RobbingBlock safe, Player player) {
+    public void open(LightBlock safe, Player player) {
         if(SafeModel.isLocked(safe))
             openGUI(safe, player);
         else
@@ -28,27 +28,27 @@ public class SafeController extends Controller {
     }
 
 
-    public void openGUI(RobbingBlock safe, Player player) {
+    public void openGUI(LightBlock safe, Player player) {
         logger.fine("%s opened gui of the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         player.openInventory(safeModel.getSafeUnlockGUI().getInventory());
     }
 
-    public void openInventory(RobbingBlock safe, Player player) {
+    public void openInventory(LightBlock safe, Player player) {
         logger.fine("%s opened inventory of the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         player.openInventory(safeModel.getInventory());
     }
 
-    public void update(RobbingBlock safe, Inventory inventory) {
+    public void update(LightBlock safe, Inventory inventory) {
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
         safeModel.saveInventory(inventory);
     }
 
-    public void placeBlock(RobbingBlock safe, ItemStack item) {
+    public void placeBlock(LightBlock safe, ItemStack item) {
         logger.fine("Placing safe: %s", safe.getUniqueId().toString());
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -72,11 +72,11 @@ public class SafeController extends Controller {
         }
     }
 
-    public void dropBlock(RobbingBlock safe, Player player) {
+    public void dropBlock(LightBlock safe, Player player) {
         logger.fine("%s dropped the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
-        ItemStack item = plugin.getItemsManager().get(RobbingMaterial.SAFE).getItemStack();
+        ItemStack item = LightPlugin.getItemsManager().get("safe").getItemStack();
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -105,7 +105,7 @@ public class SafeController extends Controller {
         player.getWorld().dropItemNaturally(safe.getLocation(), item);
     }
 
-    public void dropInventory(RobbingBlock safe, Player player) {
+    public void dropInventory(LightBlock safe, Player player) {
         logger.fine("%s dropped the inventory of the safe: %s", player.getName(), safe.getUniqueId().toString());
         SafeModel safeModel = SafeModel.getFromSafe(safe);
 
@@ -121,7 +121,7 @@ public class SafeController extends Controller {
         safeModel.getInventory().setContents(content);
     }
 
-    public void lock(RobbingBlock safe, String pin, Player locker) {
+    public void lock(LightBlock safe, String pin, Player locker) {
         logger.fine("safe %s locked, pin: %s", safe.getUniqueId().toString(), pin);
         // If it is already locked, return
         if(SafeModel.isLocked(safe))
@@ -131,7 +131,7 @@ public class SafeController extends Controller {
         safeModel.savePin(pin, safe.getPlacer());
     }
 
-    public void unlock(RobbingBlock safe) {
+    public void unlock(LightBlock safe) {
         logger.fine("safe %s unlocked", safe.getUniqueId().toString());
         // If it is already unlocked, return
         if(!SafeModel.isLocked(safe))
