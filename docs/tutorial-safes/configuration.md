@@ -7,6 +7,7 @@ Open your plugin folder, and nextly Robber folder. Here you can find the file `c
 Inside `config.yml` search the section `lockpick`, it will looks like this:
 
 <pre class="language-yaml"><code class="lang-yaml">safe:
+  only_owner_can_break: false
   # Set a max number of safes that a player can lock.
   limit-locked-safes:
     enabled: false
@@ -17,6 +18,16 @@ Inside `config.yml` search the section `lockpick`, it will looks like this:
 </code></pre>
 
 Description of all handcuffing settings in the config.
+
+## safes.only\_owner\_can\_break
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+**Usage:**
+
+If `true` only who locked a safe can break it.
 
 ## safes.limit-locked-safes.enabled
 
