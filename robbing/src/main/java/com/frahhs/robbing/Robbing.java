@@ -1,221 +1,71 @@
 package com.frahhs.robbing;
 
-import co.aikar.commands.PaperCommandManager;
+import com.frahhs.lightlib.LightPlugin;
 import com.frahhs.robbing.adapter.AdapterManager;
-import com.frahhs.robbing.block.RobbingBlockListener;
 import com.frahhs.robbing.command.RobbingCommand;
-import com.frahhs.robbing.database.RobbingDatabase;
 import com.frahhs.robbing.dependencies.DependenciesManager;
-import com.frahhs.robbing.feature.FeatureManager;
-import com.frahhs.robbing.feature.atm.AtmFeature;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
 import com.frahhs.robbing.feature.kidnapping.KidnappingFeature;
 import com.frahhs.robbing.feature.lockpicking.LockpickingFeature;
 import com.frahhs.robbing.feature.rob.RobbingFeature;
 import com.frahhs.robbing.feature.safe.SafeFeature;
-import com.frahhs.robbing.gui.GUIListener;
-import com.frahhs.robbing.item.ItemManager;
-import com.frahhs.robbing.item.items.*;
-import com.frahhs.robbing.provider.ConfigProvider;
-import com.frahhs.robbing.provider.MessagesProvider;
-import com.frahhs.robbing.util.bag.BagManager;
-import com.frahhs.robbing.util.logging.RobbingLogger;
-import com.frahhs.robbing.util.update.UpdateChecker;
 import com.google.common.collect.ImmutableList;
-import org.bstats.MetricsBase;
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.CustomChart;
-import org.bstats.charts.SimplePie;
-import org.bukkit.Bukkit;
-import org.bukkit.event.server.ServerLoadEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
-public final class Robbing extends JavaPlugin {
-    private static Robbing instance;
-    private static RobbingLogger robbingLogger;
-
-    // Providers
-    private ConfigProvider configProvider;
-    private MessagesProvider messagesProvider;
-
-    // Managers
-    private PaperCommandManager commandManager;
-    private DependenciesManager dependenciesManager;
-    private BagManager bagManager;
-    private ItemManager itemManager;
-    private FeatureManager featureManager;
-
-    // Database
-    private RobbingDatabase robbingDatabase;
-
+public final class Robbing extends LightPlugin {
     @Override
-    public void onEnable() {
-        instance = this;
-        configProvider = new ConfigProvider(this);
+    public void onLightLoad() {
+        LightPlugin.getOptions().setPermissionPrefix("robbing");
+        LightPlugin.getOptions().setUpdateCheck(true);
+        LightPlugin.getOptions().setSpigotMarketID("117484");
+        LightPlugin.getOptions().setGithubContentsUrl("https://api.github.com/repos/FrahHS/Robbing/contents/robbing/src/main/resources/lang");
+        LightPlugin.getOptions().setGithubUrlTemplate("https://raw.githubusercontent.com/FrahHS/Robbing/main/robbing/src/main/resources/lang/");
 
-        // Enable logger
-        robbingLogger = new RobbingLogger(this);
-        robbingLogger.setLevel(Level.INFO);
-
-        // Enable managers
-        messagesProvider = new MessagesProvider(this);
-        itemManager = new ItemManager(this);
-        commandManager  = new PaperCommandManager(this);
-        bagManager = new BagManager();
-        featureManager = new FeatureManager(this);
-
-        // Enable Database connection
-        robbingDatabase = new RobbingDatabase(this);
-
-        // Register stuff
-        registerCommands();
-        registerEvents();
-        registerItems();
-        registerFeatures();
-
-        int pluginId = 22346;
-        Metrics metrics = new Metrics(this, pluginId);
-
-        // Optional: Add custom charts
-        metrics.addCustomChart(new SimplePie("language", () -> configProvider.getString("language")));
-
-        // Do adaptions
-        AdapterManager.adapt();
-
-        // Disable plugin if is disabled in the config
-        if(!configProvider.getBoolean("enabled"))
-            this.getPluginLoader().disablePlugin(this);
-    }
-
-    @Override
-    public void onDisable() {
-        // Disable features
-        featureManager.disableFeatures();
-
-        // Dispose items
-        itemManager.dispose();
-
-        // Disable database
-        robbingDatabase.disable();
-
-        // Disable bags
-        bagManager.disableBags();
-
-        // Close logger
-        robbingLogger.close();
-    }
-
-    @Override
-    public void onLoad() {
-        // Load dependencies
-        dependenciesManager = new DependenciesManager();
+        DependenciesManager dependenciesManager = new DependenciesManager();
         dependenciesManager.init();
     }
 
-    public static Robbing getInstance() {
-        return instance;
+    @Override
+    public void onLightEnabled() {
+        registerFeatures();
+        registerCommands();
+
+        // Do adaptions
+        AdapterManager.adapt();
     }
 
-    public static RobbingLogger getRobbingLogger() {
-        return robbingLogger;
+    @Override
+    public void onLightDisabled() {
+
     }
 
-    public void reload() {
-        // Config and messages providers
-        configProvider.reload();
-        messagesProvider.reload();
-
-        // Item
-        itemManager.dispose();
-        registerItems();
-
-        // Bag
-        bagManager.disableBags();
-        bagManager.enableBags();
-
-        // Feature
-        featureManager.disableFeatures();
-        featureManager.enableFeatures();
+    public void registerFeatures() {
+        LightPlugin.getFeatureManager().registerFeatures(new RobbingFeature(), this);
+        LightPlugin.getFeatureManager().registerFeatures(new HandcuffingFeature(), this);
+        LightPlugin.getFeatureManager().registerFeatures(new KidnappingFeature(), this);
+        LightPlugin.getFeatureManager().registerFeatures(new SafeFeature(), this);
+        LightPlugin.getFeatureManager().registerFeatures(new LockpickingFeature(), this);
+        //featureManager.registerFeatures(new AtmFeature(), this);
     }
 
     private void registerCommands() {
         // Command settings
-        commandManager.enableUnstableAPI("help");
+        getCommandManager().enableUnstableAPI("help");
 
         // Commands
-        commandManager.registerCommand(new RobbingCommand(this));
+        getCommandManager().registerCommand(new RobbingCommand(this));
 
         // Command completions
-        commandManager.getCommandCompletions().registerCompletion("RobbingItems", c -> {
+        getCommandManager().getCommandCompletions().registerCompletion("RobbingItems", c -> {
             List<String> rbItems = new ArrayList<>();
-            itemManager.getRegisteredItems().forEach((item) -> {
+            getItemsManager().getRegisteredItems().forEach((item) -> {
                 if(item.isGivable()) {
-                    rbItems.add(item.getName());
+                    rbItems.add(item.getIdentifier());
                 }
             });
             return ImmutableList.copyOf(rbItems);
         });
-    }
-
-    private void registerEvents() {
-        getServer().getPluginManager().registerEvents(new RobbingBlockListener(),this);
-        getServer().getPluginManager().registerEvents(new GUIListener(),this);
-        getServer().getPluginManager().registerEvents(new UpdateChecker(),this);
-    }
-
-    public void registerFeatures() {
-        featureManager.registerFeatures(new RobbingFeature(), this);
-        featureManager.registerFeatures(new HandcuffingFeature(), this);
-        featureManager.registerFeatures(new KidnappingFeature(), this);
-        featureManager.registerFeatures(new SafeFeature(), this);
-        featureManager.registerFeatures(new LockpickingFeature(), this);
-        //featureManager.registerFeatures(new AtmFeature(), this);
-    }
-
-    private void registerItems() {
-        itemManager.registerItems(new Handcuffs(), this);
-        itemManager.registerItems(new HandcuffsKey(), this);
-        itemManager.registerItems(new Lockpick(), this);
-        itemManager.registerItems(new Safe(), this);
-        itemManager.registerItems(new PanelNumber0(), this);
-        itemManager.registerItems(new PanelNumber1(), this);
-        itemManager.registerItems(new PanelNumber2(), this);
-        itemManager.registerItems(new PanelNumber3(), this);
-        itemManager.registerItems(new PanelNumber4(), this);
-        itemManager.registerItems(new PanelNumber5(), this);
-        itemManager.registerItems(new PanelNumber6(), this);
-        itemManager.registerItems(new PanelNumber7(), this);
-        itemManager.registerItems(new PanelNumber8(), this);
-        itemManager.registerItems(new PanelNumber9(), this);
-        itemManager.registerItems(new PanelNumberCancel(), this);
-        itemManager.registerItems(new PanelNumberCheck(), this);
-        itemManager.registerItems(new Cylinder(), this);
-        itemManager.registerItems(new CylinderWrong(), this);
-        itemManager.registerItems(new CylinderCorrect(), this);
-        //itemManager.registerItems(new ATM(), this);
-    }
-
-    public RobbingDatabase getRobbingDatabase() {
-        return robbingDatabase;
-    }
-
-    public ConfigProvider getConfigProvider() {
-        return configProvider;
-    }
-
-    public MessagesProvider getMessagesProvider() {
-        return messagesProvider;
-    }
-
-    public BagManager getBagManager() {
-        return bagManager;
-    }
-
-    public ItemManager getItemsManager() {
-        return itemManager;
     }
 }

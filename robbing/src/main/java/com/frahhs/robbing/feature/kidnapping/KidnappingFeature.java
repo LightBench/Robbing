@@ -1,13 +1,14 @@
 package com.frahhs.robbing.feature.kidnapping;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Feature;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
 import com.frahhs.robbing.feature.kidnapping.listener.KidnappingListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class KidnappingFeature extends Feature {
+public class KidnappingFeature extends LightFeature {
     @Override
     protected void onEnable() {
 
@@ -30,7 +31,12 @@ public class KidnappingFeature extends Feature {
 
         Robbing plugin = (Robbing) javaPlugin;
 
-        plugin.getBagManager().registerBags(new KidnappingBag());
+        LightPlugin.getBagManager().registerBags(new KidnappingBag());
+    }
+
+    @Override
+    protected void registerItems(JavaPlugin javaPlugin) {
+
     }
 
     @Override

@@ -1,14 +1,14 @@
 package com.frahhs.robbing.feature.kidnapping.mcp;
 
-import com.frahhs.robbing.feature.Controller;
+import com.frahhs.lightlib.feature.LightController;
 import com.frahhs.robbing.feature.kidnapping.event.ToggleKidnapEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * Controller class for managing kidnapping operations.
+ * LightController class for managing kidnapping operations.
  */
-public class KidnappingController extends Controller {
+public class KidnappingController extends LightController {
     /**
      * Initiates a kidnapping.
      *

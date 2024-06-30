@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.handcuffing.bag;
 
-import com.frahhs.robbing.util.bag.Bag;
+import com.frahhs.lightlib.util.bag.Bag;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

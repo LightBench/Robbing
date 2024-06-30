@@ -1,15 +1,15 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.feature.rob.bag.RobbingCooldownBag;
 import com.frahhs.robbing.feature.rob.bag.RobbingNowBag;
-import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.entity.Player;
 
 /**
- * Provider class for managing robbery actions.
+ * LightProvider class for managing robbery actions.
  */
-class RobProvider extends Provider {
+class RobProvider extends LightProvider {
     private final RobbingNowBag robbingNowBag;
     private final RobbingCooldownBag robbingCooldownBag;
 

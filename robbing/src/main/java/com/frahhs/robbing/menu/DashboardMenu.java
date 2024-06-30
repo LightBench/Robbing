@@ -1,7 +1,7 @@
 package com.frahhs.robbing.menu;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.item.ItemManager;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.item.ItemManager;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DashboardMenu {
-    public static void open(Player player, Robbing plugin) {
-        ItemManager itemManager = Robbing.getInstance().getItemsManager();
+    public static void open(Player player, JavaPlugin plugin) {
+        ItemManager itemManager = LightPlugin.getItemsManager();
         String[] guiSetup = {
                 "         ",
                 "    g    ",

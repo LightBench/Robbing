@@ -1,18 +1,19 @@
 package com.frahhs.robbing.feature.handcuffing.mcp;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightModel;
+import com.frahhs.lightlib.provider.ConfigProvider;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.provider.ConfigProvider;
-import com.frahhs.robbing.util.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
 
 /**
- * Model class representing data and operations related to handcuffing.
+ * LightModel class representing data and operations related to handcuffing.
  */
-public class Handcuffing extends Model {
+public class Handcuffing extends LightModel {
     private final Player handcuffer;
     private final Player handcuffed;
 
@@ -131,7 +132,7 @@ public class Handcuffing extends Model {
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(handcuffer);
             } catch (InterruptedException e) {
-                Robbing.getRobbingLogger().error("Error handling handcuffing cooldown for %s, %s", handcuffer.getName(), e);
+                LightPlugin.getLightLogger().error("Error handling handcuffing cooldown for %s, %s", handcuffer.getName(), e);
             }
         });
     }
@@ -142,7 +143,7 @@ public class Handcuffing extends Model {
      * @param handcuffer The player who applied the handcuffs.
      */
     public static void setCooldown(Player handcuffer) {
-        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+        ConfigProvider config = LightPlugin.getConfigProvider();
         setCooldown(handcuffer, config.getInt("handcuffing.cooldown"));
     }
 

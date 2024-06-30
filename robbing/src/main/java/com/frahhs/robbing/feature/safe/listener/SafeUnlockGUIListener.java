@@ -1,19 +1,18 @@
 package com.frahhs.robbing.feature.safe.listener;
 
-import com.frahhs.robbing.RobbingListener;
+import com.frahhs.lightlib.LightListener;
+import com.frahhs.lightlib.gui.event.GUIClickEvent;
 import com.frahhs.robbing.feature.safe.mcp.SafeController;
 import com.frahhs.robbing.feature.safe.mcp.SafeUnlockGUI;
-import com.frahhs.robbing.gui.GUIType;
-import com.frahhs.robbing.gui.event.GUIClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import static com.frahhs.robbing.feature.safe.mcp.SafeUnlockGUI.*;
 
-public class SafeUnlockGUIListener extends RobbingListener {
+public class SafeUnlockGUIListener extends LightListener {
     @EventHandler
     public void onSafeUnlockGUIClick(GUIClickEvent e) {
-        if(!e.getGui().getType().equals(GUIType.SAFE_UNLOCK))
+        if(!(e.getGui() instanceof SafeUnlockGUI))
             return;
 
         SafeUnlockGUI safeUnlockGUI = (SafeUnlockGUI) e.getGui();

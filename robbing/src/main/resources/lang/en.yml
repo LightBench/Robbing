@@ -42,6 +42,7 @@ safes:
   successfully_locked: "Safe successfully locked"
   successfully_unlocked: "Safe successfully unlocked"
   limit_locking: "You have locked too much safes"
+  cant_break_claimed_safe: "You cannot break a safe locked by someone else"
 actionbar:
   time_to_escape: "You have {time} to escape..."
   handcuffing: "Handcuffing {time}..."
