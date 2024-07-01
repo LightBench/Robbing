@@ -11,8 +11,11 @@ import com.frahhs.robbing.feature.safe.mcp.SafeInventory;
 import com.frahhs.robbing.feature.safe.mcp.SafeModel;
 import com.frahhs.robbing.feature.lockpicking.item.Lockpick;
 import com.frahhs.robbing.feature.safe.item.Safe;
+import com.frahhs.robbing.feature.safe.mcp.SafeUnlockGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -20,6 +23,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class SafeListener extends LightListener {
     private final SafeController safeController;
@@ -98,6 +105,19 @@ public class SafeListener extends LightListener {
         // Drop option
         if(!e.isCancelled() && e.isDropItems() && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.setDropItems(false);
+
+            // Close safe gui on safe break
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                if(player.getOpenInventory().getTopInventory().getHolder() instanceof SafeUnlockGUI) {
+                    player.closeInventory();
+                }
+            }
+
+            // Close safe inventory on safe break
+            List<HumanEntity> viewers = SafeModel.getFromSafe(e.getBlock()).getInventory().getViewers();
+            for(int i = 0; i < viewers.size(); i ++) {
+                viewers.get(i).closeInventory();
+            }
 
             // If the safe is not locked drop all the content.
             if(!SafeModel.isLocked(e.getBlock()))
