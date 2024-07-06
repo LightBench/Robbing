@@ -43,11 +43,11 @@ public class EmergencyCommand extends BaseCommand {
     public void on911(Player player, String reason) {
         for(Player curPlayer : Bukkit.getOnlinePlayers()) {
             if(curPlayer.hasPermission("robbing.police")) {
-                String message = messagesProvider.getMessage("911.alert").replace("{player}", player.getDisplayName()).replace("{reason}", reason);
+                String message = messagesProvider.getMessage("emergency.alert").replace("{player}", player.getDisplayName()).replace("{reason}", reason);
                 curPlayer.sendMessage(message);
             }
         }
-        String message = messagesProvider.getMessage("911.alert_sent");
+        String message = messagesProvider.getMessage("emergency.alert_sent");
         player.sendMessage(message);
     }
 
