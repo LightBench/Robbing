@@ -74,3 +74,11 @@ To use [`/rb unlock <pin>`](commands.md#rb-unlock-less-than-pin-greater-than) co
 ### <mark style="color:blue;">robbing.give</mark>
 
 To use [`/rb give <player> <item>`](commands.md#rb-give-less-than-player-greater-than-less-than-item-greater-than) command.
+
+### <mark style="color:blue;">robbing.911</mark>
+
+To use the <mark style="color:blue;">`/911 <amount>`</mark> command.
+
+### <mark style="color:blue;">robbing.police</mark>
+
+To receive the alert from the 911 command.

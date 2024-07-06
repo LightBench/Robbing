@@ -14,5 +14,8 @@
 * [Safes](tutorial-safes/README.md)
   * [Configuration](tutorial-safes/configuration.md)
   * [Permissions](tutorial-safes/permissions.md)
+* [Emergency call](emergency-call/README.md)
+  * [Configuration](emergency-call/configuration.md)
+  * [Permissions](emergency-call/permissions.md)
 * [Permissions](permissions.md)
 * [Translation](translation.md)
