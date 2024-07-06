@@ -36,3 +36,5 @@ permissions:
     description: Allow to use safes
   robbing.911:
     description: Allow to use /911 command
+  robbing.police:
+    description: Allow to receive the alert from the /911 command

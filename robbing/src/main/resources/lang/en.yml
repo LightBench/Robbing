@@ -7,6 +7,7 @@ general:
   deny_region: "You cannot do that here!"
   recipe_updated: "Recipe updated!"
   recipe_not_vanilla: "&eYou can use only vanilla item for recipes"
+  disabled_feature: "&eThis feature is not enabled"
 robbing:
   alert: "{thief} is robbing you!"
   cant_steal: "You can't steal it!"
@@ -53,7 +54,7 @@ lockpicking:
   failed: "You failed to lockpick that safe."
   success: "Safe successfully lockpicked."
 emergency:
-  alert: "Player {player} sent an emergency alert: {reason}"
+  alert: "{player} called 911 from {coordinates}, for: {reason}."
   alert_sent: "Emergency alert sent to the police officers!"
 items_name:
   handcuffs: "Handcuffs"

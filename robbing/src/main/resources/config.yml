@@ -196,9 +196,7 @@ lockpicking:
 emergencycall:
 
   # Whether the emergency call feature should be enabled or not.
-  enabled: true
-
-  message: "{player} called 911 from {coordinates}, for: {reason}."
+  enabled: false
 
   # Cooldown for /911 (in seconds), set to 0 to disable.
   cooldown: 10
