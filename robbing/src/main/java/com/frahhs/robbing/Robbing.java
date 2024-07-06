@@ -2,6 +2,7 @@ package com.frahhs.robbing;
 
 import com.frahhs.lightlib.LightPlugin;
 import com.frahhs.robbing.adapter.AdapterManager;
+import com.frahhs.robbing.command.EmergencyCommand;
 import com.frahhs.robbing.command.RobbingCommand;
 import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.feature.handcuffing.HandcuffingFeature;
@@ -20,8 +21,8 @@ public final class Robbing extends LightPlugin {
         LightPlugin.getOptions().setPermissionPrefix("robbing");
         LightPlugin.getOptions().setUpdateCheck(true);
         LightPlugin.getOptions().setSpigotMarketID("117484");
-        LightPlugin.getOptions().setGithubContentsUrl("https://api.github.com/repos/FrahHS/Robbingg/contents/robbing/src/main/resources/lang");
-        LightPlugin.getOptions().setGithubUrlTemplate("https://raw.githubusercontent.com/FrahHS/Robbingg/main/robbing/src/main/resources/lang/");
+        LightPlugin.getOptions().setGithubContentsUrl("https://api.github.com/repos/LightBench/Robbing/contents/robbing/src/main/resources/lang");
+        LightPlugin.getOptions().setGithubUrlTemplate("https://raw.githubusercontent.com/LightBench/Robbing/main/robbing/src/main/resources/lang/");
 
         DependenciesManager dependenciesManager = new DependenciesManager();
         dependenciesManager.init();
@@ -47,7 +48,6 @@ public final class Robbing extends LightPlugin {
         LightPlugin.getFeatureManager().registerFeatures(new KidnappingFeature(), this);
         LightPlugin.getFeatureManager().registerFeatures(new SafeFeature(), this);
         LightPlugin.getFeatureManager().registerFeatures(new LockpickingFeature(), this);
-        //featureManager.registerFeatures(new AtmFeature(), this);
     }
 
     private void registerCommands() {
@@ -56,6 +56,7 @@ public final class Robbing extends LightPlugin {
 
         // Commands
         getCommandManager().registerCommand(new RobbingCommand(this));
+        getCommandManager().registerCommand(new EmergencyCommand(this));
 
         // Command completions
         getCommandManager().getCommandCompletions().registerCompletion("RobbingItems", c -> {

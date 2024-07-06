@@ -52,6 +52,9 @@ actionbar:
 lockpicking:
   failed: "You failed to lockpick that safe."
   success: "Safe successfully lockpicked."
+911:
+  alert: "Player {player} sent an emergency alert: {reason}"
+  alert_sent: "Emergency alert sent to the police officers!"
 items_name:
   handcuffs: "Handcuffs"
   handcuffs_key: "Handcuffs Key"
