@@ -151,7 +151,7 @@ public class RobListener extends LightListener {
         assert robbed != null;
 
         // Check rob whitelist and blacklist
-        if(!Rob.itemIsRobbable(item)) {
+        if(!Rob.itemIsRobbable(item) && !robber.hasPermission("robbing.bypass_rob_rules")) {
             e.setCancelled(true);
             String message = messages.getMessage("robbing.cant_steal");
             e.getWhoClicked().sendMessage(message);

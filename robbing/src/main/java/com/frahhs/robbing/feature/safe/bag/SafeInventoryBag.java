@@ -6,13 +6,14 @@ import com.frahhs.robbing.feature.safe.mcp.SafeInventory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SafeInventoryBag extends Bag {
     private Map<UUID, SafeInventory> safeInventory;
 
     @Override
     protected void onEnable() {
-        safeInventory = new HashMap<>();
+        safeInventory = new ConcurrentHashMap<>();
     }
 
     @Override

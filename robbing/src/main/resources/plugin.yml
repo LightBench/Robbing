@@ -9,11 +9,15 @@ commands:
   robbing:
     description: Robbing main command.
     aliases: [ rb ]
+  911:
+    description: Emergency call command.
 permissions:
   robbing.rob:
     description: Allows to rob
   robbing.notrobable:
     description: Make not possible to be robbed
+  robbing.bypass_rob_rules:
+    description: Bypass the rob whitelist and blacklist
   robbing.catch:
     description: Allows to catch robber
   robbing.handcuff:
@@ -21,7 +25,7 @@ permissions:
   robbing.uncuff:
     description: Allow to remove handcuffs
   robbing.notcuffable:
-    description: Make not possible to be hahndcuffed
+    description: Make not possible to be handcuffed
   robbing.kidnap:
     description: Allow to kidnap
   robbing.craft.*:
@@ -30,3 +34,5 @@ permissions:
     description: Allow to use the lockpick
   robbing.use_safe:
     description: Allow to use safes
+  robbing.911:
+    description: Allow to use /911 command
