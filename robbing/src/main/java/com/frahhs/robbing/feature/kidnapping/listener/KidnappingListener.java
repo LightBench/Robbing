@@ -1,7 +1,7 @@
 package com.frahhs.robbing.feature.kidnapping.listener;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.RobbingListener;
+import com.frahhs.lightlib.LightListener;
+import com.frahhs.lightlib.LightPlugin;
 import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.dependencies.Dependency;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
@@ -10,14 +10,15 @@ import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
-import com.frahhs.robbing.item.RobbingMaterial;
+import com.frahhs.robbing.feature.handcuffing.item.HandcuffsKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
-public class KidnappingListener extends RobbingListener {
+public class KidnappingListener extends LightListener {
     private final LocationPath locationPath;
     private final KidnappingController kidnappingController;
     private final HandcuffingController handcuffingController;
@@ -47,7 +48,8 @@ public class KidnappingListener extends RobbingListener {
             return;
 
         // Check if kidnapper is using handcuffs key
-        if(e.getPlayer().getInventory().getItemInMainHand().isSimilar(Robbing.getInstance().getItemsManager().get(RobbingMaterial.HANDCUFFS_KEY).getItemStack()))
+        ItemStack itemInMainHand = e.getPlayer().getInventory().getItemInMainHand();
+        if(LightPlugin.getItemsManager().get(itemInMainHand) instanceof HandcuffsKey)
             return;
 
         // Check if kidnapper have kidnap permissions

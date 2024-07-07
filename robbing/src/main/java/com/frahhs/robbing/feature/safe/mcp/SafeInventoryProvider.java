@@ -1,7 +1,6 @@
 package com.frahhs.robbing.feature.safe.mcp;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.lightlib.LightPlugin;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class SafeInventoryProvider {
      * and creates the safeInventory table if it does not exist.
      */
     public SafeInventoryProvider() {
-        this.connection = Robbing.getInstance().getRobbingDatabase().getConnection();
+        this.connection = LightPlugin.getLightDatabase().getConnection();
     }
 
     /**

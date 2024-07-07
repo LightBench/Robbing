@@ -1,13 +1,13 @@
 package com.frahhs.robbing.feature.kidnapping.mcp;
 
-import com.frahhs.robbing.feature.Provider;
+import com.frahhs.lightlib.LightProvider;
 import com.frahhs.robbing.feature.kidnapping.bag.KidnappingBag;
 import org.bukkit.entity.Player;
 
 /**
- * Provider class for managing kidnapping data.
+ * LightProvider class for managing kidnapping data.
  */
-class KidnappingProvider extends Provider {
+class KidnappingProvider extends LightProvider {
     private final KidnappingBag kidnappingBag;
 
     /**

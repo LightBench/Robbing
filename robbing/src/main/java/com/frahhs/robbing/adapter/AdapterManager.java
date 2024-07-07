@@ -1,7 +1,6 @@
 package com.frahhs.robbing.adapter;
 
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.safe.mcp.SafePinProvider;
 import org.bukkit.Bukkit;
 
 public class AdapterManager {

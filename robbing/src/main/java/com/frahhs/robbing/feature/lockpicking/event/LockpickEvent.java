@@ -1,6 +1,6 @@
 package com.frahhs.robbing.feature.lockpicking.event;
 
-import com.frahhs.robbing.block.RobbingBlock;
+import com.frahhs.lightlib.block.LightBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -14,7 +14,7 @@ public class LockpickEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancel;
     protected final Player robber;
-    protected final RobbingBlock safe;
+    protected final LightBlock safe;
     protected final boolean cracked;
 
     /**
@@ -24,7 +24,7 @@ public class LockpickEvent extends Event implements Cancellable {
      * @param safe The player who handcuffed.
      * @param cracked Whether the handcuffs are being put on or taken off.
      */
-    public LockpickEvent(@NotNull final Player robber, @NotNull final RobbingBlock safe, final boolean cracked) {
+    public LockpickEvent(@NotNull final Player robber, @NotNull final LightBlock safe, final boolean cracked) {
         this.robber = robber;
         this.safe = safe;
         this.cracked = cracked;
@@ -55,7 +55,7 @@ public class LockpickEvent extends Event implements Cancellable {
      *
      * @return The safe involved.
      */
-    public RobbingBlock getSafe() {
+    public LightBlock getSafe() {
         return this.safe;
     }
 

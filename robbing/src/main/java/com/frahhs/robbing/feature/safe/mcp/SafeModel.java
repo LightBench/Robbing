@@ -1,24 +1,22 @@
 package com.frahhs.robbing.feature.safe.mcp;
 
-import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.block.RobbingBlock;
-import com.frahhs.robbing.feature.Model;
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.block.LightBlock;
+import com.frahhs.lightlib.feature.LightModel;
+import com.frahhs.lightlib.util.ItemUtil;
 import com.frahhs.robbing.feature.safe.bag.SafeInventoryBag;
-import com.frahhs.robbing.util.ItemUtil;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.List;
 
-public class SafeModel extends Model {
-    RobbingBlock safe;
+public class SafeModel extends LightModel {
+    LightBlock safe;
     SafeInventoryProvider safeInventoryProvider;
     SafePinProvider safePinProvider;
 
-    private SafeModel(RobbingBlock safe) {
+    private SafeModel(LightBlock safe) {
         this.safe = safe;
         this.safeInventoryProvider = new SafeInventoryProvider();
         this.safePinProvider = new SafePinProvider();
@@ -37,7 +35,7 @@ public class SafeModel extends Model {
     }
 
     public Inventory getInventory() {
-        SafeInventoryBag safeInventoryBag = (SafeInventoryBag) Robbing.getInstance().getBagManager().getBag("SafeInventoryBag");
+        SafeInventoryBag safeInventoryBag = (SafeInventoryBag) LightPlugin.getBagManager().getBag("SafeInventoryBag");
         SafeInventory safeInventory;
 
         if(safeInventoryBag.getData().containsKey(safe.getUniqueId())) {
@@ -83,7 +81,7 @@ public class SafeModel extends Model {
     protected void removeInventory() {
         safeInventoryProvider.removeEntry(safe.getUniqueId().toString());
 
-        SafeInventoryBag safeInventoryBag = (SafeInventoryBag) Robbing.getInstance().getBagManager().getBag("SafeInventoryBag");
+        SafeInventoryBag safeInventoryBag = (SafeInventoryBag) LightPlugin.getBagManager().getBag("SafeInventoryBag");
         safeInventoryBag.getData().remove(safe.getUniqueId());
     }
 
@@ -91,11 +89,15 @@ public class SafeModel extends Model {
         safePinProvider.deleteSafe(safe.getUniqueId());
     }
 
-    public static boolean isLocked(RobbingBlock safe) {
+    public Player getLocker() {
+        return safePinProvider.getSafeLocker(safe.getUniqueId());
+    }
+
+    public static boolean isLocked(LightBlock safe) {
         return getFromSafe(safe).havePin();
     }
 
-    public static SafeModel getFromSafe(RobbingBlock safe) {
+    public static SafeModel getFromSafe(LightBlock safe) {
         return new SafeModel(safe);
     }
 

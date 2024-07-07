@@ -1,18 +1,19 @@
 package com.frahhs.robbing.feature.rob.mcp;
 
+import com.frahhs.lightlib.LightPlugin;
+import com.frahhs.lightlib.feature.LightModel;
+import com.frahhs.lightlib.provider.ConfigProvider;
+import com.frahhs.lightlib.util.Cooldown;
 import com.frahhs.robbing.Robbing;
-import com.frahhs.robbing.feature.Model;
-import com.frahhs.robbing.provider.ConfigProvider;
-import com.frahhs.robbing.util.Cooldown;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * Model class representing the caught action.
+ * LightModel class representing the caught action.
  */
-public class Caught  extends Model {
+public class Caught  extends LightModel {
     protected Caught() {}
 
     /**
@@ -49,7 +50,7 @@ public class Caught  extends Model {
         Bukkit.getScheduler().runTaskAsynchronously(Robbing.getPlugin(Robbing.class), () -> {
             for(int i = time*10; i > 0; i--) {
                 try {
-                    String message = Robbing.getInstance().getMessagesProvider().getMessage("robbing.caught_actionbar_cooldown");
+                    String message = LightPlugin.getMessagesProvider().getMessage("robbing.caught_actionbar_cooldown");
                     float resTime = ((float)(i - 1)) / 10 ;
                     robber.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message.replace("{time}", Float.toString(resTime))));
                     Thread.sleep(100L);
@@ -66,7 +67,7 @@ public class Caught  extends Model {
                 Thread.sleep(time * 1000L);
                 provider.removeCooldown(robber.getPlayer());
             } catch(InterruptedException e) {
-                Robbing.getRobbingLogger().error("Error handling caught cooldown for %s, %s", robber.getName(), e);
+                LightPlugin.getLightLogger().error("Error handling caught cooldown for %s, %s", robber.getName(), e);
             }
         });
     }
@@ -77,7 +78,7 @@ public class Caught  extends Model {
      * @param robber The player to set the default cooldown for.
      */
     public static void setCooldown(Player robber) {
-        ConfigProvider config = Robbing.getInstance().getConfigProvider();
+        ConfigProvider config = LightPlugin.getConfigProvider();
         setCooldown(robber, config.getInt("rob.catch-robber.duration"));
     }
 }
