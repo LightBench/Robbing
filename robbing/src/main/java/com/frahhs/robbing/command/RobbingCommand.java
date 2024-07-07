@@ -44,7 +44,7 @@ public class RobbingCommand extends BaseCommand {
     }
 
     @Subcommand("menu")
-    @CommandPermission("git robbing.admin")
+    @CommandPermission("robbing.admin")
     @Description("Open a gui to change some settings.")
     public void onMenu(Player player) {
         DashboardMenu.open(player, plugin);
