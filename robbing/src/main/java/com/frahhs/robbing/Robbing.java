@@ -23,6 +23,7 @@ public final class Robbing extends LightPlugin {
         LightPlugin.getOptions().setSpigotMarketID("117484");
         LightPlugin.getOptions().setGithubContentsUrl("https://api.github.com/repos/LightBench/Robbing/contents/robbing/src/main/resources/lang");
         LightPlugin.getOptions().setGithubUrlTemplate("https://raw.githubusercontent.com/LightBench/Robbing/main/robbing/src/main/resources/lang/");
+        LightPlugin.getOptions().setBstatsID(22346);
 
         DependenciesManager dependenciesManager = new DependenciesManager();
         dependenciesManager.init();
