@@ -21,6 +21,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -46,7 +48,7 @@ public class SafeListener extends LightListener {
             return;
 
         assert e.getHand() != null;
-        if(!e.getHand().equals(EquipmentSlot.HAND))
+        if(!e.getHand().equals(EquipmentSlot.OFF_HAND))
             return;
 
         if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
