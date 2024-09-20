@@ -5,6 +5,7 @@ import com.frahhs.lightlib.feature.LightFeature;
 import com.frahhs.robbing.feature.lockpicking.item.*;
 import com.frahhs.robbing.feature.lockpicking.listener.LockpickGUIListener;
 import com.frahhs.robbing.feature.lockpicking.listener.LockpickListener;
+import com.frahhs.robbing.feature.safe.item.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 

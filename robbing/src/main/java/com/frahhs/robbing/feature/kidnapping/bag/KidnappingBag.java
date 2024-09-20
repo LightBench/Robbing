@@ -1,13 +1,13 @@
 package com.frahhs.robbing.feature.kidnapping.bag;
 
 import com.frahhs.lightlib.util.bag.Bag;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class KidnappingBag extends Bag {
-    private Map<Player, Player> kidnapping;
+    private Map<UUID, UUID> kidnapping;
 
     @Override
     protected void onEnable() {
@@ -25,7 +25,7 @@ public class KidnappingBag extends Bag {
     }
 
     @Override
-    public Map<Player, Player> getData() {
+    public Map<UUID, UUID> getData() {
         return kidnapping;
     }
 }
