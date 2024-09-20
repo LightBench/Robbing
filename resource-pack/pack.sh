@@ -28,8 +28,8 @@ while IFS=: read -r key value; do
 }
 EOL
 
-    # Create a zip archive with the key name and include the folder
-    zip -r "${BUILD_FOLDER}/${key}.zip" "$RESOURCE_PACK_FOLDER"
+    # Create a zip archive with the key name and include the contents of the folder
+    (cd "$RESOURCE_PACK_FOLDER" && zip -r "../${BUILD_FOLDER}/${key}.zip" ./*)
 
     # Remove the pack.mcmeta file after creating the zip
     rm "$RESOURCE_PACK_FOLDER/pack.mcmeta"
