@@ -5,16 +5,17 @@ import com.frahhs.lightlib.LightPlugin;
 import com.frahhs.robbing.dependencies.DependenciesManager;
 import com.frahhs.robbing.dependencies.Dependency;
 import com.frahhs.robbing.dependencies.worldguard.WorldGuardFlag;
+import com.frahhs.robbing.feature.handcuffing.item.HandcuffsKey;
 import com.frahhs.robbing.feature.handcuffing.mcp.Handcuffing;
 import com.frahhs.robbing.feature.handcuffing.mcp.HandcuffingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.Kidnapping;
 import com.frahhs.robbing.feature.kidnapping.mcp.KidnappingController;
 import com.frahhs.robbing.feature.kidnapping.mcp.LocationPath;
-import com.frahhs.robbing.feature.handcuffing.item.HandcuffsKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -141,5 +142,45 @@ public class KidnappingListener extends LightListener {
                 locationPath.update(kidnapper, kidnapped);
             }
         }
+    }
+
+    /**
+     * Free kidnapped after kidnapper quit
+    */
+    @EventHandler
+    public void onKidnapperDisconnect(PlayerQuitEvent e) {
+        // Check if following is enabled
+        if(!config.getBoolean("handcuffing.kidnap.enabled"))
+            return;
+
+        if(!Kidnapping.isKidnapper(e.getPlayer()))
+            return;
+
+        KidnappingController controller = new KidnappingController();
+        Kidnapping kidnapping = Kidnapping.getFromKidnapper(e.getPlayer());
+
+        controller.free(kidnapping.getKidnapped());
+    }
+
+    /**
+     * Free kidnapped after kidnapped quit
+     */
+    @EventHandler
+    public void onKidnappedDisconnect(PlayerQuitEvent e) {
+        // Check if following is enabled
+        if(!config.getBoolean("handcuffing.kidnap.enabled"))
+            return;
+
+        if(!Kidnapping.isKidnapped(e.getPlayer()))
+            return;
+
+        KidnappingController controller = new KidnappingController();
+        Kidnapping kidnapping = Kidnapping.getFromKidnapper(e.getPlayer());
+
+        String message = messages.getMessage("follow.make_unfollow_cuffed");
+        message = message.replace("{target}", e.getPlayer().getDisplayName());
+        kidnapping.getKidnapper().sendMessage(message);
+
+        controller.free(e.getPlayer());
     }
 }
